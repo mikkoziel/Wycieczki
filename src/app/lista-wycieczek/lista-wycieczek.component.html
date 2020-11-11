@@ -1,11 +1,11 @@
-<div id="wyci_body">
-  <h1>Wycieczki works!</h1>
-    <app-lista-wycieczek [ListaWycieczek]=ListaWycieczek.ListaWycieczek></app-lista-wycieczek>
-  <!-- </ul> -->
-</div>
-      <!-- <li *ngFor="let wycieczka of ListaWycieczek" id={{wycieczka.name}}
-        [ngStyle]="{'border': getBorder(wycieczka)}"> -->
-        <!-- <app-wycieczka [data]=data></app-wycieczka> -->
+<ul id="wyci">
+    <li *ngFor="let wycieczka of ListaWycieczek" id={{wycieczka.name}}
+            [ngStyle]="{'border': getBorder(wycieczka)}">
+        <app-wycieczka [data]=wycieczka></app-wycieczka>
+    </li> 
+</ul>
+
+
         <!-- <div id="column">
           <div >Name: {{ wycieczka.name | uppercase }} </div> 
           <div>Country: {{ wycieczka.country | uppercase }} </div>
@@ -31,9 +31,3 @@
           <div *ngIf="!wycieczka.plus_show">No more seats</div>
           <div>Seats: {{ wycieczka.avaible_seats }} </div>
         </div> -->
-      <!-- </li>  -->
-  <!-- </ul> -->
-  <!-- <div id="reserved" [ngStyle]="{'background-color': getReservedColor()}"> -->
-    <!-- Reserved Seats: {{ getReservedSeats() }} -->
-  <!-- </div> -->
-<!-- </div> -->
