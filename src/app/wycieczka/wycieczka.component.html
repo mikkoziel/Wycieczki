@@ -1,25 +1,26 @@
 <div id="column">
-  <div >Name: {{ this.data.name }} </div> 
-  <div>Country: {{ this.data.country }} </div>
-  <div>Start date: {{ this.data.start_date.getDate() }}.{{ this.data.start_date.getMonth() }}.{{ this.data.start_date.getFullYear() }} </div>
-  <div>End date: {{ this.data.end_date.getDate() }}.{{ this.data.end_date.getMonth() }}.{{ this.data.end_date.getFullYear() }} </div>
-  <div>Price: {{ this.data.price }}{{ this.data.currency }}</div>
-  <div>Seats: {{ this.data.seats }} </div>
-  <div>Description: {{ this.data.desc }} </div>
+  <div >Name: {{ data.name }} </div> 
+  <div>Country: {{ data.country }} </div>
+  <div>Start date: {{ data.startDate.getDate() }}.{{ data.startDate.getMonth() }}.{{ data.startDate.getFullYear() }} </div>
+  <div>End date: {{ data.endDate.getDate() }}.{{ data.endDate.getMonth() }}.{{ data.endDate.getFullYear() }} </div>
+  <div>Price: {{ data.price }} </div> 
+    <!-- {{ data.currency }}</div> -->
+  <div>Seats: {{ data.seats }} </div>
+  <div>Description: {{ data.description }} </div>
 </div>
-<!-- <div id="column">
-  <div><img src="{{ this.data.image_url }}" /></div>
-  Reserve seat:
+<div id="column">
+  <div><img src="{{ data.image_url }}" /></div>
+  <!-- Reserve seat:
   <button type="button" (click)="add(this)" id="plus" 
-    *ngIf="this.data.plus_show" 
+    *ngIf=".data.plus_show" 
     [ngStyle]="{'background-color': getColor(this)}">
     +
   </button>
   <button type="button" (click)="sub(this)" id="minus" 
-    *ngIf="this.data.minus_show" 
+    *ngIf="data.minus_show" 
     [ngStyle]="{'background-color': getColor(this)}">
     -
-  </button>
-  <div *ngIf="!this.data.plus_show">No more seats</div> -->
-  <!-- <div>Seats: {{ this.avaible_seats }} </div> -->
-<!-- </div> -->
+  </button> -->
+  <!-- <div *ngIf="!data.plus_show">No more seats</div> -->
+  <!-- <div>Seats: {{ data.avaible_seats }} </div> -->
+</div>

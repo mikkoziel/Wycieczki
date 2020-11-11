@@ -10,25 +10,25 @@ import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.compo
 
 export class WycieczkiComponent implements OnInit{
   title = 'Projekt';
-  ListaWycieczek: ListaWycieczekComponent;
+  // ListaWycieczek: ListaWycieczekComponent;
 
   constructor() {};
 
   ngOnInit(): void {
-    this.ListaWycieczek = new ListaWycieczekComponent();
-    this.addWycieczkiToList();
+    // this.ListaWycieczek = new ListaWycieczekComponent();
+    // this.addWycieczkiToList();
   }
 
-  addWycieczkiToList(){
-    this.ListaWycieczek.addWycieczkaToList("1 wycieczka","Polska",new Date("4-3-2021"),new Date("4-4-2021"), 123, 10, "Lorem ipsum", "./assets/01.png");
-    this.ListaWycieczek.addWycieczkaToList("2 wycieczka","Polska",new Date("2-2-2021"),new Date("2-3-2021"), 125, 14, "Lorem ipsum", "./assets/01.png");
-    this.ListaWycieczek.addWycieczkaToList("3 wycieczka","Polska",new Date("12-4-2021"),new Date("12-6-2021"), 176, 10, "Lorem ipsum", "./assets/01.png");
-    this.ListaWycieczek.addWycieczkaToList("4 wycieczka","Niemcy",new Date("3-1-2021"),new Date("3-3-2021"), 189, 20, "Lorem ipsum", "./assets/02.svg");
-    this.ListaWycieczek.addWycieczkaToList("5 wycieczka","Niemcy",new Date("4-1-2021"),new Date("4-6-2021"), 20, 34, "Lorem ipsum", "./assets/02.svg");
-    this.ListaWycieczek.addWycieczkaToList("6 wycieczka","Wlk. Brytania",new Date("5-1-2021"),new Date("5-14-2021"), 250, 5, "Lorem ipsum", "./assets/03.png");
-    this.ListaWycieczek.addWycieczkaToList("7 wycieczka","Hiszpania",new Date("6-1-2021"),new Date("6-7-2021"), 220, 15, "Lorem ipsum", "./assets/04.svg");
-    this.ListaWycieczek.addWycieczkaToList("8 wycieczka","Hiszpania",new Date("7-1-2021"),new Date("7-4-2021"), 211, 13, "Lorem ipsum", "./assets/04.svg");
-  }
+  // addWycieczkiToList(){
+  //   this.ListaWycieczek.addWycieczkaToList("1 wycieczka","Polska",new Date("4-3-2021"),new Date("4-4-2021"), 123, 10, "Lorem ipsum", "./assets/01.png");
+  //   this.ListaWycieczek.addWycieczkaToList("2 wycieczka","Polska",new Date("2-2-2021"),new Date("2-3-2021"), 125, 14, "Lorem ipsum", "./assets/01.png");
+  //   this.ListaWycieczek.addWycieczkaToList("3 wycieczka","Polska",new Date("12-4-2021"),new Date("12-6-2021"), 176, 10, "Lorem ipsum", "./assets/01.png");
+  //   this.ListaWycieczek.addWycieczkaToList("4 wycieczka","Niemcy",new Date("3-1-2021"),new Date("3-3-2021"), 189, 20, "Lorem ipsum", "./assets/02.svg");
+  //   this.ListaWycieczek.addWycieczkaToList("5 wycieczka","Niemcy",new Date("4-1-2021"),new Date("4-6-2021"), 20, 34, "Lorem ipsum", "./assets/02.svg");
+  //   this.ListaWycieczek.addWycieczkaToList("6 wycieczka","Wlk. Brytania",new Date("5-1-2021"),new Date("5-14-2021"), 250, 5, "Lorem ipsum", "./assets/03.png");
+  //   this.ListaWycieczek.addWycieczkaToList("7 wycieczka","Hiszpania",new Date("6-1-2021"),new Date("6-7-2021"), 220, 15, "Lorem ipsum", "./assets/04.svg");
+  //   this.ListaWycieczek.addWycieczkaToList("8 wycieczka","Hiszpania",new Date("7-1-2021"),new Date("7-4-2021"), 211, 13, "Lorem ipsum", "./assets/04.svg");
+  // }
 
   // reserveSeat(wycieczka){
   //   wycieczka.reserveSeat();
