@@ -1,5 +1,5 @@
 <div id="wyci">
-    <app-wycieczka  *ngFor="let wycieczka of ListaWycieczek" [data]=wycieczka>
+    <app-wycieczka  *ngFor="let wycieczka of ListaWycieczek" [data]=wycieczka (tripToDeleteEmmiter)="deleteWycieczka($event)" id="wycieczka-box">
         <!-- [ngStyle]="{'border': getBorder(wycieczka)}"  -->
         </app-wycieczka>
 </div>

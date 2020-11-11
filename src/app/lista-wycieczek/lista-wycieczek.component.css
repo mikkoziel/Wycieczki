@@ -1,0 +1,9 @@
+wycieczka-box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+div  {
+    margin: 2px 2px;
+}

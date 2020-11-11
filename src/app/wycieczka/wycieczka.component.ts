@@ -13,6 +13,7 @@ export class WycieczkaComponent implements OnInit {
   onDeletePress(): void {
     this.tripToDeleteEmmiter.emit(this.data);
   }
+  
   constructor(){
   }
 

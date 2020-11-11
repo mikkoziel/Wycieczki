@@ -1,26 +1,32 @@
-<div id="column">
-  <div >Name: {{ data.name }} </div> 
-  <div>Country: {{ data.country }} </div>
-  <div>Start date: {{ data.startDate.getDate() }}.{{ data.startDate.getMonth() }}.{{ data.startDate.getFullYear() }} </div>
-  <div>End date: {{ data.endDate.getDate() }}.{{ data.endDate.getMonth() }}.{{ data.endDate.getFullYear() }} </div>
-  <div>Price: {{ data.price }} </div> 
-    <!-- {{ data.currency }}</div> -->
-  <div>Seats: {{ data.seats }} </div>
-  <div>Description: {{ data.description }} </div>
-</div>
-<div id="column">
-  <div><img src="{{ data.image_url }}" /></div>
-  <!-- Reserve seat:
-  <button type="button" (click)="add(this)" id="plus" 
-    *ngIf=".data.plus_show" 
-    [ngStyle]="{'background-color': getColor(this)}">
-    +
-  </button>
-  <button type="button" (click)="sub(this)" id="minus" 
-    *ngIf="data.minus_show" 
-    [ngStyle]="{'background-color': getColor(this)}">
-    -
-  </button> -->
-  <!-- <div *ngIf="!data.plus_show">No more seats</div> -->
-  <!-- <div>Seats: {{ data.avaible_seats }} </div> -->
+<div id="wycieczka-row">
+  <div id="column">
+    <div >Name: {{ data.name }} </div> 
+    <div>Country: {{ data.country }} </div>
+    <div>Start date: {{ data.startDate.getDate() }}.{{ data.startDate.getMonth() }}.{{ data.startDate.getFullYear() }} </div>
+    <div>End date: {{ data.endDate.getDate() }}.{{ data.endDate.getMonth() }}.{{ data.endDate.getFullYear() }} </div>
+    <div>Price: {{ data.price }} </div> 
+      <!-- {{ data.currency }}</div> -->
+    <div>Seats: {{ data.seats }} </div>
+    <div>Description: {{ data.description }} </div>
+  </div>
+  <div id="column">
+    <div><img src="{{ data.image_url }}" /></div>
+    <div><button type="button">Reserve</button></div>
+    <div><button type="button">Realese</button></div>
+    <div><button type="button" (click)="onDeletePress()">Delete</button></div>
+    <div><app-ocena [wycieczka]="data"></app-ocena></div>
+    <!-- Reserve seat:
+    <button type="button" (click)="add(this)" id="plus" 
+      *ngIf=".data.plus_show" 
+      [ngStyle]="{'background-color': getColor(this)}">
+      +
+    </button>
+    <button type="button" (click)="sub(this)" id="minus" 
+      *ngIf="data.minus_show" 
+      [ngStyle]="{'background-color': getColor(this)}">
+      -
+    </button> -->
+    <!-- <div *ngIf="!data.plus_show">No more seats</div> -->
+    <!-- <div>Seats: {{ data.avaible_seats }} </div> -->
+  </div>
 </div>
