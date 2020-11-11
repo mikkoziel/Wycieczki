@@ -1,0 +1,47 @@
+<div id="wyci_body">
+  <h1>Wycieczki works!</h1>
+  <ul id="wyci">
+      <li *ngFor="let wycieczka of ListaWycieczek" id={{wycieczka.name}}
+        [ngStyle]="{'border': getBorder(wycieczka)}">
+        <app-wycieczka [data]=data>
+          <!-- [name]="properties[wycieczka.id][&quot name &quot]"  -->
+          <!-- [country]="properties[wycieczka.id][&quotcountry&quot]"  -->
+          <!-- [start_date]="properties[wycieczka.id][&quot start_date &quot]"  -->
+          <!-- [end_date]="properties[wycieczka.id][&quot end_date &quot]"  -->
+          <!-- [price]="properties[wycieczka.id][&quot price &quot]"  -->
+          <!-- [seats]="properties[wycieczka.id][&quot seats &quot]"  -->
+          <!-- [desc]="properties[wycieczka.id ][&quot desc &quot]"  -->
+          <!-- [image_url]="properties[wycieczka.id][&quot image_url &quot]"  -->
+        <!-- > -->
+      </app-wycieczka>
+        <!-- <div id="column">
+          <div >Name: {{ wycieczka.name | uppercase }} </div> 
+          <div>Country: {{ wycieczka.country | uppercase }} </div>
+          <div>Start date: {{ wycieczka.start_date.getDate() }}.{{ wycieczka.start_date.getMonth() }}.{{ wycieczka.start_date.getFullYear() }} </div>
+          <div>End date: {{ wycieczka.end_date.getDate() }}.{{ wycieczka.end_date.getMonth() }}.{{ wycieczka.end_date.getFullYear() }} </div>
+          <div>Price: {{ wycieczka.price }}{{ wycieczka.currency }}</div>
+          <div>Seats: {{ wycieczka.seats }} </div>
+          <div>Description: {{ wycieczka.desc }} </div>
+        </div>
+        <div id="column">
+          <div><img src="{{ wycieczka.image_url }}" /></div>
+          Reserve seat:
+          <button type="button" (click)="reserveSeat(wycieczka)" id="plus" 
+            *ngIf="wycieczka.plus_show" 
+            [ngStyle]="{'background-color': getColor(wycieczka)}">
+            +
+          </button>
+          <button type="button" (click)="freeSeat(wycieczka)" id="minus" 
+            *ngIf="wycieczka.minus_show" 
+            [ngStyle]="{'background-color': getColor(wycieczka)}">
+            -
+          </button>
+          <div *ngIf="!wycieczka.plus_show">No more seats</div>
+          <div>Seats: {{ wycieczka.avaible_seats }} </div>
+        </div> -->
+      </li> 
+  </ul>
+  <!-- <div id="reserved" [ngStyle]="{'background-color': getReservedColor()}"> -->
+    <!-- Reserved Seats: {{ getReservedSeats() }} -->
+  <!-- </div> -->
+</div>
