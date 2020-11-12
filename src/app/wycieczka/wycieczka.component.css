@@ -8,7 +8,7 @@ div  {
     margin: 2px 2px;
 }
 
-column { 
+#wycieczka-column { 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,12 +16,13 @@ column {
 
 }
 
-wycieczka-row {
+#wycieczka-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    /* width: 100vh; */
     /* border:1px red solid; */
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-content: center;
 }
 

@@ -7,6 +7,7 @@ import { WycieczkiServiceService } from '../wycieczki-service.service'
   templateUrl: './lista-wycieczek.component.html',
   styleUrls: ['./lista-wycieczek.component.css']
 })
+
 export class ListaWycieczekComponent implements OnInit {
   ListaWycieczek = [];
 
@@ -25,25 +26,55 @@ export class ListaWycieczekComponent implements OnInit {
     this.ListaWycieczek = this.WycieczkiService.getWycieczki();
   }
 
+  getBorder(wycieczka: WycieczkaData){
+    if(wycieczka.price == this.getMaxPrice()){
+      return "5px solid green";
+    }
+    else if(wycieczka.price == this.getMinPrice()){
+      return "5px solid red";
+    }
+    else{
+      return "1px solid black";
+    }
+  }
 
-  // getBorder(wycieczka){
-  //   if(wycieczka.price == this.getMaxPrice()){
-  //     return "5px solid green";
-  //   }
-  //   else if(wycieczka.price == this.getMinPrice()){
-  //     return "5px solid red";
+  getMaxPrice(){
+    return Math.max.apply(Math, this.ListaWycieczek.map(function(o) { return o.price; }))
+  }
+
+  getMinPrice(){
+    return Math.min.apply(Math, this.ListaWycieczek.map(function(o) { return o.price; }))
+  }
+   
+  // getReservedSeats(){
+  //   let reserved = this.getAllSeats() - this.getAllAvailableSeats();
+  //   return reserved;
+  // }
+
+  // getAllSeats(){
+  //   let sum = 0;
+  //   this.ListaWycieczek.forEach(function(value){
+  //     sum = sum + value.seats
+  //   })
+  //   return sum;
+  // }
+
+  // getAllAvailableSeats(){
+  //   let sum = 0;
+  //   this.ListaWycieczek.forEach(function(value){
+  //     sum = sum + value.avaible_seats
+  //   })
+  //   return sum;
+  // }
+
+  // getReservedColor(){
+  //   let reserved = this.getReservedSeats();
+  //   if(reserved>10){
+  //     return "green";
   //   }
   //   else{
-  //     return "1px solid black";
+  //     return "red";
   //   }
-  // }
-
-  // getMaxPrice(){
-  //   return Math.max.apply(Math, this.ListaWycieczek.map(function(o) { return o.price; }))
-  // }
-
-  // getMinPrice(){
-  //   return Math.min.apply(Math, this.ListaWycieczek.map(function(o) { return o.price; }))
   // }
 
 }

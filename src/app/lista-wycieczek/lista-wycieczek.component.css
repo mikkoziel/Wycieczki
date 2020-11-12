@@ -1,4 +1,4 @@
-wycieczka-box {
+#wycieczka-box {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -6,4 +6,12 @@ wycieczka-box {
 
 div  {
     margin: 2px 2px;
+}
+
+#wyci {
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
 }

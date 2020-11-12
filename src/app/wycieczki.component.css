@@ -14,3 +14,14 @@ reserved {
     justify-content: center;
 }
 
+img {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 50%;
+}
+
+div  {
+    margin: 2px 2px;
+}
+
+
