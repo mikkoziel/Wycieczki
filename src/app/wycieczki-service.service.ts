@@ -10,19 +10,20 @@ export class WycieczkiServiceService {
 
   constructor() { }
 
-  getWycieczki(): WycieczkaData[]{
-    return Wycieczki;
+  getProducts(): WycieczkaData[]{
+    return this.wycieczki;
   }
 
-  getWycieczka(id: number): WycieczkaData | undefined{
-    return Wycieczki.find(wycieczka => wycieczka.id === id);
+  getProduct(id: number): WycieczkaData | undefined{
+    return this.wycieczki.find(wycieczka => wycieczka.id === id);
   }
 
-  deleteWycieczka(wycieczkaDEL): WycieczkaData[]{
-    return Wycieczki.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
+  addProduct(wycieczkaADD: WycieczkaData): void {
+    this.wycieczki.push(wycieczkaADD);
   }
 
-  addWycieczka(wycieczkaADD: WycieczkaData): void {
-    Wycieczki.push(wycieczkaADD);
+  deleteProduct(wycieczkaDEL): WycieczkaData[]{
+    return this.wycieczki.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
   }
+
 }

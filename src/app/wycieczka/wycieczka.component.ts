@@ -9,10 +9,10 @@ import { WycieczkaData } from '../wycieczkaData';
 
 export class WycieczkaComponent implements OnInit {
   @Input() data: WycieczkaData;
-  @Output() tripToDeleteEmmiter = new EventEmitter<WycieczkaData>();
+  @Output() deleteWycieczkaEmmiter = new EventEmitter<WycieczkaData>();
 
   onDeletePress(): void {
-    this.tripToDeleteEmmiter.emit(this.data);
+    this.deleteWycieczkaEmmiter.emit(this.data);
   }
   
   constructor(){
@@ -44,7 +44,7 @@ export class WycieczkaComponent implements OnInit {
     // alert("you freed a seat");
   }
 
-   getColor(){
+  getColor(){
     if(this.data.avaible_seats < 4){
       return "red";
     }

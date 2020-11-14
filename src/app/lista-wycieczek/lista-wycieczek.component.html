@@ -1,10 +1,14 @@
 <div id="wyci">
     <app-wycieczka  
-    *ngFor="let wycieczka of ListaWycieczek" 
-    [data]=wycieczka 
-    (tripToDeleteEmmiter)="deleteWycieczka($event)" 
-    id="wycieczka-box" >
-    <!-- [ngStyle]="{'border': getBorder(wycieczka)}" > -->
-</app-wycieczka>
+        *ngFor="let wycieczka of ListaWycieczek" 
+        [data]=wycieczka 
+        (deleteWycieczkaEmmiter)="deleteWycieczka($event)" 
+        id="wycieczka-box" 
+        [ngStyle]="{'border': getBorder(wycieczka)}" >
+    </app-wycieczka>
+    <br />
+    <div id="reserved" [ngStyle]="{'background-color': getReservedColor()}">
+        Reserved Seats: {{ getReservedSeats() }}
+    </div>
 </div>
 

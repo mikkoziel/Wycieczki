@@ -7,8 +7,8 @@
     <div>Country: {{ data.country }} </div>
     <div>Start date: {{ data.startDate.getDate() }}.{{ data.startDate.getMonth() }}.{{ data.startDate.getFullYear() }} </div>
     <div>End date: {{ data.endDate.getDate() }}.{{ data.endDate.getMonth() }}.{{ data.endDate.getFullYear() }} </div>
-    <div>Price: {{ data.price }} </div> 
-      <!-- {{ data.currency }}</div> -->
+    <div>Price: {{ data.price }} 
+      {{ data.currency }}</div>
     <div>Seats: {{ data.seats }} </div>
     <div>Description: {{ data.description }} </div>
   </div>
@@ -16,36 +16,28 @@
     <div>
       <button type="button" (click)="reserveSeat()"
       id="plus" 
-      *ngIf="data.plus_show" >
-      <!-- [ngStyle]="{'background-color': getColor()}"> -->
+      *ngIf="data.plus_show" 
+      [ngStyle]="{'background-color': getColor()}" >
       Reserve
       </button>
     </div>
     <div *ngIf="!data.plus_show">No more seats</div>
     <div>
       <button type="button" (click)="freeSeat()" 
+      id="minus"
       *ngIf="data.minus_show" >
         Realese
       </button>
     </div>
-    <div *ngIf="!data.minus_show">No seats taken</div>
+    <div  *ngIf="!data.minus_show">No seats taken</div>
     <div>
       <button type="button" (click)="onDeletePress()">
         Delete
       </button>
     </div>
-    <div><app-ocena [wycieczka]="data"></app-ocena></div>
-    <!-- Reserve seat:
-    <button type="button" (click)="add(this)" id="plus" 
-      *ngIf=".data.plus_show" 
-      [ngStyle]="{'background-color': getColor(this)}">
-      +
-    </button>
-    <button type="button" (click)="sub(this)" id="minus" 
-      *ngIf="data.minus_show" 
-      [ngStyle]="{'background-color': getColor(this)}">
-      -
-    </button> -->
+    <div>
+      <app-ocena [wycieczka]="data"></app-ocena>
+    </div>
     <!-- <div>Seats: {{ data.avaible_seats }} </div> -->
   </div>
 </div>

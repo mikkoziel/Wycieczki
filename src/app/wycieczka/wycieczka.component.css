@@ -1,7 +1,7 @@
 img {
     max-width: 300px;
     max-height: 300px;
-    border-radius: 50%;
+    border-radius: 100%;
 }
 
 div  {
@@ -26,3 +26,10 @@ div  {
     align-content: center;
 }
 
+button {
+    max-height: 100px;
+}
+
+#no-seats{
+    max-height: 100px;
+}

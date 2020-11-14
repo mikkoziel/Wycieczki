@@ -15,5 +15,7 @@ export class WycieczkiComponent implements OnInit{
 
   ngOnInit(): void {
   }
+
+  
   
 }

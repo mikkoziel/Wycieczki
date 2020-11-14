@@ -18,12 +18,13 @@ export class ListaWycieczekComponent implements OnInit {
   }
 
   deleteWycieczka(wycieczkaDEL: WycieczkaData){
-    const result = this.ListaWycieczek.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
-    this.ListaWycieczek = result;
+    // const result = this.ListaWycieczek.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
+    // this.ListaWycieczek = result;
+    this.ListaWycieczek = this.WycieczkiService.deleteProduct(wycieczkaDEL);
   }
 
   getWycieczki(): void {
-    this.ListaWycieczek = this.WycieczkiService.getWycieczki();
+    this.ListaWycieczek = this.WycieczkiService.getProducts();
   }
 
   getBorder(wycieczka: WycieczkaData){
@@ -46,35 +47,35 @@ export class ListaWycieczekComponent implements OnInit {
     return Math.min.apply(Math, this.ListaWycieczek.map(function(o) { return o.price; }))
   }
    
-  // getReservedSeats(){
-  //   let reserved = this.getAllSeats() - this.getAllAvailableSeats();
-  //   return reserved;
-  // }
+  getReservedSeats(){
+    let reserved = this.getAllSeats() - this.getAllAvailableSeats();
+    return reserved;
+  }
 
-  // getAllSeats(){
-  //   let sum = 0;
-  //   this.ListaWycieczek.forEach(function(value){
-  //     sum = sum + value.seats
-  //   })
-  //   return sum;
-  // }
+  getAllSeats(){
+    let sum = 0;
+    this.ListaWycieczek.forEach(function(value){
+      sum = sum + value.seats
+    })
+    return sum;
+  }
 
-  // getAllAvailableSeats(){
-  //   let sum = 0;
-  //   this.ListaWycieczek.forEach(function(value){
-  //     sum = sum + value.avaible_seats
-  //   })
-  //   return sum;
-  // }
+  getAllAvailableSeats(){
+    let sum = 0;
+    this.ListaWycieczek.forEach(function(value){
+      sum = sum + value.avaible_seats
+    })
+    return sum;
+  }
 
-  // getReservedColor(){
-  //   let reserved = this.getReservedSeats();
-  //   if(reserved>10){
-  //     return "green";
-  //   }
-  //   else{
-  //     return "red";
-  //   }
-  // }
+  getReservedColor(){
+    let reserved = this.getReservedSeats();
+    if(reserved>10){
+      return "green";
+    }
+    else{
+      return "red";
+    }
+  }
 
 }

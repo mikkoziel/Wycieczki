@@ -17,6 +17,7 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     },
     {
         id : 1,
@@ -33,6 +34,7 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     },
     {
         id : 2,
@@ -49,6 +51,7 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     },
     {
         id : 3,
@@ -65,6 +68,7 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     },
     {
         id : 4,
@@ -81,6 +85,7 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     },
     {
         id : 5,
@@ -97,6 +102,7 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     },
     {
         id : 6,
@@ -113,6 +119,7 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     },
     {
         id : 7,
@@ -129,5 +136,6 @@ export const Wycieczki: WycieczkaData[] = [
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
     }
 ]
