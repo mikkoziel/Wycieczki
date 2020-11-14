@@ -1,0 +1,25 @@
+button {
+    max-height: 100px;
+}
+
+.wycieczka-column { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+}
+
+.wycieczka-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* width: 100vh; */
+    /* border:1px red solid; */
+    justify-content: center;
+    align-content: center;
+}
+
+.label {
+    max-height: 100px;
+}

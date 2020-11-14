@@ -1,0 +1,34 @@
+<div class="wycieczka-column">
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="wycieczka-column">
+        <div class="wycieczka-row">
+            <div class="wycieczka-column">
+                <div class="label"><label>name:</label></div>
+                <div class="label"><label>country:</label></div>
+                <div class="label"><label>startDate:</label></div>
+                <div class="label"><label>endDate:</label></div>
+                <div class="label"><label>price:</label></div>
+                <div class="label"><label>seats:</label></div>
+                <div class="label"><label>description:</label></div>
+                <div class="label"><label>image_url:</label></div>
+                <div class="label"></div>
+            </div>
+            <div class="wycieczka-column">
+                <input name="name" formControlName="name"  type="text">
+                <input name="country" formControlName="country" type="text">
+                <input name="startDate" class="datepicker" type="date" formControlName="startDate">
+                <input name="endDate" class="datepicker" type="date" formControlName="endDate">
+                <input name="price" formControlName="price" type="number">
+                <input name="seats" formControlName="seats" type="number">
+                <input name="description" formControlName="description" type="text">
+                <input name="image_url" formControlName="image_url" type="url">
+                
+            </div>
+        </div>
+        <div><button type="submit">Send</button></div>
+        <div *ngIf="errors.length != 0">
+            <p *ngFor='let error_text of errors'>
+                {{error_text}}
+            </p>
+        </div>
+    </form>
+</div>

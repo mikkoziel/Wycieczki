@@ -18,12 +18,15 @@ export class WycieczkiServiceService {
     return this.wycieczki.find(wycieczka => wycieczka.id === id);
   }
 
-  addProduct(wycieczkaADD: WycieczkaData): void {
+  addProduct(wycieczkaADD: WycieczkaData): WycieczkaData[] {
+    wycieczkaADD.id = this.wycieczki[this.wycieczki.length - 1].id + 1 ;
     this.wycieczki.push(wycieczkaADD);
+    return this.getProducts();
   }
 
   deleteProduct(wycieczkaDEL): WycieczkaData[]{
-    return this.wycieczki.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
+    this.wycieczki = this.wycieczki.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
+    return this.getProducts();
   }
 
 }

@@ -6,17 +6,19 @@ import { WycieczkaComponent } from './wycieczka/wycieczka.component';
 import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.component';
 import { OcenaComponent } from './ocena/ocena.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NewWycieczkaModule } from './new-wycieczka/new-wycieczka.module';
 
 @NgModule({
   declarations: [
     WycieczkiComponent,
     WycieczkaComponent,
     ListaWycieczekComponent,
-    OcenaComponent
+    OcenaComponent,
   ],
   imports: [
     BrowserModule,
-    NgbModule
+    NgbModule,
+    NewWycieczkaModule
   ],
   providers: [
   ],

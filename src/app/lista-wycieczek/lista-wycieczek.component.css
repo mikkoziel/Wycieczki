@@ -15,3 +15,7 @@ div  {
     justify-content: center;
     align-content: center;
 }
+
+button {
+    max-height: 100px;
+}

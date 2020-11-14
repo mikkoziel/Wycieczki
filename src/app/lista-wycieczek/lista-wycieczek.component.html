@@ -1,4 +1,14 @@
 <div id="wyci">
+    <div>
+        <button type="button" id="show-form"
+            (click)="showForm()" >
+            Add Trip
+        </button>
+        <app-new-wycieczka 
+            *ngIf="show_form"
+            (addWycieczkaEmmiter)="addWycieczka($event)">
+        </app-new-wycieczka>
+    </div>
     <app-wycieczka  
         *ngFor="let wycieczka of ListaWycieczek" 
         [data]=wycieczka 
@@ -10,5 +20,6 @@
     <div id="reserved" [ngStyle]="{'background-color': getReservedColor()}">
         Reserved Seats: {{ getReservedSeats() }}
     </div>
+
 </div>
 

@@ -10,6 +10,7 @@ import { WycieczkiServiceService } from '../wycieczki-service.service'
 
 export class ListaWycieczekComponent implements OnInit {
   ListaWycieczek = [];
+  public show_form: boolean = false;
 
   constructor(private WycieczkiService: WycieczkiServiceService) {  }
 
@@ -23,6 +24,11 @@ export class ListaWycieczekComponent implements OnInit {
 
   getWycieczki(): void {
     this.ListaWycieczek = this.WycieczkiService.getProducts();
+  }
+
+  addWycieczka(wycieczkaADD: WycieczkaData){
+    this.ListaWycieczek = this.WycieczkiService.addProduct(wycieczkaADD);
+    this.showForm();
   }
 
   getBorder(wycieczka: WycieczkaData){
@@ -74,6 +80,10 @@ export class ListaWycieczekComponent implements OnInit {
     else{
       return "red";
     }
+  }
+
+  showForm(): void {
+    this.show_form = !this.show_form;
   }
 
 }
