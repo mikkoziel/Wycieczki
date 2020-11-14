@@ -18,8 +18,6 @@ export class ListaWycieczekComponent implements OnInit {
   }
 
   deleteWycieczka(wycieczkaDEL: WycieczkaData){
-    // const result = this.ListaWycieczek.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
-    // this.ListaWycieczek = result;
     this.ListaWycieczek = this.WycieczkiService.deleteProduct(wycieczkaDEL);
   }
 
