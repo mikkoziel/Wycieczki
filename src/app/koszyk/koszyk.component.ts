@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { KoszykService } from './koszyk.service';
+import {WycieczkaData } from '../wycieczkaData';
 
 @Component({
     selector: 'koszyk-root',
@@ -16,6 +17,10 @@ export class KoszykComponent implements OnInit{
   
     ngOnInit(): void {
         this.items = this.koszykService.getItems();
+    }
+
+    addToKoszyk(wycieczka: WycieczkaData){
+        this.items = this.koszykService.addToCart(wycieczka);
     }
   
 }

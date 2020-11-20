@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 
+import {WycieczkaData } from '../wycieczkaData';
+
 @Injectable({
   providedIn: 'root'
 })
 export class KoszykService {
   items = [];
 
-  addToCart(product) {
+  addToCart(product: WycieczkaData) {
     this.items.push(product);
+    return this.getItems();
   }
+
   getItems() {
     return this.items;
   }
