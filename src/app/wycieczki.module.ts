@@ -7,6 +7,7 @@ import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.compo
 import { OcenaComponent } from './ocena/ocena.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewWycieczkaModule } from './new-wycieczka/new-wycieczka.module';
+import { KoszykModule } from './koszyk/koszyk.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NewWycieczkaModule } from './new-wycieczka/new-wycieczka.module';
   imports: [
     BrowserModule,
     NgbModule,
-    NewWycieczkaModule
+    NewWycieczkaModule,
+    KoszykModule
   ],
   providers: [
   ],
