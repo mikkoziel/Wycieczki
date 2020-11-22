@@ -31,8 +31,19 @@ export class KoszykService {
       });
     }
     this.updateStats();
-    console.log(this.seats_taken)
-    console.log(this.total_price)
+    // console.log(this.seats_taken)
+    // console.log(this.total_price)
+    return this.getItems();
+  }
+
+  freeFromCart(product: WycieczkaData){
+    this.items.forEach(function(obj) {
+      if(obj.wycieczka.id == product.id){
+        obj.quantity--;
+        obj.total_price = obj.quantity * obj.wycieczka.price;
+      }
+    })
+    this.updateStats();
     return this.getItems();
   }
 

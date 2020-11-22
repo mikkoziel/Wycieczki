@@ -47,6 +47,8 @@ export class WycieczkaComponent implements OnInit {
     if(this.data.avaible_seats != 0){
       this.data.plus_show = true;
     }
+    
+    this.koszykService.freeFromCart(this.data);
   }
 
   getColor(){
