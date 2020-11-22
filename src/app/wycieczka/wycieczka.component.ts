@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WycieczkaData } from '../Interfaces/wycieczkaData';
 import { KoszykService } from '../Services/koszyk.service';
+import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
 
 @Component({
   selector: 'app-wycieczka',
@@ -16,6 +17,7 @@ export class WycieczkaComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private wycieczkiService: WycieczkiServiceService,
     private koszykService: KoszykService){
   }
 
@@ -27,37 +29,17 @@ export class WycieczkaComponent implements OnInit {
   }
 
   reserveSeat(){
-    this.data.avaible_seats = this.data.avaible_seats - 1;
-
-    if(this.data.avaible_seats != this.data.seats){
-      this.data.minus_show = true;
-    }
-    if(this.data.avaible_seats == 0){
-      this.data.plus_show = false;
-    }
-    
+    this.wycieczkiService.reserveSeat(this.data);    
     this.koszykService.addToCart(this.data);
   }
 
   freeSeat(){
-    this.data.avaible_seats = this.data.avaible_seats + 1;
-    if(this.data.avaible_seats == this.data.seats){
-      this.data.minus_show = false;
-    }      
-    if(this.data.avaible_seats != 0){
-      this.data.plus_show = true;
-    }
-    
+    this.wycieczkiService.freeSeat(this.data);  
     this.koszykService.freeFromCart(this.data);
   }
 
   getColor(){
-    if(this.data.avaible_seats < 4){
-      return "red";
-    }
-    else{
-      return 'green';
-    }
+    this.wycieczkiService.getAvailableColor(this.data);
   }
 
 

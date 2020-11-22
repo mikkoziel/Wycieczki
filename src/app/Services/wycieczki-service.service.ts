@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Wycieczki } from '../mock';
 import { WycieczkaData } from '../Interfaces/wycieczkaData'
 import { Subject } from 'rxjs';
+import { Moment } from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,45 @@ export class WycieczkiServiceService {
     return this.getProducts();
   }
 
+  reserveSeat(wycieczkaRES: WycieczkaData){
+    this.wycieczki.forEach(obj=>{
+      if(obj.id == wycieczkaRES.id){
+        obj.avaible_seats = obj.avaible_seats - 1;
+
+        if(obj.avaible_seats != obj.seats){
+          obj.minus_show = true;
+        }
+        if(obj.avaible_seats == 0){
+          obj.plus_show = false;
+        }
+      }
+    })
+  }
+
+  freeSeat(wycieczkaFREE: WycieczkaData){
+    this.wycieczki.forEach(obj=>{
+      if(obj.id == wycieczkaFREE.id){
+        obj.avaible_seats = obj.avaible_seats + 1;
+        if(obj.avaible_seats == obj.seats){
+          obj.minus_show = false;
+        }      
+        if(obj.avaible_seats != 0){
+          obj.plus_show = true;
+        }
+      }
+    })
+  }
+
+  getAvailableColor(wycieczkaCOL: WycieczkaData){
+    if(wycieczkaCOL.avaible_seats < 4){
+      return "red";
+    }
+    else{
+      return 'green';
+    }
+
+  }
+
   getMaxPrice(){
     return Math.max.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
   }
@@ -89,8 +129,7 @@ export class WycieczkiServiceService {
     this.maxPriceChange.next(this.maxPriceFilter);
   }
 
-  updateDateRange(startDate, endDate){
-    // console.log(this.startDateFilter)
+  updateDateRange(startDate: Moment, endDate: Moment){
     if(startDate == null){
       this.startDateFilter = this.getMinStartDate();
     }else{

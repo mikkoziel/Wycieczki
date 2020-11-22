@@ -1,9 +1,9 @@
 <div id="wycieczka-row">
   <div id="wycieczka-column">
-    <div><img src="{{ data.image_url }}" /></div>
+    <div><a [routerLink]="['trip-details', data.id]"><img src="{{ data.image_url }}"  /></a></div>
   </div>
   <div id="wycieczka-column">
-    <div >Name: {{ data.name }} </div> 
+    <div>Name: {{ data.name }} </div> 
     <div>Country: {{ data.country }} </div>
     <div>Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
     <div>End date: {{ data.endDate | date:"dd/MM/yy" }}</div>

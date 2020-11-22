@@ -27,6 +27,7 @@ import { MaxPriceProductPipe } from './Pipes/max-price-product.pipe';
 import { StartDatePipe } from './Pipes/start-date.pipe';
 import { EndDatePipe } from './Pipes/end-date.pipe';
 import { CountryFilterPipe } from './Pipes/country-filter.pipe';
+import { WycieczkaDetailsComponent } from './wycieczka-details/wycieczka-details.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { CountryFilterPipe } from './Pipes/country-filter.pipe';
     StartDatePipe,
     EndDatePipe,
     CountryFilterPipe,
+    WycieczkaDetailsComponent,
   ],
   imports: [
     BrowserModule,
