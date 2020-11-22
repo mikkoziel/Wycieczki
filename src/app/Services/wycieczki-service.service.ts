@@ -24,6 +24,8 @@ export class WycieczkiServiceService {
   constructor() { 
     this.minPriceFilter = this.getMinPrice();
     this.maxPriceFilter = this.getMaxPrice();
+    this.startDateFilter = this.getMinStartDate();
+    this.endDateFilter = this.getMaxEndDate();
   }
 
   getProducts(): WycieczkaData[]{
@@ -66,12 +68,10 @@ export class WycieczkiServiceService {
   getMaxEndDate(){
     var latestDate = this.wycieczki[0].endDate;
     this.wycieczki.forEach(obj => {
-      console.log(obj.endDate.getTime() + "   >  " + latestDate.getTime() + " : " + (obj.endDate.getTime() > latestDate.getTime()));
       if(obj.endDate.getTime() > latestDate.getTime()){
         latestDate = obj.endDate;
       }
     })
-    console.log(latestDate.getTime());
     return latestDate;
   }
 
@@ -89,10 +89,21 @@ export class WycieczkiServiceService {
     this.maxPriceChange.next(this.maxPriceFilter);
   }
 
-  updateDateRange(startDate: Date, endDate: Date){
-    this.startDateFilter = startDate;
+  updateDateRange(startDate, endDate){
+    // console.log(this.startDateFilter)
+    if(startDate == null){
+      this.startDateFilter = this.getMinStartDate();
+    }else{
+      this.startDateFilter = startDate.toDate();
+    }
+    console.log(this.startDateFilter)
     this.startDateChange.next(this.startDateFilter);
-    this.endDateFilter = endDate;
+    
+    if(endDate == null){
+      this.startDateFilter = this.getMaxEndDate();
+    } else {
+      this.endDateFilter = endDate.toDate();
+    }
     this.endDateChange.next(this.endDateFilter);
   }
 

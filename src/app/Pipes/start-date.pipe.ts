@@ -7,7 +7,13 @@ import { WycieczkaData } from '../Interfaces/wycieczkaData';
 export class StartDatePipe implements PipeTransform {
 
   transform(products: WycieczkaData[], startDate: Date): WycieczkaData[] {
-    return products.filter(product => product.startDate >= startDate);
+    return products.filter(product => this.compareTime(product, startDate));
+  }
+
+  compareTime(product: WycieczkaData, startDate: Date){
+    var flag = product.startDate.getTime() >= startDate.getTime()
+    console.log(flag);
+    return flag;
   }
 
 }

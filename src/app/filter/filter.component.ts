@@ -74,7 +74,7 @@ export class FilterComponent implements OnInit {
     this.countryFilter.countriesBoxes = this.wycieczkiService.getCountries().map(country => {
       return <CountryFilter> {
         name: country,
-        checked: false
+        checked: true
       };
     })
   }
@@ -91,10 +91,6 @@ export class FilterComponent implements OnInit {
       this.minValuePrice = event.value;
     } 
     this.maxValuePrice = event.value;
-  }
-
-  onCountryFilterChange(){
-
   }
 
   onSubmit(){
@@ -119,9 +115,5 @@ export class FilterComponent implements OnInit {
       obj.checked = true
     )
     this.onSubmit();
-
-    this.countryFilter.countriesBoxes.forEach(obj =>
-      obj.checked = false
-    )
   }
 }
