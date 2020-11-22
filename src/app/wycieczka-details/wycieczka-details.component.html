@@ -1,38 +1,42 @@
-<div id="wycieczka-row">
-    <div id="wycieczka-column">
-      <div><a [routerLink]="['trip-details', data.id]"><img src="{{ data.image_url }}"  /></a></div>
+<div>
+    <div id="wycieczka-row">
+        <div id="wycieczka-column">
+        <div><a [routerLink]="['trip-details', data.id]"><img src="{{ data.image_url }}"  /></a></div>
+        </div>
+        <div id="wycieczka-column">
+        <div>Name: {{ data.name }} </div> 
+        <div>Country: {{ data.country }} </div>
+        <div>Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
+        <div>End date: {{ data.endDate | date:"dd/MM/yy" }}</div>
+        <div>Price: {{ data.price }} 
+            {{ data.currency }}</div>
+        <div>Seats: {{ data.seats }} </div>
+        <div>Description: {{ data.description }} </div>
+        </div>
+        <div id="wycieczka-column">
+        <div>
+            <button type="button" (click)="reserveSeat()"
+            id="plus" 
+            *ngIf="data.plus_show" 
+            [ngStyle]="{'background-color': getColor()}" >
+            Reserve
+            </button>
+        </div>
+        <div *ngIf="!data.plus_show">No more seats</div>
+        <div>
+            <button type="button" (click)="freeSeat()" 
+            id="minus"
+            *ngIf="data.minus_show" >
+            Realese
+            </button>
+        </div>
+        <div  *ngIf="!data.minus_show">No seats taken</div>
+        <div>
+            <app-ocena [wycieczka]="data"></app-ocena>
+        </div>
+        <!-- <div>Seats: {{ data.avaible_seats }} </div> -->
+        </div>
     </div>
-    <div id="wycieczka-column">
-      <div>Name: {{ data.name }} </div> 
-      <div>Country: {{ data.country }} </div>
-      <div>Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
-      <div>End date: {{ data.endDate | date:"dd/MM/yy" }}</div>
-      <div>Price: {{ data.price }} 
-        {{ data.currency }}</div>
-      <div>Seats: {{ data.seats }} </div>
-      <div>Description: {{ data.description }} </div>
-    </div>
-    <div id="wycieczka-column">
-      <div>
-        <button type="button" (click)="reserveSeat()"
-        id="plus" 
-        *ngIf="data.plus_show" 
-        [ngStyle]="{'background-color': getColor()}" >
-        Reserve
-        </button>
-      </div>
-      <div *ngIf="!data.plus_show">No more seats</div>
-      <div>
-        <button type="button" (click)="freeSeat()" 
-        id="minus"
-        *ngIf="data.minus_show" >
-          Realese
-        </button>
-      </div>
-      <div  *ngIf="!data.minus_show">No seats taken</div>
-      <div>
-        <app-ocena [wycieczka]="data"></app-ocena>
-      </div>
-      <!-- <div>Seats: {{ data.avaible_seats }} </div> -->
+    <div id="wycieczka-row">
     </div>
 </div>

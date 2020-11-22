@@ -1,0 +1,35 @@
+img {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 100%;
+}
+
+div  {
+    margin: 2px 2px;
+}
+
+#wycieczka-column { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+}
+
+#wycieczka-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* width: 100vh; */
+    /* border:1px red solid; */
+    justify-content: space-evenly;
+    align-content: center;
+}
+
+button {
+    max-height: 100px;
+}
+
+#no-seats{
+    max-height: 100px;
+}

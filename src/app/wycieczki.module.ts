@@ -9,6 +9,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
@@ -60,6 +62,8 @@ import { WycieczkaDetailsComponent } from './wycieczka-details/wycieczka-details
     MatRippleModule,
     MatDividerModule,
     MatCheckboxModule,
+    MatSidenavModule,
+    MatToolbarModule,
   ],
   exports:[
     MatSliderModule,
