@@ -5,19 +5,28 @@ div  {
 .header {
     margin: 0px 0px;
     color: #f1f1f1;
-  }
+}
 
 .sticky {
     position: fixed;
     top: 0;
     width: 100%
-  }
+}
 
-.body {
+/* .body {
     padding: 16px;
-  }
+  } */
 
-.sticky + .body {
+/* .sticky + .body {
     padding-top: 30px;
-  }
-  
+} */
+
+#content{
+    display: flex;
+    flex-direction: row;
+    margin: 16px;
+}  
+
+#body-div{
+    flex-grow: 1;
+}

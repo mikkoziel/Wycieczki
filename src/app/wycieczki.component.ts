@@ -18,8 +18,8 @@ export class WycieczkiComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll($event) {
+  @HostListener('window:scroll', [])
+  onScroll() {
     var header = document.getElementById("header");
     var sticky = header.offsetTop;
     console.log(sticky)
