@@ -5,8 +5,8 @@
   <div id="wycieczka-column">
     <div >Name: {{ data.name }} </div> 
     <div>Country: {{ data.country }} </div>
-    <div>Start date: {{ data.startDate.getDate() }}.{{ data.startDate.getMonth() }}.{{ data.startDate.getFullYear() }} </div>
-    <div>End date: {{ data.endDate.getDate() }}.{{ data.endDate.getMonth() }}.{{ data.endDate.getFullYear() }} </div>
+    <div>Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
+    <div>End date: {{ data.endDate | date:"dd/MM/yy" }}</div>
     <div>Price: {{ data.price }} 
       {{ data.currency }}</div>
     <div>Seats: {{ data.seats }} </div>

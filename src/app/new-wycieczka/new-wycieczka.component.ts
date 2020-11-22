@@ -2,9 +2,9 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { WycieczkaData } from '../wycieczkaData'
+import { WycieczkaData } from '../Interfaces/wycieczkaData'
 import { add } from 'date-fns';
-import { WycieczkiServiceService } from '../wycieczki-service.service';
+import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
 
 @Component({
   selector: 'app-new-wycieczka',

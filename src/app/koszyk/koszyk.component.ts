@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { KoszykService } from '../koszyk.service';
-import { WycieczkaData } from '../wycieczkaData';
+import { KoszykService } from '../Services/koszyk.service';
+import { WycieczkaData } from '../Interfaces/wycieczkaData';
 
 @Component({
     selector: 'app-koszyk',

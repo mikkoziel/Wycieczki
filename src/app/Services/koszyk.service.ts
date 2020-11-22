@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { WycieczkaData } from './wycieczkaData';
-import { Order } from './order';
+import { WycieczkaData } from '../Interfaces/wycieczkaData';
+import { Order } from '../Interfaces/order';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -31,8 +31,21 @@ export class KoszykService {
       });
     }
     this.updateStats();
-    console.log(this.seats_taken)
-    console.log(this.total_price)
+    return this.getItems();
+  }
+
+  freeFromCart(product: WycieczkaData){
+    this.items.forEach(function(obj, index, object) {
+      if(obj.wycieczka.id == product.id){
+        obj.quantity--;
+        if(obj.quantity == 0){
+          object.splice(index, 1);
+          console.log(object)
+        }
+        obj.total_price = obj.quantity * obj.wycieczka.price;
+      }
+    })
+    this.updateStats();
     return this.getItems();
   }
 
