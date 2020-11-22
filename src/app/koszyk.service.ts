@@ -2,12 +2,23 @@ import { Injectable } from '@angular/core';
 
 import { WycieczkaData } from './wycieczkaData';
 import { Order } from './order';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KoszykService {
   items: Order[] = [];
+  seats_taken: number;
+  total_price: number;
+  
+  seatsChange: Subject<number> = new Subject<number>();
+  priceChange: Subject<number> = new Subject<number>();
+  
+  constructor() {
+    this.seats_taken = 0;
+    this.total_price = 0;
+   }
 
   addToCart(product: WycieczkaData) {
     if(this.findInCart(product)){
@@ -19,11 +30,22 @@ export class KoszykService {
         total_price: product.price
       });
     }
+    this.updateStats();
+    console.log(this.seats_taken)
+    console.log(this.total_price)
     return this.getItems();
   }
 
   getItems() {
     return this.items;
+  }
+
+  getSeatsTaken(){
+    return this.seats_taken;
+  }
+
+  getTotalPrice(){
+    return this.total_price;
   }
 
   clearCart() {
@@ -48,5 +70,14 @@ export class KoszykService {
     })
   }
 
-  constructor() { }
+  updateStats(){
+    this.seats_taken = 0;
+    this.total_price = 0;
+    this.items.forEach(obj => {
+        this.seats_taken = this.seats_taken + obj.quantity;
+        this.total_price += obj.total_price;
+    })
+    this.seatsChange.next(this.seats_taken);
+    this.priceChange.next(this.total_price);
+  }
 }

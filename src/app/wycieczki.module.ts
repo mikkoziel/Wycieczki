@@ -12,6 +12,7 @@ import { NewWycieczkaComponent } from './new-wycieczka/new-wycieczka.component';
 import { KoszykComponent } from './koszyk/koszyk.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
+import { KoszykMainComponent } from './koszyk-main/koszyk-main.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HeaderComponent } from './header/header.component';
     OcenaComponent,
     KoszykComponent,
     NewWycieczkaComponent,
-    HeaderComponent
+    HeaderComponent,
+    KoszykMainComponent
   ],
   imports: [
     BrowserModule,
