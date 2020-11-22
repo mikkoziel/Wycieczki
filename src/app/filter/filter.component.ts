@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
-import { WycieczkiServiceService } from '../wycieczki-service.service';
+import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
 
 @Component({
   selector: 'app-filter',
@@ -12,6 +12,7 @@ export class FilterComponent implements OnInit {
   minValuePrice = 0;
   maxPrice = 0;
   maxValuePrice = 0;
+
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl()
@@ -28,7 +29,7 @@ export class FilterComponent implements OnInit {
   }
 
   getMinPrice(event: any) {
-    console.log(event.value);
+    // console.log(event.value);
     if(event.value >= this.maxValuePrice){
       this.maxValuePrice = event.value;
     } 
@@ -36,7 +37,7 @@ export class FilterComponent implements OnInit {
   }
 
   getMaxPrice(event: any) {
-    console.log(event.value);
+    // console.log(event.value);
     if(event.value <= this.minValuePrice){
       this.minValuePrice = event.value;
     } 
@@ -44,6 +45,16 @@ export class FilterComponent implements OnInit {
   }
 
   onSubmit(){
+    this.wycieczkiService.updatePriceMin(this.minValuePrice);
+    this.wycieczkiService.updatePriceMax(this.maxValuePrice);
     console.log("Submit");
+  }
+
+  clearFilters(){
+    this.minValuePrice = this.minPrice;
+    this.wycieczkiService.updatePriceMin(this.minValuePrice);
+    this.maxValuePrice = this.maxPrice;
+    this.wycieczkiService.updatePriceMax(this.maxValuePrice);
+    // this.range.start = { start: null, }
   }
 }

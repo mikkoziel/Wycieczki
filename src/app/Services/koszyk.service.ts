@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { WycieczkaData } from './wycieczkaData';
-import { Order } from './order';
+import { WycieczkaData } from '../Interfaces/wycieczkaData';
+import { Order } from '../Interfaces/order';
 import { Subject } from 'rxjs';
 
 @Injectable({

@@ -1,5 +1,5 @@
 import { add } from 'date-fns';
-import { WycieczkaData } from "./wycieczkaData"
+import { WycieczkaData } from "./Interfaces/wycieczkaData"
 
 export const Wycieczki: WycieczkaData[] = [
     {

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { WycieczkaData } from '../wycieczkaData';
-import { KoszykService } from '../koszyk.service';
+import { WycieczkaData } from '../Interfaces/wycieczkaData';
+import { KoszykService } from '../Services/koszyk.service';
 
 @Component({
   selector: 'app-wycieczka',

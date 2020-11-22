@@ -7,7 +7,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
@@ -21,6 +21,9 @@ import { HeaderComponent } from './header/header.component';
 import { KoszykMainComponent } from './koszyk-main/koszyk-main.component';
 import { FilterComponent } from './filter/filter.component';
 
+import { MinPriceProductPipe } from './Pipes/min-price-product.pipe';
+import { MaxPriceProductPipe } from './Pipes/max-price-product.pipe';
+
 @NgModule({
   declarations: [
     WycieczkiComponent,
@@ -31,7 +34,9 @@ import { FilterComponent } from './filter/filter.component';
     NewWycieczkaComponent,
     HeaderComponent,
     KoszykMainComponent,
-    FilterComponent
+    FilterComponent,
+    MinPriceProductPipe,
+    MaxPriceProductPipe
   ],
   imports: [
     BrowserModule,

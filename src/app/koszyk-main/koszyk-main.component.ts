@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { KoszykService } from '../koszyk.service';
+import { KoszykService } from '../Services/koszyk.service';
 
 @Component({
   selector: 'app-koszyk-main',
@@ -11,8 +12,8 @@ export class KoszykMainComponent implements OnInit {
   items = [];
   seats_taken: number;
   total_price: number;
-  seats_subscription;
-  price_subscription;
+  seats_subscription: Subscription;
+  price_subscription: Subscription;
 
   constructor(private koszykService: KoszykService) { 
     this.seats_taken = koszykService.seats_taken;

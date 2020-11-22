@@ -1,6 +1,7 @@
 import { Component, OnInit , Input, Output, EventEmitter} from '@angular/core';
-import { WycieczkaData } from '../wycieczkaData';
-import { WycieczkiServiceService } from '../wycieczki-service.service'
+import { Subscription } from 'rxjs';
+import { WycieczkaData } from '../Interfaces/wycieczkaData';
+import { WycieczkiServiceService } from '../Services/wycieczki-service.service'
 
 @Component({
   selector: 'app-lista-wycieczek',
@@ -11,8 +12,24 @@ import { WycieczkiServiceService } from '../wycieczki-service.service'
 export class ListaWycieczekComponent implements OnInit {
   ListaWycieczek = [];
   public show_form: boolean = false;
+
+  minPrice = 0;
+  minPrice_subscription: Subscription;
+  maxPrice = 0;
+  maxPrice_subscription: Subscription;
   
-  constructor(private WycieczkiService: WycieczkiServiceService) {  }
+  constructor(private WycieczkiService: WycieczkiServiceService) { 
+    this.minPrice = this.WycieczkiService.getMinPrice();
+    this.minPrice_subscription = this.WycieczkiService.minPriceChange.subscribe((value) => {
+      this.minPrice = value;
+      console.log(this.minPrice);
+    });
+    this.maxPrice = this.WycieczkiService.getMaxPrice();
+    this.maxPrice_subscription = this.WycieczkiService.maxPriceChange.subscribe((value) => {
+      this.maxPrice = value;
+      console.log(this.maxPrice);
+    });
+  }
 
   ngOnInit(): void { 
     this.getWycieczki();
