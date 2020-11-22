@@ -19,7 +19,7 @@ export class ListaWycieczekComponent implements OnInit {
   maxPrice_subscription: Subscription;
   startDate: Date;
   startDate_subscription: Subscription;
-  endtDate: Date;
+  endDate: Date;
   endDate_subscription: Subscription;
   countries: String[];
   countries_subscription: Subscription;
@@ -38,8 +38,9 @@ export class ListaWycieczekComponent implements OnInit {
     this.startDate_subscription = this.WycieczkiService.startDateChange.subscribe((value) => {
       this.startDate = value;
     });
+    this.endDate = this.WycieczkiService.getMaxEndDate();
     this.endDate_subscription = this.WycieczkiService.endDateChange.subscribe((value) => {
-      this.endtDate = value;
+      this.endDate = value;
     });
     this.countries = this.WycieczkiService.getCountries();
     this.countries_subscription = this.WycieczkiService.countriesChange.subscribe((value) => {

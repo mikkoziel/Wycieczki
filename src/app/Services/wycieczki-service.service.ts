@@ -66,12 +66,12 @@ export class WycieczkiServiceService {
   getMaxEndDate(){
     var latestDate = this.wycieczki[0].endDate;
     this.wycieczki.forEach(obj => {
-      // console.log(obj.endDate.getTime() + "   >  " + latestDate.getTime() + " : " + (obj.endDate.getTime() > latestDate.getTime()));
+      console.log(obj.endDate.getTime() + "   >  " + latestDate.getTime() + " : " + (obj.endDate.getTime() > latestDate.getTime()));
       if(obj.endDate.getTime() > latestDate.getTime()){
         latestDate = obj.endDate;
       }
     })
-    // console.log(latestDate);
+    console.log(latestDate.getTime());
     return latestDate;
   }
 

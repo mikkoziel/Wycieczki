@@ -7,7 +7,7 @@ import { WycieczkaData } from '../Interfaces/wycieczkaData';
 export class StartDatePipe implements PipeTransform {
 
   transform(products: WycieczkaData[], startDate: Date): WycieczkaData[] {
-    return products.filter(product => product.startDate <= startDate);
+    return products.filter(product => product.startDate >= startDate);
   }
 
 }
