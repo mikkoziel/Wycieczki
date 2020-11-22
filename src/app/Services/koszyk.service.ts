@@ -37,9 +37,13 @@ export class KoszykService {
   }
 
   freeFromCart(product: WycieczkaData){
-    this.items.forEach(function(obj) {
+    this.items.forEach(function(obj, index, object) {
       if(obj.wycieczka.id == product.id){
         obj.quantity--;
+        if(obj.quantity == 0){
+          object.splice(index, 1);
+          console.log(object)
+        }
         obj.total_price = obj.quantity * obj.wycieczka.price;
       }
     })
