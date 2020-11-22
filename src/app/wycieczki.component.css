@@ -1,27 +1,23 @@
-wyci_body {
-    display:flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-}
-
 div  {
     margin: 2px 2px;
-}
+  }
 
-reserved {
-    justify-content: center;
-}
+.header {
+    margin: 0px 0px;
+    color: #f1f1f1;
+  }
 
-img {
-    max-width: 300px;
-    max-height: 300px;
-    border-radius: 50%;
-}
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+  }
 
-div  {
-    margin: 2px 2px;
-}
+.body {
+    padding: 16px;
+  }
 
-
+.sticky + .body {
+    padding-top: 30px;
+  }
+  

@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { ActivatedRoute } from '@angular/router';
 import { WycieczkaData } from '../wycieczkaData';
+import { KoszykService } from '../koszyk.service';
 
 @Component({
   selector: 'app-wycieczka',
@@ -11,14 +14,16 @@ export class WycieczkaComponent implements OnInit {
   @Input() data: WycieczkaData;
   @Output() deleteWycieczkaEmmiter = new EventEmitter<WycieczkaData>();
 
-  onDeletePress(): void {
-    this.deleteWycieczkaEmmiter.emit(this.data);
-  }
-  
-  constructor(){
+  constructor(
+    private route: ActivatedRoute,
+    private koszykService: KoszykService){
   }
 
   ngOnInit(): void {
+  }
+
+  onDeletePress(): void {
+    this.deleteWycieczkaEmmiter.emit(this.data);
   }
 
   reserveSeat(){
@@ -30,7 +35,8 @@ export class WycieczkaComponent implements OnInit {
     if(this.data.avaible_seats == 0){
       this.data.plus_show = false;
     }
-    // alert("You were added to this wycieczka");
+    
+    this.koszykService.addToCart(this.data);
   }
 
   freeSeat(){
@@ -41,7 +47,6 @@ export class WycieczkaComponent implements OnInit {
     if(this.data.avaible_seats != 0){
       this.data.plus_show = true;
     }
-    // alert("you freed a seat");
   }
 
   getColor(){

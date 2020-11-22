@@ -1,18 +1,16 @@
 <div id="wyci">
-    <div>
-        <button type="button" id="show-form"
-            (click)="showForm()" >
-            Add Trip
+    <!-- <div>
+        <button routerLink="/new-trip" type="button">
+            Add trip
         </button>
-        <app-new-wycieczka 
-            *ngIf="show_form"
-            (addWycieczkaEmmiter)="addWycieczka($event)">
-        </app-new-wycieczka>
-    </div>
+        <button routerLink="/cart" type="button">
+            Koszyk
+        </button>
+    </div> -->
     <app-wycieczka  
         *ngFor="let wycieczka of ListaWycieczek" 
         [data]=wycieczka 
-        (deleteWycieczkaEmmiter)="deleteWycieczka($event)" 
+        (deleteWycieczkaEmmiter)="deleteWycieczka($event)"
         id="wycieczka-box" 
         [ngStyle]="{'border': getBorder(wycieczka)}" >
     </app-wycieczka>
@@ -20,6 +18,5 @@
     <div id="reserved" [ngStyle]="{'background-color': getReservedColor()}">
         Reserved Seats: {{ getReservedSeats() }}
     </div>
-
 </div>
 

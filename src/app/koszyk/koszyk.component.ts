@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { KoszykService } from './koszyk.service';
-import {WycieczkaData } from '../wycieczkaData';
+import { KoszykService } from '../koszyk.service';
+import { WycieczkaData } from '../wycieczkaData';
 
 @Component({
-    selector: 'koszyk-root',
+    selector: 'app-koszyk',
     templateUrl: './koszyk.component.html',
     styleUrls: ['./koszyk.component.css']
   })

@@ -1,4 +1,4 @@
-import { Component, OnInit , Input } from '@angular/core';
+import { Component, OnInit , Input, Output, EventEmitter} from '@angular/core';
 import { WycieczkaData } from '../wycieczkaData';
 import { WycieczkiServiceService } from '../wycieczki-service.service'
 
@@ -11,7 +11,7 @@ import { WycieczkiServiceService } from '../wycieczki-service.service'
 export class ListaWycieczekComponent implements OnInit {
   ListaWycieczek = [];
   public show_form: boolean = false;
-
+  
   constructor(private WycieczkiService: WycieczkiServiceService) {  }
 
   ngOnInit(): void { 
@@ -28,7 +28,6 @@ export class ListaWycieczekComponent implements OnInit {
 
   addWycieczka(wycieczkaADD: WycieczkaData){
     this.ListaWycieczek = this.WycieczkiService.addProduct(wycieczkaADD);
-    this.showForm();
   }
 
   getBorder(wycieczka: WycieczkaData){
@@ -80,10 +79,6 @@ export class ListaWycieczekComponent implements OnInit {
     else{
       return "red";
     }
-  }
-
-  showForm(): void {
-    this.show_form = !this.show_form;
   }
 
 }
