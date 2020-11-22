@@ -31,8 +31,6 @@ export class KoszykService {
       });
     }
     this.updateStats();
-    // console.log(this.seats_taken)
-    // console.log(this.total_price)
     return this.getItems();
   }
 

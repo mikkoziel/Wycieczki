@@ -11,9 +11,15 @@ export class WycieczkiServiceService {
 
   minPriceFilter: number;
   maxPriceFilter:number;
+  startDateFilter: Date;
+  endDateFilter: Date;
+  countriesFilter: String[];
 
   minPriceChange: Subject<number> = new Subject<number>();
   maxPriceChange: Subject<number> = new Subject<number>();
+  startDateChange: Subject<Date> = new Subject<Date>();
+  endDateChange: Subject<Date> = new Subject<Date>();
+  countriesChange: Subject<String[]> = new Subject<String[]>();
   
   constructor() { 
     this.minPriceFilter = this.getMinPrice();
@@ -47,8 +53,30 @@ export class WycieczkiServiceService {
     return Math.min.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
   }
 
+  getMinStartDate(){
+    var earliestDate = this.wycieczki[0].startDate;
+    this.wycieczki.forEach(obj => {
+      if(obj.startDate.getTime() < earliestDate.getTime()){
+        earliestDate = obj.startDate;
+      }
+    })
+    return earliestDate;
+  }
+  
+  getMaxEndDate(){
+    var latestDate = this.wycieczki[0].endDate;
+    this.wycieczki.forEach(obj => {
+      // console.log(obj.endDate.getTime() + "   >  " + latestDate.getTime() + " : " + (obj.endDate.getTime() > latestDate.getTime()));
+      if(obj.endDate.getTime() > latestDate.getTime()){
+        latestDate = obj.endDate;
+      }
+    })
+    // console.log(latestDate);
+    return latestDate;
+  }
+
   getCountries(){
-    return this.wycieczki.map(wycieczka => wycieczka.country);
+    return [...new Set(this.wycieczki.map(wycieczka => wycieczka.country))];
   }
 
   updatePriceMin(value: number){
@@ -59,6 +87,18 @@ export class WycieczkiServiceService {
   updatePriceMax(value: number){
     this.maxPriceFilter = value;
     this.maxPriceChange.next(this.maxPriceFilter);
+  }
+
+  updateDateRange(startDate: Date, endDate: Date){
+    this.startDateFilter = startDate;
+    this.startDateChange.next(this.startDateFilter);
+    this.endDateFilter = endDate;
+    this.endDateChange.next(this.endDateFilter);
+  }
+
+  updateCountries(countries: String[]){
+    this.countriesFilter = countries;
+    this.countriesChange.next(this.countriesFilter);
   }
 
 }

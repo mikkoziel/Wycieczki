@@ -17,22 +17,45 @@ export class ListaWycieczekComponent implements OnInit {
   minPrice_subscription: Subscription;
   maxPrice = 0;
   maxPrice_subscription: Subscription;
+  startDate: Date;
+  startDate_subscription: Subscription;
+  endtDate: Date;
+  endDate_subscription: Subscription;
+  countries: String[];
+  countries_subscription: Subscription;
+
   
   constructor(private WycieczkiService: WycieczkiServiceService) { 
     this.minPrice = this.WycieczkiService.getMinPrice();
     this.minPrice_subscription = this.WycieczkiService.minPriceChange.subscribe((value) => {
       this.minPrice = value;
-      console.log(this.minPrice);
     });
     this.maxPrice = this.WycieczkiService.getMaxPrice();
     this.maxPrice_subscription = this.WycieczkiService.maxPriceChange.subscribe((value) => {
       this.maxPrice = value;
-      console.log(this.maxPrice);
+    });
+    this.startDate = this.WycieczkiService.getMinStartDate();
+    this.startDate_subscription = this.WycieczkiService.startDateChange.subscribe((value) => {
+      this.startDate = value;
+    });
+    this.endDate_subscription = this.WycieczkiService.endDateChange.subscribe((value) => {
+      this.endtDate = value;
+    });
+    this.countries = this.WycieczkiService.getCountries();
+    this.countries_subscription = this.WycieczkiService.countriesChange.subscribe((value) => {
+      this.countries = value;
     });
   }
 
   ngOnInit(): void { 
     this.getWycieczki();
+  }
+  
+  ngOnDestroy() {
+    this.minPrice_subscription.unsubscribe();
+    this.maxPrice_subscription.unsubscribe();
+    this.startDate_subscription.unsubscribe();
+    this.endDate_subscription.unsubscribe();
   }
 
   deleteWycieczka(wycieczkaDEL: WycieczkaData){

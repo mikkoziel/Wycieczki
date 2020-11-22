@@ -8,6 +8,6 @@ export class MaxPriceProductPipe implements PipeTransform {
 
   transform(products: WycieczkaData[], maxPrice: number): WycieczkaData[] {
     return products.filter(product => product.price <= maxPrice);
-  };
+  }
 
 }
