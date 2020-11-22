@@ -43,11 +43,11 @@ export class ListaWycieczekComponent implements OnInit {
   }
 
   getMaxPrice(){
-    return Math.max.apply(Math, this.ListaWycieczek.map(function(o) { return o.price; }))
+    return this.WycieczkiService.getMaxPrice();
   }
 
   getMinPrice(){
-    return Math.min.apply(Math, this.ListaWycieczek.map(function(o) { return o.price; }))
+    return this.WycieczkiService.getMinPrice();
   }
    
   getReservedSeats(){

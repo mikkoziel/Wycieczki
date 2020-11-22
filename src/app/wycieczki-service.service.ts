@@ -29,4 +29,16 @@ export class WycieczkiServiceService {
     return this.getProducts();
   }
 
+  getMaxPrice(){
+    return Math.max.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
+  }
+
+  getMinPrice(){
+    return Math.min.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
+  }
+
+  getCountries(){
+    return this.wycieczki.map(wycieczka => wycieczka.country);
+  }
+
 }
