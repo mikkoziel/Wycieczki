@@ -77,6 +77,18 @@ export class WycieczkiServiceService {
     })
   }
 
+  addComment(wycieczkaCOM: WycieczkaData, author:string, comment:string){
+    this.wycieczki.forEach(obj=>{
+      if(obj.id == wycieczkaCOM.id){
+        obj.comments.push({
+          author: author,
+          comment: comment
+        })
+        console.log(obj.comments)
+      }
+    })
+  }
+
   getAvailableColor(wycieczkaCOL: WycieczkaData){
     if(wycieczkaCOL.avaible_seats < 4){
       return "red";

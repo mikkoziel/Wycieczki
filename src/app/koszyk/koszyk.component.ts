@@ -19,8 +19,8 @@ export class KoszykComponent implements OnInit{
         this.items = this.koszykService.getItems();
     }
 
-    addToKoszyk(wycieczka: WycieczkaData){
-        this.items = this.koszykService.addToCart(wycieczka);
-    }
+    // addToKoszyk(wycieczka: WycieczkaData){
+    //     this.items = this.koszykService.addToCart(wycieczka);
+    // }
   
 }

@@ -30,7 +30,7 @@ export class WycieczkaComponent implements OnInit {
 
   reserveSeat(){
     this.wycieczkiService.reserveSeat(this.data);    
-    this.koszykService.addToCart(this.data);
+    this.koszykService.addToCart(this.data, this.data.startDate, this.data.endDate);
   }
 
   freeSeat(){

@@ -14,4 +14,19 @@ export interface WycieczkaData{
     minus_show:boolean;
     rating: number;
     rating_count: number;
+    gallery?: string[];
+    comments?: Comment[]
+    cyclic?: Cyclic;
+};
+
+export interface Comment{
+    author: string;
+    comment: string;
+}
+
+export interface Cyclic{
+    days?: number;
+    weeks?: number;
+    months?: number;
+    long: number;
 }

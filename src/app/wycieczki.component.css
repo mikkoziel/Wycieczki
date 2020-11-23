@@ -17,12 +17,13 @@ div  {
 .example-container {
     padding-top: 16px;
     background: #eee;
-    height: 100%;
+    height: 100vh;
 }
 
 .sidenav-example {
     padding-top: 16px;
     padding-left:32px;
+    padding-right: 32px;
 }
 
 .example-header {
