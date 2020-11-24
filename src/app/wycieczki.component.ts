@@ -1,8 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
 import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.component';
 import { KoszykComponent } from './koszyk/koszyk.component';
 import { WycieczkaData } from './Interfaces/wycieczkaData';
+import { WycieczkiServiceService } from "./Services/wycieczki-service.service";
 
 @Component({
   selector: 'app-root',
@@ -13,22 +14,11 @@ import { WycieczkaData } from './Interfaces/wycieczkaData';
 export class WycieczkiComponent implements OnInit{
   title = 'Projekt';
   
-  constructor() {};
+  constructor(private WycieczkiService: WycieczkiServiceService) {
+    this.WycieczkiService.initSeatsTaken();
+  };
 
   ngOnInit(): void {
-  }
-
-  @HostListener('window:scroll', [])
-  onScroll() {
-    var header = document.getElementById("header");
-    var sticky = header.offsetTop;
-    console.log(sticky)
-    console.log(window.pageYOffset)
-    if (window.pageYOffset > sticky) {
-      header.classList.add("sticky");
-    } else {
-      header.classList.remove("sticky");
-    }
   }
   
 }

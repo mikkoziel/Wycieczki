@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Wycieczki } from '../mock';
 import { WycieczkaData } from '../Interfaces/wycieczkaData'
 import { Subject } from 'rxjs';
+import { Moment } from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,57 @@ export class WycieczkiServiceService {
     return this.getProducts();
   }
 
+  reserveSeat(wycieczkaRES: WycieczkaData, id: number){
+    this.wycieczki.forEach(obj=>{
+      if(obj.id == wycieczkaRES.id){
+        obj.seats_taken[id] = obj.seats_taken[id] - 1;
+
+        if(obj.avaible_seats != obj.seats_taken[id]){
+          obj.minus_show = true;
+        }
+        if(obj.seats_taken[id] == 0){
+          obj.plus_show = false;
+        }
+      }
+    })
+  }
+
+  freeSeat(wycieczkaFREE: WycieczkaData, id:number){
+    this.wycieczki.forEach(obj=>{
+      if(obj.id == wycieczkaFREE.id){
+        obj.seats_taken[id] = obj.seats_taken[id] + 1;
+        if(obj.avaible_seats == obj.seats_taken[id]){
+          obj.minus_show = false;
+        }      
+        if(obj.seats_taken[id] != 0){
+          obj.plus_show = true;
+        }
+      }
+    })
+  }
+
+  addComment(wycieczkaCOM: WycieczkaData, author:string, comment:string){
+    this.wycieczki.forEach(obj=>{
+      if(obj.id == wycieczkaCOM.id){
+        obj.comments.push({
+          author: author,
+          comment: comment
+        })
+        console.log(obj.comments)
+      }
+    })
+  }
+
+  // getAvailableColor(wycieczkaCOL: WycieczkaData){
+  //   if(wycieczkaCOL.avaible_seats < 4){
+  //     return "red";
+  //   }
+  //   else{
+  //     return 'green';
+  //   }
+
+  // }
+
   getMaxPrice(){
     return Math.max.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
   }
@@ -89,8 +141,7 @@ export class WycieczkiServiceService {
     this.maxPriceChange.next(this.maxPriceFilter);
   }
 
-  updateDateRange(startDate, endDate){
-    // console.log(this.startDateFilter)
+  updateDateRange(startDate: Moment, endDate: Moment){
     if(startDate == null){
       this.startDateFilter = this.getMinStartDate();
     }else{
@@ -110,6 +161,26 @@ export class WycieczkiServiceService {
   updateCountries(countries: String[]){
     this.countriesFilter = countries;
     this.countriesChange.next(this.countriesFilter);
+  }
+
+  initSeatsTaken(){
+    this.wycieczki.forEach(x=>{
+      var long: number;
+      if(x.cyclic){
+        long = x.cyclic.long;
+      } else {
+        long = 1;
+      }
+      x.seats_taken = this.fillArray(0, long);
+    });
+  }
+
+  fillArray(value: any, len: number) {
+    if (len == 0) return [];
+    var a = [value];
+    while (a.length * 2 <= len) a = a.concat(a);
+    if (a.length < len) a = a.concat(a.slice(0, len - a.length));
+    return a;
   }
 
 }

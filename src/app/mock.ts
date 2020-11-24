@@ -1,5 +1,5 @@
 import { add } from 'date-fns';
-import { WycieczkaData } from "./Interfaces/wycieczkaData"
+import { WycieczkaData, Comment } from "./Interfaces/wycieczkaData"
 
 export const Wycieczki: WycieczkaData[] = [
     {
@@ -12,12 +12,31 @@ export const Wycieczki: WycieczkaData[] = [
         image_url: './assets/01.png',
         price: 1000,
         currency: "PLN",
-        seats: 20,
+        // seats: 20,
         avaible_seats: 20,
         plus_show: true,
         minus_show: false,
         rating: 0,
         rating_count: 0,
+        gallery:[
+            './assets/4.jpg',
+            './assets/5.jpg',
+            './assets/6.jpg'
+        ],
+        comments:[
+            {
+                author: "Uma",
+                comment: "Nice one"
+            },
+            {
+                author: "Roma",
+                comment: "Ok"
+            }
+        ],
+        cyclic:{
+            long: 5,
+            months: 1,
+        }
     },
     {
         id : 1,

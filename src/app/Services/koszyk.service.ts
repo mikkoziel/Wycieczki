@@ -20,13 +20,15 @@ export class KoszykService {
     this.total_price = 0;
    }
 
-  addToCart(product: WycieczkaData) {
-    if(this.findInCart(product)){
+  addToCart(product: WycieczkaData, startDate:Date, endDate: Date) {
+    if(this.findInCart(product, startDate, endDate)){
       this.addMoreSeats(product.id);
     } else{
       this.items.push({
         wycieczka: product,
         quantity: 1,
+        startDate: startDate,
+        endDate: endDate,
         total_price: product.price
       });
     }
@@ -66,12 +68,34 @@ export class KoszykService {
     return this.items;
   }
 
-  findInCart(product: WycieczkaData){
-    return this.getProduct(product.id) != undefined;    
+  findInCart(product: WycieczkaData, startDate: Date, endDate:Date){
+    return this.getProduct(product.id, startDate, endDate) != undefined;    
   }
 
-  getProduct(id: number){
-    return this.items.find(orderitem => orderitem.wycieczka.id == id);
+  getProduct(id: number, startDate: Date, endDate:Date){
+    return this.items.find(orderitem => 
+      orderitem.wycieczka.id == id &&
+      orderitem.startDate.getTime() == startDate.getTime() &&
+      orderitem.endDate.getTime() == endDate.getTime());
+  }
+  
+  getTotalOrderItemPrice(id: number, startDate: Date, endDate:Date){
+    var product: Order = this.getProduct(id, startDate, endDate);
+    if(product == null){
+      return 0;
+    }
+    return product.total_price;
+  }
+
+  getSeatsOfProduct(id: number, startDate: Date, endDate:Date){
+    return this.getQuantityOfOrder(this.getProduct(id, startDate, endDate));
+  }
+
+  getQuantityOfOrder(order: Order){
+    if(order == null){
+      return 0;
+    }
+    return order.quantity;
   }
 
   addMoreSeats(id: number){

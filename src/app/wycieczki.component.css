@@ -3,8 +3,9 @@ div  {
   }
 
 .header {
-    margin: 0px 0px;
-    color: #f1f1f1;
+    width: 100%;
+    margin: 0 0;
+    color: #f5f5f5;
 }
 
 .sticky {
@@ -13,20 +14,19 @@ div  {
     width: 100%
 }
 
-/* .body {
-    padding: 16px;
-  } */
-
-/* .sticky + .body {
-    padding-top: 30px;
-} */
-
-#content{
-    display: flex;
-    flex-direction: row;
-    margin: 16px;
-}  
-
-#body-div{
-    flex-grow: 1;
+.example-container {
+    padding-top: 16px;
+    background: #eee;
+    height: 95vh;
 }
+
+.sidenav-example {
+    padding-top: 16px;
+    padding-left:32px;
+    padding-right: 32px;
+}
+
+.example-header {
+    padding: 0 0;
+}
+  

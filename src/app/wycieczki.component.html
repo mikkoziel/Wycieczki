@@ -1,13 +1,16 @@
 <app-header class="header" id="header"></app-header>
-<div id="content">
-  <div id="body-div">
-    <router-outlet class="body"></router-outlet>
-  </div>
-  <div id="koszyk-div">
+
+<mat-sidenav-container class="example-container">  
+  <mat-sidenav class="sidenav-example" mode="side" opened>
     <app-koszyk-main id="koszyk"></app-koszyk-main>
     <mat-divider></mat-divider>
-    <app-koszyk-main id="koszyk"></app-koszyk-main>
-    <mat-divider></mat-divider>
+    <!-- <app-koszyk-main id="koszyk"></app-koszyk-main> -->
+    <!-- <mat-divider></mat-divider> -->
     <app-filter></app-filter>
-  </div>
-</div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet class="body"></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>  
+
+

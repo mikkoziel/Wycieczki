@@ -12,7 +12,7 @@ export class StartDatePipe implements PipeTransform {
 
   compareTime(product: WycieczkaData, startDate: Date){
     var flag = product.startDate.getTime() >= startDate.getTime()
-    console.log(flag);
+    // console.log(flag);
     return flag;
   }
 
