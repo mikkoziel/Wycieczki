@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,20 +21,22 @@ import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
 import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.component';
 import { OcenaComponent } from './ocena/ocena.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewWycieczkaComponent } from './new-wycieczka/new-wycieczka.component';
 import { KoszykComponent } from './koszyk/koszyk.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { KoszykMainComponent } from './koszyk-main/koszyk-main.component';
 import { FilterComponent } from './filter/filter.component';
+import { WycieczkaDetailsComponent } from './wycieczka-details/wycieczka-details.component';
+import { LoginComponent } from './login/login.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
+import { ConfirmReservationComponent } from './confirm-reservation/confirm-reservation.component';
 
 import { MinPriceProductPipe } from './Pipes/min-price-product.pipe';
 import { MaxPriceProductPipe } from './Pipes/max-price-product.pipe';
 import { StartDatePipe } from './Pipes/start-date.pipe';
 import { EndDatePipe } from './Pipes/end-date.pipe';
 import { CountryFilterPipe } from './Pipes/country-filter.pipe';
-import { WycieczkaDetailsComponent } from './wycieczka-details/wycieczka-details.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,9 @@ import { WycieczkaDetailsComponent } from './wycieczka-details/wycieczka-details
     EndDatePipe,
     CountryFilterPipe,
     WycieczkaDetailsComponent,
+    LoginComponent,
+    CreateAccountComponent,
+    ConfirmReservationComponent,
   ],
   imports: [
     BrowserModule,
