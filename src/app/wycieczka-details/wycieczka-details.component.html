@@ -1,50 +1,22 @@
 <div>
     <div id="wycieczka-row">
-        <div id="flex-column">
+        <div class="flex-column">
         <div><a [routerLink]="['trip-details', data.id]"><img src="{{ data.image_url }}"  class="main-image"/></a></div>
         </div>
-        <div id="flex-column">
+        <div class="flex-column">
         <div>Name: {{ data.name }} </div> 
         <div>Country: {{ data.country }} </div>
-        <mat-form-field appearance="fill" *ngIf="data.cyclic">
-          <mat-label>Trip Date</mat-label>
-          <mat-select [(value)]="rangeValue">
-            <mat-option *ngFor="let rangeDate of rangeDates" [value]="rangeDate" >
-              {{ rangeDate.startDate | date:"dd/MM/yy"  }} - {{ rangeDate.endDate | date:"dd/MM/yy"  }} 
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="!data.cyclic">Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
-        <div *ngIf="!data.cyclic">End date: {{ data.endDate | date:"dd/MM/yy" }}</div>
         <div>Price: {{ data.price }} 
             {{ data.currency }}</div>
         <div>Seats: {{ data.seats }} </div>
         <div>Description: {{ data.description }} </div>
         </div>
 
-        <div id="flex-column">
-        <div>
-            <button type="button" (click)="reserveSeat()"
-            id="plus" 
-            *ngIf="data.plus_show" 
-            [ngStyle]="{'background-color': getColor()}" >
-            Reserve
-            </button>
-        </div>
-        <div *ngIf="!data.plus_show">No more seats</div>
-        <div>
-            <button type="button" (click)="freeSeat()" 
-            id="minus"
-            *ngIf="data.minus_show" >
-            Realese
-            </button>
-        </div>
-        <div  *ngIf="!data.minus_show">No seats taken</div>
-        <!-- <div>Seats taken: {{ seats_taken }}</div> -->
-        <div>
-            <app-ocena [wycieczka]="data"></app-ocena>
-        </div>
-        <!-- <div>Seats: {{ data.avaible_seats }} </div> -->
+        <div class="flex-column">
+          <!-- <div>Seats taken: {{ seats_taken }}</div> -->
+          <div>
+              <app-ocena [wycieczka]="data"></app-ocena>
+          </div>
         </div>
     </div>
 
@@ -52,53 +24,99 @@
       
     </div>
 
-    <div id="wycieczka-row" >
-      <div id="flex-column" *ngIf="data.gallery">
-        <h3>Gallery</h3>
-        <ngb-carousel >
-          <ng-template *ngFor="let image of data.gallery; let i=index" ngbSlide>
-            <div class="picsum-img-wrapper">
-              <img [src]="image" alt="{{i}} slide">
+    <mat-tab-group class="tab-group">
+      <mat-tab label="Reserve trip">
+        <div id="wycieczka-row">
+
+          <div class="flex-column">
+            <mat-form-field appearance="fill" *ngIf="data.cyclic">
+              <mat-label>Trip Date</mat-label>
+              <mat-select [(value)]="rangeValue">
+                <mat-option *ngFor="let rangeDate of rangeDates" [value]="rangeDate" >
+                  {{ rangeDate.startDate | date:"dd/MM/yy"  }} - {{ rangeDate.endDate | date:"dd/MM/yy"  }} 
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="!data.cyclic">Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
+            <div *ngIf="!data.cyclic">End date: {{ data.endDate | date:"dd/MM/yy" }}</div>
+          </div>
+
+          <div class="flex-column">
+            <div>
+              <button type="button" (click)="reserveSeat()"
+              id="plus" 
+              *ngIf="data.plus_show" >
+              Reserve
+              </button>
             </div>
-          </ng-template>
-        </ngb-carousel>
-      </div>
-    <!-- </div>
-
-    
-    <div id="wycieczka-row" > -->
-      <div id="flex-column" *ngIf="data.comments">
-        <h3>Comments</h3>
-        <mat-list role="list">
-          <mat-list-item *ngFor="let com of data.comments" role="listitem" id="flex-column">
-            
-              <span>{{ com.comment }}</span>
-              
-              <span>Author: {{ com.author }}</span>
-              <mat-divider></mat-divider>
-            <!-- </div>   -->
-          </mat-list-item>
-        </mat-list>
-      </div>
-    </div>
-
-    
-    <div id="wycieczka-row" >
-      <div id="flex-column">
-        <div mat-dialog-content>
-          <mat-form-field class="example-full-width">
-            <mat-label>Author</mat-label>
-            <input matInput placeholder="It's you" [(ngModel)]='author'>
-          </mat-form-field>
-        
-          <mat-form-field class="example-full-width">
-            <mat-label>Leave a comment</mat-label>
-            <input matInput placeholder="Ex. It makes me feel..." [(ngModel)]='comment'>
-          </mat-form-field>
+            <div *ngIf="!data.plus_show">No more seats</div>
+            <div>
+              <button type="button" (click)="freeSeat()" 
+              id="minus"
+              *ngIf="data.minus_show" >
+              Realese
+              </button>
+            </div>
+            <div  *ngIf="!data.minus_show">No seats taken</div>
+          </div>
         </div>
-        <!-- [disabled]="seats_taken==0" -->
-        <button mat-raised-button (click)="submitComment()" >Submit</button>
-      </div>
-    </div>
+        <div id="wycieczka-row">
+          <div class="flex-column">
+            <p>Already reserved:</p>
+            <div *ngFor="let order of seats_taken">
+              <div *ngIf="order.quantity>0">
+                <p>Dates: {{ order.startDate | date:"dd/MM/yy"  }} - {{ order.endDate | date:"dd/MM/yy"  }}</p>
+                <p>Quantity: {{ order.quantity }}</p>
+                <mat-divider></mat-divider>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Gallery" *ngIf="data.gallery">
+        <div id="wycieczka-row" >
+          <div class="flex-column" >
+            <ngb-carousel >
+              <ng-template *ngFor="let image of data.gallery; let i=index" ngbSlide>
+                <div class="picsum-img-wrapper">
+                  <img [src]="image" alt="{{i}} slide">
+                </div>
+              </ng-template>
+            </ngb-carousel>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Comments">
+        <div class="comment-div1 flex-column">
+          <div *ngIf="data.comments">
+            <div *ngFor="let com of data.comments" class="flex-column">
+              <p>{{ com.comment }}</p>
+              <p class="author">Author: {{ com.author }}</p>
+              <mat-divider></mat-divider>
+            </div>
+          </div>
+
+          <div class="comment-div2 flex-column">
+            <h3>Add your comment!</h3>
+            <div mat-dialog-content>
+              <mat-form-field class="example-full-width">
+                <mat-label>Author</mat-label>
+                <input matInput placeholder="It's you" [(ngModel)]='author'>
+              </mat-form-field>
+            
+              <mat-form-field class="example-full-width">
+                <mat-label>Leave a comment</mat-label>
+                <input matInput placeholder="Ex. It makes me feel..." [(ngModel)]='comment'>
+              </mat-form-field>
+            </div>
+            <!-- [disabled]="seats_taken==0" -->
+            <button mat-raised-button (click)="submitComment()" >Submit</button>
+          </div>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
     
 </div>

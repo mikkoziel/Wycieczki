@@ -9,6 +9,7 @@ export interface Order{
 }
 
 export interface DateRange{
+    id: number;
     startDate: Date;
     endDate: Date;
 }

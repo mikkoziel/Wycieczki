@@ -26,6 +26,7 @@ export class ListaWycieczekComponent implements OnInit {
 
   
   constructor(private WycieczkiService: WycieczkiServiceService) { 
+    // this.WycieczkiService.initSeatsTaken();
     this.minPrice = this.WycieczkiService.getMinPrice();
     this.minPrice_subscription = this.WycieczkiService.minPriceChange.subscribe((value) => {
       this.minPrice = value;

@@ -48,29 +48,29 @@ export class WycieczkiServiceService {
     return this.getProducts();
   }
 
-  reserveSeat(wycieczkaRES: WycieczkaData){
+  reserveSeat(wycieczkaRES: WycieczkaData, id: number){
     this.wycieczki.forEach(obj=>{
       if(obj.id == wycieczkaRES.id){
-        obj.avaible_seats = obj.avaible_seats - 1;
+        obj.seats_taken[id] = obj.seats_taken[id] - 1;
 
-        if(obj.avaible_seats != obj.seats){
+        if(obj.avaible_seats != obj.seats_taken[id]){
           obj.minus_show = true;
         }
-        if(obj.avaible_seats == 0){
+        if(obj.seats_taken[id] == 0){
           obj.plus_show = false;
         }
       }
     })
   }
 
-  freeSeat(wycieczkaFREE: WycieczkaData){
+  freeSeat(wycieczkaFREE: WycieczkaData, id:number){
     this.wycieczki.forEach(obj=>{
       if(obj.id == wycieczkaFREE.id){
-        obj.avaible_seats = obj.avaible_seats + 1;
-        if(obj.avaible_seats == obj.seats){
+        obj.seats_taken[id] = obj.seats_taken[id] + 1;
+        if(obj.avaible_seats == obj.seats_taken[id]){
           obj.minus_show = false;
         }      
-        if(obj.avaible_seats != 0){
+        if(obj.seats_taken[id] != 0){
           obj.plus_show = true;
         }
       }
@@ -89,15 +89,15 @@ export class WycieczkiServiceService {
     })
   }
 
-  getAvailableColor(wycieczkaCOL: WycieczkaData){
-    if(wycieczkaCOL.avaible_seats < 4){
-      return "red";
-    }
-    else{
-      return 'green';
-    }
+  // getAvailableColor(wycieczkaCOL: WycieczkaData){
+  //   if(wycieczkaCOL.avaible_seats < 4){
+  //     return "red";
+  //   }
+  //   else{
+  //     return 'green';
+  //   }
 
-  }
+  // }
 
   getMaxPrice(){
     return Math.max.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
@@ -161,6 +161,26 @@ export class WycieczkiServiceService {
   updateCountries(countries: String[]){
     this.countriesFilter = countries;
     this.countriesChange.next(this.countriesFilter);
+  }
+
+  initSeatsTaken(){
+    this.wycieczki.forEach(x=>{
+      var long: number;
+      if(x.cyclic){
+        long = x.cyclic.long;
+      } else {
+        long = 1;
+      }
+      x.seats_taken = this.fillArray(0, long);
+    });
+  }
+
+  fillArray(value: any, len: number) {
+    if (len == 0) return [];
+    var a = [value];
+    while (a.length * 2 <= len) a = a.concat(a);
+    if (a.length < len) a = a.concat(a.slice(0, len - a.length));
+    return a;
   }
 
 }

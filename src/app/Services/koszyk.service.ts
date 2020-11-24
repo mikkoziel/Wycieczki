@@ -75,8 +75,16 @@ export class KoszykService {
   getProduct(id: number, startDate: Date, endDate:Date){
     return this.items.find(orderitem => 
       orderitem.wycieczka.id == id &&
-      orderitem.startDate == startDate &&
-      orderitem.endDate == endDate);
+      orderitem.startDate.getTime() == startDate.getTime() &&
+      orderitem.endDate.getTime() == endDate.getTime());
+  }
+  
+  getTotalOrderItemPrice(id: number, startDate: Date, endDate:Date){
+    var product: Order = this.getProduct(id, startDate, endDate);
+    if(product == null){
+      return 0;
+    }
+    return product.total_price;
   }
 
   getSeatsOfProduct(id: number, startDate: Date, endDate:Date){

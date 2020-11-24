@@ -34,6 +34,7 @@ export class WycieczkaDetailsComponent implements OnInit {
       this.data = this.wycieczkiService.getProduct(this.id);
     });
     this.rangeValue = {
+      id: 0,
       startDate: this.data.startDate,
       endDate: this.data.endDate
     }
@@ -41,18 +42,20 @@ export class WycieczkaDetailsComponent implements OnInit {
       var cyclic = this.data.cyclic;
       this.rangeDates = new Array(cyclic.long).fill(null).map((_, i) => {
         return <DateRange>{
-        startDate:add(this.rangeValue.startDate, { days:cyclic.days*i, weeks:cyclic.weeks*i, months:cyclic.months*i}),
-        endDate: add(this.rangeValue.endDate, { days:cyclic.days*i, weeks:cyclic.weeks*i, months:cyclic.months*i})
-      }})
+          id: i,
+          startDate:add(this.rangeValue.startDate, { days:cyclic.days*i, weeks:cyclic.weeks*i, months:cyclic.months*i}),
+          endDate: add(this.rangeValue.endDate, { days:cyclic.days*i, weeks:cyclic.weeks*i, months:cyclic.months*i})
+        }
+      })
     }
     this.seats_taken = [];
     this.rangeDates.forEach(x=>{
       this.seats_taken.push({
         wycieczka: this.data,
-        quantity: 0,
+        quantity: this.koszykService.getSeatsOfProduct(this.data.id, x.startDate, x.endDate),
         startDate: x.startDate,
         endDate: x.endDate,
-        total_price: 0
+        total_price: this.koszykService.getTotalOrderItemPrice(this.data.id, x.startDate, x.endDate)
       }) 
     })
    
@@ -61,24 +64,20 @@ export class WycieczkaDetailsComponent implements OnInit {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-
-  getColor(){
-    this.wycieczkiService.getAvailableColor(this.data);
-  }
   
   reserveSeat(){
-    this.wycieczkiService.reserveSeat(this.data); 
+    this.wycieczkiService.reserveSeat(this.data, this.rangeValue.id); 
     this.koszykService.addToCart(this.data, this.rangeValue.startDate, this.rangeValue.endDate);
     this.seats_taken.forEach(x=>{
-      this.koszykService.getSeatsOfProduct(x.wycieczka.id, x.startDate, x.endDate);
+      x.quantity = this.koszykService.getSeatsOfProduct(x.wycieczka.id, x.startDate, x.endDate);
     })
   }
 
   freeSeat(){
-    this.wycieczkiService.freeSeat(this.data);  
+    this.wycieczkiService.freeSeat(this.data, this.rangeValue.id);  
     this.koszykService.freeFromCart(this.data);
     this.seats_taken.forEach(x=>{
-      this.koszykService.getSeatsOfProduct(x.wycieczka.id, x.startDate, x.endDate);
+      x.quantity = this.koszykService.getSeatsOfProduct(x.wycieczka.id, x.startDate, x.endDate);
     })
   }
 

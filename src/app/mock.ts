@@ -12,7 +12,7 @@ export const Wycieczki: WycieczkaData[] = [
         image_url: './assets/01.png',
         price: 1000,
         currency: "PLN",
-        seats: 20,
+        // seats: 20,
         avaible_seats: 20,
         plus_show: true,
         minus_show: false,

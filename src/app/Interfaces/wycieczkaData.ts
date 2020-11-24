@@ -6,7 +6,7 @@ export interface WycieczkaData{
     endDate: Date;
     price: number;
     currency: string;
-    seats: number;
+    seats?: number;
     description: string;
     image_url: string;
     avaible_seats: number;
@@ -17,6 +17,7 @@ export interface WycieczkaData{
     gallery?: string[];
     comments?: Comment[]
     cyclic?: Cyclic;
+    seats_taken?: number[];
 };
 
 export interface Comment{

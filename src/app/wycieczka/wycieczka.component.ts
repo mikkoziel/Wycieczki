@@ -28,19 +28,19 @@ export class WycieczkaComponent implements OnInit {
     this.deleteWycieczkaEmmiter.emit(this.data);
   }
 
-  reserveSeat(){
-    this.wycieczkiService.reserveSeat(this.data);    
-    this.koszykService.addToCart(this.data, this.data.startDate, this.data.endDate);
-  }
+  // reserveSeat(){
+  //   this.wycieczkiService.reserveSeat(this.data);    
+  //   this.koszykService.addToCart(this.data, this.data.startDate, this.data.endDate);
+  // }
 
-  freeSeat(){
-    this.wycieczkiService.freeSeat(this.data);  
-    this.koszykService.freeFromCart(this.data);
-  }
+  // freeSeat(){
+  //   this.wycieczkiService.freeSeat(this.data);  
+  //   this.koszykService.freeFromCart(this.data);
+  // }
 
-  getColor(){
-    this.wycieczkiService.getAvailableColor(this.data);
-  }
+  // getColor(){
+  //   this.wycieczkiService.getAvailableColor(this.data);
+  // }
 
 
 }
