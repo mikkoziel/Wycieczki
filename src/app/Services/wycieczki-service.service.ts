@@ -37,16 +37,17 @@ export class WycieczkiServiceService {
   
   constructor(private http:HttpClient) { 
     this.wycieczki = this.getProducts();
-    // this.minPriceFilter = this.getMinPrice();
-    // this.maxPriceFilter = this.getMaxPrice();
-    // this.startDateFilter = this.getMinStartDate();
-    // this.endDateFilter = this.getMaxEndDate();
   }
 
   getProducts(): Observable<WycieczkaData[]>{
     return this.http.get<WycieczkaData[]>(this.wycieczkiApiUrl)
     .pipe(
-      tap(_ => console.log('fetched wycieczki')),
+      tap(_ => {console.log('fetched wycieczki');
+      this.minPriceFilter = this.getMinPrice();
+      this.maxPriceFilter = this.getMaxPrice();
+      this.startDateFilter = this.getMinStartDate();
+      this.endDateFilter = this.getMaxEndDate()
+    }),
       catchError(this.handleError<WycieczkaData[]>('getWycieczki', []))
     );
   }
@@ -89,69 +90,35 @@ export class WycieczkiServiceService {
     };
   }
   
-
-  // getProducts(): WycieczkaData[]{
-  //   return this.wycieczki;
-  // }
-
-
-  // getProduct(id: number): WycieczkaData | undefined{
-  //   return this.wycieczki.find(wycieczka => wycieczka.id === id);
-  // }
-
-  // addProduct(wycieczkaADD: WycieczkaData): WycieczkaData[] {
-  //   wycieczkaADD.id = this.wycieczki[this.wycieczki.length - 1].id + 1 ;
-  //   this.wycieczki.push(wycieczkaADD);
-  //   return this.getProducts();
-  // }
-
-  // deleteProduct(wycieczkaDEL: WycieczkaData): WycieczkaData[]{
-  //   this.wycieczki = this.wycieczki.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
-  //   return this.getProducts();
-  // }
-
   reserveSeat(wycieczkaRES: WycieczkaData, id: number){
-    // this.wycieczki.forEach(obj=>{
-      // if(obj.id == wycieczkaRES.id){
-        wycieczkaRES.seats_taken[id] = wycieczkaRES.seats_taken[id] + 1;
+    wycieczkaRES.seats_taken[id] = wycieczkaRES.seats_taken[id] + 1;
 
-        if(wycieczkaRES.avaible_seats != wycieczkaRES.seats_taken[id]){
-          wycieczkaRES.minus_show = true;
-        }
-        if(wycieczkaRES.seats_taken[id] == 0){
-          wycieczkaRES.plus_show = false;
-        }
-        this.updateProduct(wycieczkaRES);
-      // }
-    // })
+    if(wycieczkaRES.avaible_seats != wycieczkaRES.seats_taken[id]){
+      wycieczkaRES.minus_show = true;
+    }
+    if(wycieczkaRES.seats_taken[id] == 0){
+      wycieczkaRES.plus_show = false;
+    }
+    this.updateProduct(wycieczkaRES);
   }
 
   freeSeat(wycieczkaFREE: WycieczkaData, id:number){
-    // this.wycieczki.forEach(obj=>{
-      // if(obj.id == wycieczkaFREE.id){
-        wycieczkaFREE.seats_taken[id] = wycieczkaFREE.seats_taken[id] - 1;
-        if(wycieczkaFREE.avaible_seats == wycieczkaFREE.seats_taken[id]){
-          wycieczkaFREE.minus_show = false;
-        }      
-        if(wycieczkaFREE.seats_taken[id] != 0){
-          wycieczkaFREE.plus_show = true;
-        }
-        this.updateProduct(wycieczkaFREE);
-      // }
-    // })
+    wycieczkaFREE.seats_taken[id] = wycieczkaFREE.seats_taken[id] - 1;
+    if(wycieczkaFREE.avaible_seats == wycieczkaFREE.seats_taken[id]){
+      wycieczkaFREE.minus_show = false;
+    }      
+    if(wycieczkaFREE.seats_taken[id] != 0){
+      wycieczkaFREE.plus_show = true;
+    }
+    this.updateProduct(wycieczkaFREE);
   }
 
   addComment(wycieczkaCOM: WycieczkaData, author:string, comment:string){
-    // this.wycieczki.forEach(obj=>{
-      // if(obj.id == wycieczkaCOM.id){
-        wycieczkaCOM.comments.push({
-          author: author,
-          comment: comment
-        })
-        this.updateProduct(wycieczkaCOM);
-        // console.log(wycieczkaCOM.comments)
-      // }
-    // })
+    wycieczkaCOM.comments.push({
+      author: author,
+      comment: comment
+    })
+    this.updateProduct(wycieczkaCOM);
   }
 
   // getAvailableColor(wycieczkaCOL: WycieczkaData){
@@ -164,45 +131,78 @@ export class WycieczkiServiceService {
 
   // }
 
-  // getMaxPrice(){
-    // return Math.max.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
-  // }
+  getMaxPrice(){
+    var maxPrice = this.wycieczki[0].price;
+    this.wycieczki.pipe(map(wyc=> wyc.map(x => {
+      if(x.price > maxPrice){
+        maxPrice = x.price;
+      }
+    })));
+    return maxPrice;
+  }
 
-  // getMinPrice(){
-  //   this.wycieczki.pipe(
-  //     min((a:WycieczkaData, b) => a.price < b.price ? -1:1)
-  //     ).subscribe((x: WycieczkaData)=>this.minPriceFilter =x.price);
+  getMinPrice(){
+    var minPrice = this.wycieczki[0].price;
+    this.wycieczki.pipe(map(wyc=> wyc.map(x => {
+      if(x.price < minPrice){
+        minPrice = x.price;
+      }
+    })));
+    return minPrice;
+  }
+
+  getMinStartDate(){
+    var earliestDate = this.wycieczki[0].startDate;
+    this.wycieczki.pipe(map(wyc=> wyc.map(x => {
+      if(x.startDate.getTime() < earliestDate.getTime()){
+        earliestDate = x.startDate;
+      }
+    })));
+
+    return earliestDate;
+  }
   
-  //   return Math.min.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
-  // }
-
-  // getMinStartDate(){
-  //   var earliestDate = this.wycieczki[0].startDate;
-  //   this.wycieczki.forEach(obj => {
-  //     if(obj.startDate.getTime() < earliestDate.getTime()){
-  //       earliestDate = obj.startDate;
-  //     }
-  //   })
-  //   return earliestDate;
-  // }
+  getMaxEndDate(){
+    var latestDate = this.wycieczki[0].endDate;
+    this.wycieczki.pipe(map(wyc=> wyc.map(x => {
+      if(x.endDate.getTime() > latestDate.getTime()){
+        latestDate = x.endDate;
+      }
+    })));
+    return latestDate;
+  }
   
-  // getMaxEndDate(){
-  //   var latestDate = this.wycieczki[0].endDate;
-  //   this.wycieczki.forEach(obj => {
-  //     if(obj.endDate.getTime() > latestDate.getTime()){
-  //       latestDate = obj.endDate;
-  //     }
-  //   })
-  //   return latestDate;
-  // }
+  getAllSeats(){
+    var allSeats = 0;
+    this.wycieczki.pipe(map(wyc=> wyc.map(x => {
+      if(x.cyclic){
+        allSeats += x.cyclic.long*x.avaible_seats;
+      } else{
+        allSeats += x.avaible_seats;
+      }
+    })));
+    return allSeats;
+  }
 
-  // getCountries(){
-  //   var country_arr = [];
-  //   this.wycieczki.pipe(
-  //     map(wycieczka=> wycieczka.map(x => x.country))
-  //     .subscribe()
-  //   return [...new Set(country_arr)];
-  // }
+  getAllSeatsTaken(){
+    var allSeatsTaken = 0;
+    this.wycieczki.pipe(map(wyc=> wyc.map(x => {
+      x.seats_taken.forEach(a=> allSeatsTaken += a)
+    })));
+    return allSeatsTaken;
+  }
+
+  getAllAvailableSeats(){
+    return this.getAllSeats() - this.getAllSeatsTaken();
+  }
+
+  getCountries(){
+    var country_arr = [];
+    this.wycieczki.pipe(map(wyc=> wyc.map(x => {
+      country_arr.push(x.country)
+    })));
+    return [...new Set(country_arr)];
+  }
 
   updatePriceMin(value: number){
     this.minPriceFilter = value;
@@ -214,22 +214,22 @@ export class WycieczkiServiceService {
     this.maxPriceChange.next(this.maxPriceFilter);
   }
 
-  // updateDateRange(startDate: Moment, endDate: Moment){
-  //   if(startDate == null){
-  //     this.startDateFilter = this.getMinStartDate();
-  //   }else{
-  //     this.startDateFilter = startDate.toDate();
-  //   }
-  //   console.log(this.startDateFilter)
-  //   this.startDateChange.next(this.startDateFilter);
+  updateDateRange(startDate: Moment, endDate: Moment){
+    if(startDate == null){
+      this.startDateFilter = this.getMinStartDate();
+    }else{
+      this.startDateFilter = startDate.toDate();
+    }
+    console.log(this.startDateFilter)
+    this.startDateChange.next(this.startDateFilter);
     
-  //   if(endDate == null){
-  //     this.startDateFilter = this.getMaxEndDate();
-  //   } else {
-  //     this.endDateFilter = endDate.toDate();
-  //   }
-  //   this.endDateChange.next(this.endDateFilter);
-  // }
+    if(endDate == null){
+      this.startDateFilter = this.getMaxEndDate();
+    } else {
+      this.endDateFilter = endDate.toDate();
+    }
+    this.endDateChange.next(this.endDateFilter);
+  }
 
   updateCountries(countries: String[]){
     this.countriesFilter = countries;
