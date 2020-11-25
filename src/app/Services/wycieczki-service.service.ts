@@ -12,6 +12,7 @@ import { MaxPriceProductPipe } from '../Pipes/max-price-product.pipe';
 
 
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/json' }) };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -54,6 +55,7 @@ export class WycieczkiServiceService {
     const wycieczkaApiUrl = `api/wycieczki/${id}`;
     return this.http.get<WycieczkaData>(wycieczkaApiUrl).pipe(
       map(x => { return this.initSeatsTakenWycieczka(x)}),
+      map(x => { return this.convertDates(x) }),
       tap(_ => console.log(`fetched wycieczka id=${id}`)),
       catchError(this.handleError<WycieczkaData>(`getProduct id=${id}`))
     );    
@@ -64,7 +66,7 @@ export class WycieczkiServiceService {
     return this.http.put(url, wycieczkaUPD, httpOptions);
   }
 
-  postProduct(wycieczkaPOST: WycieczkaData): Observable<WycieczkaData>{
+  addProduct(wycieczkaPOST: WycieczkaData): Observable<WycieczkaData>{
     return this.http.post<WycieczkaData>(this.wycieczkiApiUrl, wycieczkaPOST);
   }
 
@@ -81,14 +83,8 @@ export class WycieczkiServiceService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-  
-      // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-  
-      // TODO: better job of transforming error for user consumption
       console.log(`${operation} failed: ${error.message}`);
-  
-      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
@@ -201,7 +197,11 @@ export class WycieczkiServiceService {
   // }
 
   // getCountries(){
-  //   return [...new Set(this.wycieczki.map(wycieczka => wycieczka.country))];
+  //   var country_arr = [];
+  //   this.wycieczki.pipe(
+  //     map(wycieczka=> wycieczka.map(x => x.country))
+  //     .subscribe()
+  //   return [...new Set(country_arr)];
   // }
 
   updatePriceMin(value: number){
@@ -250,6 +250,16 @@ export class WycieczkiServiceService {
       long = 1;
     }
     x.seats_taken = this.fillArray(0, long);
+    return x;
+  }
+  
+  convertDates(x:WycieczkaData): WycieczkaData{
+    if(!(x.startDate instanceof Date )){
+      x.startDate = new Date(x.startDate);
+    }
+    if(!(x.endDate instanceof Date )){
+      x.endDate = new Date(x.endDate);
+    }
     return x;
   }
 

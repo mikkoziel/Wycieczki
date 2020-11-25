@@ -7,6 +7,7 @@ import { WycieczkaData } from '../Interfaces/wycieczkaData';
 import { KoszykService } from '../Services/koszyk.service';
 import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
 import { DateRange, Order } from '../Interfaces/order';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-wycieczka-details',
@@ -40,14 +41,13 @@ export class WycieczkaDetailsComponent implements OnInit {
               endDate: this.data.endDate
             }
             if(this.data.cyclic){
-              // var cyclic = this.data.cyclic;
               this.rangeDates = new Array(this.data.cyclic.long).fill(null).map((_, i) => {
                 return <DateRange>{
                   id: i,
-                  startDate:add(this.rangeValue.startDate, { days: i*this.data.cyclic.days, 
+                  startDate:add(this.data.startDate, { days: i*this.data.cyclic.days, 
                                                               weeks: i*this.data.cyclic.weeks, 
                                                               months: i*this.data.cyclic.months}),
-                  endDate: add(this.rangeValue.endDate, { days: i*this.data.cyclic.days, 
+                  endDate: add(this.data.endDate, { days: i*this.data.cyclic.days, 
                                                               weeks: i*this.data.cyclic.weeks, 
                                                               months: i*this.data.cyclic.months})
                 }

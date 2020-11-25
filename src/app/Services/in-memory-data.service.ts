@@ -8,7 +8,8 @@ import { Wycieczki } from '../mock';
 export class InMemoryDataService implements InMemoryDbService{
   createDb() {
     const wycieczki = [...Wycieczki];
-    return {wycieczki};
+    const koszyk = [];
+    return {wycieczki, koszyk};
   }
 
   constructor() {

@@ -74,7 +74,9 @@ export class ListaWycieczekComponent implements OnInit {
 
   getWycieczki(): void {
     this.WycieczkiService.getProducts()
-          .subscribe(wycieczki =>this.ListaWycieczek = wycieczki);
+          .subscribe(wycieczki =>{this.ListaWycieczek = wycieczki;
+            // this.convertDates();
+            console.log(this.ListaWycieczek[0].startDate instanceof Date)});
   }
 
   showWycieczki(){
@@ -82,10 +84,6 @@ export class ListaWycieczekComponent implements OnInit {
           .subscribe(wycieczki =>console.log(wycieczki));
     console.log(this.WycieczkiService.getProduct(0));
   }
-
-  // addWycieczka(wycieczkaADD: WycieczkaData){
-  //   this.ListaWycieczek = this.WycieczkiService.addProduct(wycieczkaADD);
-  // }
 
   getBorder(wycieczka: WycieczkaData){
     // if(wycieczka.price == this.getMaxPrice()){

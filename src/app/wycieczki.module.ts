@@ -87,7 +87,6 @@ import { CountryFilterPipe } from './Pipes/country-filter.pipe';
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, 
       { dataEncapsulation: false }),
-
   ],
   exports:[
     MatSliderModule,
