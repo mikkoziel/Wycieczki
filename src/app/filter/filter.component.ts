@@ -64,19 +64,19 @@ export class FilterComponent implements OnInit {
   constructor(private wycieczkiService: WycieczkiServiceService) { }
 
   ngOnInit(): void {
-    this.minPrice = this.wycieczkiService.getMinPrice();
+    // this.minPrice = this.wycieczkiService.getMinPrice();
     this.minValuePrice = this.minPrice;
-    this.maxPrice = this.wycieczkiService.getMaxPrice();
+    // this.maxPrice = this.wycieczkiService.getMaxPrice();
     this.maxValuePrice = this.maxPrice;
-    this.range.controls.start.setValue(this.wycieczkiService.getMinStartDate());
-    this.range.controls.end.setValue(this.wycieczkiService.getMaxEndDate());
-    this.countries = this.wycieczkiService.getCountries();
-    this.countryFilter.countriesBoxes = this.wycieczkiService.getCountries().map(country => {
-      return <CountryFilter> {
-        name: country,
-        checked: true
-      };
-    })
+    // this.range.controls.start.setValue(this.wycieczkiService.getMinStartDate());
+    // this.range.controls.end.setValue(this.wycieczkiService.getMaxEndDate());
+    // this.countries = this.wycieczkiService.getCountries();
+    // this.countryFilter.countriesBoxes = this.wycieczkiService.getCountries().map(country => {
+    //   return <CountryFilter> {
+    //     name: country,
+    //     checked: true
+    //   };
+    // })
   }
 
   getMinPriceFilter(event: any) {
@@ -94,23 +94,23 @@ export class FilterComponent implements OnInit {
   }
 
   onSubmit(){
-    this.wycieczkiService.updatePriceMin(this.minValuePrice);
-    this.wycieczkiService.updatePriceMax(this.maxValuePrice);
-    this.wycieczkiService.updateDateRange(this.range.controls.start.value, this.range.controls.end.value);
-    this.wycieczkiService.updateCountries(this.countryFilter.countriesBoxes.reduce(function(filtered, option) {
-      if(option.checked){
-        filtered.push(option.name);
-      }
-      return filtered;      
-    }, []));
-    console.log("Submit");
+    // this.wycieczkiService.updatePriceMin(this.minValuePrice);
+    // this.wycieczkiService.updatePriceMax(this.maxValuePrice);
+    // // this.wycieczkiService.updateDateRange(this.range.controls.start.value, this.range.controls.end.value);
+    // this.wycieczkiService.updateCountries(this.countryFilter.countriesBoxes.reduce(function(filtered, option) {
+    //   if(option.checked){
+    //     filtered.push(option.name);
+    //   }
+    //   return filtered;      
+    // }, []));
+    // console.log("Submit");
   }
 
   clearFilters(){
     this.minValuePrice = this.minPrice;
     this.maxValuePrice = this.maxPrice;
-    this.range.controls.start.setValue(this.wycieczkiService.getMinStartDate());
-    this.range.controls.end.setValue(this.wycieczkiService.getMaxEndDate());
+    // this.range.controls.start.setValue(this.wycieczkiService.getMinStartDate());
+    // this.range.controls.end.setValue(this.wycieczkiService.getMaxEndDate());
     this.countryFilter.countriesBoxes.forEach(obj =>
       obj.checked = true
     )

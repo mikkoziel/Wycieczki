@@ -4,6 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './Services/in-memory-data.service';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -80,6 +83,11 @@ import { CountryFilterPipe } from './Pipes/country-filter.pipe';
     FormsModule,
     MatSelectModule,
     MatTabsModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, 
+      { dataEncapsulation: false }),
+
   ],
   exports:[
     MatSliderModule,

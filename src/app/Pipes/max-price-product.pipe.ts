@@ -5,9 +5,11 @@ import { WycieczkaData } from '../Interfaces/wycieczkaData';
   name: 'maxPriceProduct'
 })
 export class MaxPriceProductPipe implements PipeTransform {
-
-  transform(products: WycieczkaData[], maxPrice: number): WycieczkaData[] {
-    return products.filter(product => product.price <= maxPrice);
+  transform(value: any, ...args: any[]) {
+    // throw new Error('Method not implemented.');
   }
+  // transform(products: WycieczkaData[], maxPrice: number): WycieczkaData[] {
+  //   return products.filter(product => product.price <= maxPrice);
+  // }
 
 }

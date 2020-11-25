@@ -1,20 +1,15 @@
 <div id="wyci">
+    <button type="button" (click)="showWycieczki()">Wycieczki</button>
     <app-wycieczka  
-        *ngFor="let wycieczka of (ListaWycieczek | 
-        minPriceProduct: minPrice | 
-        maxPriceProduct: maxPrice |
-        countryFilter: countries |
-        startDatePipe: startDate |
-        endDatePipe: endDate
-        )" 
+        *ngFor="let wycieczka of ListaWycieczek"
         [data]=wycieczka 
         (deleteWycieczkaEmmiter)="deleteWycieczka($event)"
         id="wycieczka-box" 
         [ngStyle]="{'border': getBorder(wycieczka)}" >
     </app-wycieczka>
     <br />
-    <div id="reserved" [ngStyle]="{'background-color': getReservedColor()}">
+    <!-- <div id="reserved" [ngStyle]="{'background-color': getReservedColor()}">
         Reserved Seats: {{ getReservedSeats() }}
-    </div>
+    </div> -->
 </div>
 

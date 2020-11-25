@@ -60,7 +60,7 @@ export class NewWycieczkaComponent implements OnInit {
         rating_count: 0,
       }
       console.log(wycieczka);
-      this.wycieczkiService.addProduct(wycieczka);
+      // this.wycieczkiService.addProduct(wycieczka);
     }
     else{
       this.getFormValidationErrors();

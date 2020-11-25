@@ -15,7 +15,7 @@ export class WycieczkiComponent implements OnInit{
   title = 'Projekt';
   
   constructor(private WycieczkiService: WycieczkiServiceService) {
-    this.WycieczkiService.initSeatsTaken();
+    
   };
 
   ngOnInit(): void {

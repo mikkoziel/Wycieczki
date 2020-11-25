@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { add } from 'date-fns';
+import { add, parseISO } from 'date-fns';
 
 import { WycieczkaData } from '../Interfaces/wycieczkaData';
 import { KoszykService } from '../Services/koszyk.service';
@@ -31,34 +31,40 @@ export class WycieczkaDetailsComponent implements OnInit {
   ngOnInit(): void {     
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      this.data = this.wycieczkiService.getProduct(this.id);
+      this.wycieczkiService.getProduct(this.id)
+          .subscribe(product=>{
+            this.data = product;
+            this.rangeValue = {
+              id: 0,
+              startDate: this.data.startDate,
+              endDate: this.data.endDate
+            }
+            if(this.data.cyclic){
+              // var cyclic = this.data.cyclic;
+              this.rangeDates = new Array(this.data.cyclic.long).fill(null).map((_, i) => {
+                return <DateRange>{
+                  id: i,
+                  startDate:add(this.rangeValue.startDate, { days: i*this.data.cyclic.days, 
+                                                              weeks: i*this.data.cyclic.weeks, 
+                                                              months: i*this.data.cyclic.months}),
+                  endDate: add(this.rangeValue.endDate, { days: i*this.data.cyclic.days, 
+                                                              weeks: i*this.data.cyclic.weeks, 
+                                                              months: i*this.data.cyclic.months})
+                }
+              })
+            }
+            this.seats_taken = [];
+            this.rangeDates.forEach(x=>{
+              this.seats_taken.push({
+                wycieczka: this.data,
+                quantity: this.koszykService.getSeatsOfProduct(this.data.id, x.startDate, x.endDate),
+                startDate: x.startDate,
+                endDate: x.endDate,
+                total_price: this.koszykService.getTotalOrderItemPrice(this.data.id, x.startDate, x.endDate)
+              }) 
+            })
+          });
     });
-    this.rangeValue = {
-      id: 0,
-      startDate: this.data.startDate,
-      endDate: this.data.endDate
-    }
-    if(this.data.cyclic){
-      var cyclic = this.data.cyclic;
-      this.rangeDates = new Array(cyclic.long).fill(null).map((_, i) => {
-        return <DateRange>{
-          id: i,
-          startDate:add(this.rangeValue.startDate, { days:cyclic.days*i, weeks:cyclic.weeks*i, months:cyclic.months*i}),
-          endDate: add(this.rangeValue.endDate, { days:cyclic.days*i, weeks:cyclic.weeks*i, months:cyclic.months*i})
-        }
-      })
-    }
-    this.seats_taken = [];
-    this.rangeDates.forEach(x=>{
-      this.seats_taken.push({
-        wycieczka: this.data,
-        quantity: this.koszykService.getSeatsOfProduct(this.data.id, x.startDate, x.endDate),
-        startDate: x.startDate,
-        endDate: x.endDate,
-        total_price: this.koszykService.getTotalOrderItemPrice(this.data.id, x.startDate, x.endDate)
-      }) 
-    })
-   
   }
 
   ngOnDestroy() {
