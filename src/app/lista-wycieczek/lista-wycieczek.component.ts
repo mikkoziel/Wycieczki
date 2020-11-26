@@ -42,7 +42,7 @@ export class ListaWycieczekComponent implements OnInit {
   getWycieczki(): void {
     this.WycieczkiService.getProducts()
           .subscribe(wycieczki =>{this.ListaWycieczek = wycieczki;
-            this.initSubscriptions()});
+            this.initSubscriptions(wycieczki)});
   }
   
   deleteWycieczka(wycieczkaDEL: WycieczkaData){
@@ -50,48 +50,48 @@ export class ListaWycieczekComponent implements OnInit {
     this.WycieczkiService.removeProduct(wycieczkaDEL).subscribe();
   }
 
-  initSubscriptions(){
-    this.minPrice = this.WycieczkiService.getMinPrice();
+  initSubscriptions(wycieczki: WycieczkaData[]){
+    this.minPrice = this.WycieczkiService.getMinPriceObject(wycieczki);
     this.minPrice_subscription = this.WycieczkiService.minPriceChange.subscribe((value) => {
       this.minPrice = value;
     });
-    this.maxPrice = this.WycieczkiService.getMaxPrice();
+    this.maxPrice = this.WycieczkiService.getMaxPriceObject(wycieczki);
     this.maxPrice_subscription = this.WycieczkiService.maxPriceChange.subscribe((value) => {
       this.maxPrice = value;
     });
-    this.startDate = this.WycieczkiService.getMinStartDate();
+    this.startDate = this.WycieczkiService.getMinStartDateObject(wycieczki);
     this.startDate_subscription = this.WycieczkiService.startDateChange.subscribe((value) => {
       this.startDate = value;
     });
-    this.endDate = this.WycieczkiService.getMaxEndDate();
+    this.endDate = this.WycieczkiService.getMaxEndDateObject(wycieczki);
     this.endDate_subscription = this.WycieczkiService.endDateChange.subscribe((value) => {
       this.endDate = value;
     });
-    this.countries = this.WycieczkiService.getCountries();
+    this.countries = this.WycieczkiService.getCountriesObject(wycieczki);
     this.countries_subscription = this.WycieczkiService.countriesChange.subscribe((value) => {
       this.countries = value;
     });
   }
 
   getBorder(wycieczka: WycieczkaData){
-    if(wycieczka.price == this.getMaxPrice()){
-      return "5px solid green";
-    }
-    else if(wycieczka.price == this.getMinPrice()){
-      return "5px solid red";
-    }
-    else{
+    // if(wycieczka.price == this.getMaxPrice()){
+    //   return "5px solid green";
+    // }
+    // else if(wycieczka.price == this.getMinPrice()){
+    //   return "5px solid red";
+    // }
+    // else{
       return "1px solid black";
-    }
+    // }
   }
 
-  getMaxPrice(){
-    return this.WycieczkiService.getMaxPrice();
-  }
+  // getMaxPrice(){
+  //   return this.WycieczkiService.getMaxPrice();
+  // }
 
-  getMinPrice(){
-    return this.WycieczkiService.getMinPrice();
-  }
+  // getMinPrice(){
+  //   return this.WycieczkiService.getMinPrice();
+  // }
    
   getReservedSeats(){
     return this.WycieczkiService.getAllSeatsTaken();
