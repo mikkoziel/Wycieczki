@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { KoszykService } from '../Services/koszyk.service';
+import { KoszykService } from '../services/koszyk.service';
 
 @Component({
   selector: 'app-koszyk-main',

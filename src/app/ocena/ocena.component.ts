@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WycieczkaData } from '../Interfaces/wycieczkaData';
+import { WycieczkaData } from '../interfaces/wycieczkaData';
 
 @Component({
   selector: 'app-ocena',

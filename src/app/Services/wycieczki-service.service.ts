@@ -1,14 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Wycieczki } from '../mock';
-import { WycieczkaData } from '../Interfaces/wycieczkaData'
-import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Observable, Subject, of } from 'rxjs';
+import { catchError, map, tap, min } from 'rxjs/operators';
+
 import { Moment } from 'moment';
+
+import { Wycieczki } from '../mock';
+import { WycieczkaData } from '../interfaces/wycieczkaData'
+import { MaxPriceProductPipe } from '../pipes/max-price-product.pipe';
+
+
+const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/json' }) };
 
 @Injectable({
   providedIn: 'root'
 })
 export class WycieczkiServiceService {
-  wycieczki = [...Wycieczki];
+  private wycieczkiApiUrl = "api/wycieczki";
+
+  minPrice: number;
+  maxPrice:number;
+  startDate: Date;
+  endDate: Date;
+  countries: String[];
+
+  minPriceChange: Subject<number> = new Subject<number>();
+  maxPriceChange: Subject<number> = new Subject<number>();
+  startDateChange: Subject<Date> = new Subject<Date>();
+  endDateChange: Subject<Date> = new Subject<Date>();
+  countriesChange: Subject<String[]> = new Subject<String[]>();
 
   minPriceFilter: number;
   maxPriceFilter:number;
@@ -16,77 +37,94 @@ export class WycieczkiServiceService {
   endDateFilter: Date;
   countriesFilter: String[];
 
-  minPriceChange: Subject<number> = new Subject<number>();
-  maxPriceChange: Subject<number> = new Subject<number>();
-  startDateChange: Subject<Date> = new Subject<Date>();
-  endDateChange: Subject<Date> = new Subject<Date>();
-  countriesChange: Subject<String[]> = new Subject<String[]>();
+  minPriceFilterChange: Subject<number> = new Subject<number>();
+  maxPriceFilterChange: Subject<number> = new Subject<number>();
+  startDateFilterChange: Subject<Date> = new Subject<Date>();
+  endDateFilterChange: Subject<Date> = new Subject<Date>();
+  countriesFilterChange: Subject<String[]> = new Subject<String[]>();
   
-  constructor() { 
-    this.minPriceFilter = this.getMinPrice();
-    this.maxPriceFilter = this.getMaxPrice();
-    this.startDateFilter = this.getMinStartDate();
-    this.endDateFilter = this.getMaxEndDate();
+  constructor(private http:HttpClient) { 
   }
 
-  getProducts(): WycieczkaData[]{
-    return this.wycieczki;
+  getProducts(): Observable<WycieczkaData[]>{
+    return this.http.get<WycieczkaData[]>(this.wycieczkiApiUrl)
+    .pipe(
+      tap(_ => {console.log('fetched wycieczki');}),
+      map(x => { return this.convertDatesForArray(x) }),
+      catchError(this.handleError<WycieczkaData[]>('getWycieczki', []))
+    );
   }
 
-  getProduct(id: number): WycieczkaData | undefined{
-    return this.wycieczki.find(wycieczka => wycieczka.id === id);
+  getProduct(id: number): Observable<WycieczkaData>{
+    const wycieczkaApiUrl = `api/wycieczki/${id}`;
+    return this.http.get<WycieczkaData>(wycieczkaApiUrl).pipe(
+      map(x => { return this.initSeatsTakenWycieczka(x)}),
+      map(x => { return this.convertDates(x) }),
+      tap(_ => console.log(`fetched wycieczka id=${id}`)),
+      catchError(this.handleError<WycieczkaData>(`getProduct id=${id}`))
+    );    
   }
 
-  addProduct(wycieczkaADD: WycieczkaData): WycieczkaData[] {
-    wycieczkaADD.id = this.wycieczki[this.wycieczki.length - 1].id + 1 ;
-    this.wycieczki.push(wycieczkaADD);
-    return this.getProducts();
+  updateProduct(wycieczkaUPD: WycieczkaData): Observable<any>{
+    const url = `${this.wycieczkiApiUrl}/${wycieczkaUPD.id}`;
+    return this.http.put(url, wycieczkaUPD, httpOptions);
   }
 
-  deleteProduct(wycieczkaDEL: WycieczkaData): WycieczkaData[]{
-    this.wycieczki = this.wycieczki.filter(wycieczka => wycieczka.id !== wycieczkaDEL.id);
-    return this.getProducts();
+  addProduct(wycieczkaPOST: WycieczkaData): Observable<WycieczkaData>{
+    return this.http.post<WycieczkaData>(this.wycieczkiApiUrl, wycieczkaPOST);
   }
 
+  removeProduct(product: WycieczkaData | number): Observable<WycieczkaData>{
+    const id = typeof product === 'number' ? product:product.id;
+    const url = `${this.wycieczkiApiUrl}/${id}`;
+
+    return this.http.delete<WycieczkaData>(url, httpOptions).pipe(
+
+      tap(_=> console.log(`deleted Wycieczka id=${id}`)),
+      catchError(this.handleError<WycieczkaData>('deleteProduct'))
+    );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
+  
   reserveSeat(wycieczkaRES: WycieczkaData, id: number){
-    this.wycieczki.forEach(obj=>{
-      if(obj.id == wycieczkaRES.id){
-        obj.seats_taken[id] = obj.seats_taken[id] - 1;
+    wycieczkaRES.seats_taken[id] = wycieczkaRES.seats_taken[id] + 1;
 
-        if(obj.avaible_seats != obj.seats_taken[id]){
-          obj.minus_show = true;
-        }
-        if(obj.seats_taken[id] == 0){
-          obj.plus_show = false;
-        }
-      }
-    })
+    if(wycieczkaRES.avaible_seats != wycieczkaRES.seats_taken[id]){
+      wycieczkaRES.minus_show = true;
+    }
+    if(wycieczkaRES.seats_taken[id] == 0){
+      wycieczkaRES.plus_show = false;
+    }
+    this.updateProduct(wycieczkaRES);
   }
 
   freeSeat(wycieczkaFREE: WycieczkaData, id:number){
-    this.wycieczki.forEach(obj=>{
-      if(obj.id == wycieczkaFREE.id){
-        obj.seats_taken[id] = obj.seats_taken[id] + 1;
-        if(obj.avaible_seats == obj.seats_taken[id]){
-          obj.minus_show = false;
-        }      
-        if(obj.seats_taken[id] != 0){
-          obj.plus_show = true;
-        }
-      }
-    })
+    wycieczkaFREE.seats_taken[id] = wycieczkaFREE.seats_taken[id] - 1;
+    if(wycieczkaFREE.avaible_seats == wycieczkaFREE.seats_taken[id]){
+      wycieczkaFREE.minus_show = false;
+    }      
+    if(wycieczkaFREE.seats_taken[id] != 0){
+      wycieczkaFREE.plus_show = true;
+    }
+    this.updateProduct(wycieczkaFREE);
   }
 
   addComment(wycieczkaCOM: WycieczkaData, author:string, comment:string){
-    this.wycieczki.forEach(obj=>{
-      if(obj.id == wycieczkaCOM.id){
-        obj.comments.push({
-          author: author,
-          comment: comment
-        })
-        console.log(obj.comments)
-      }
+    if(!wycieczkaCOM.comments){
+      wycieczkaCOM.comments = [];
+    }
+    wycieczkaCOM.comments.push({
+      author: author,
+      comment: comment
     })
+    this.updateProduct(wycieczkaCOM);
   }
 
   // getAvailableColor(wycieczkaCOL: WycieczkaData){
@@ -99,80 +137,210 @@ export class WycieczkiServiceService {
 
   // }
 
-  getMaxPrice(){
-    return Math.max.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
-  }
+  // getMaxPrice(){
+  //   var maxPrice = 0;
+  //   this.getProducts()
+  //       .subscribe(wycieczki =>{
+  //         wycieczki.forEach(x=>{
+  //           if(x.price > maxPrice){
+  //             maxPrice = x.price;
+  //           }
+  //         })
+  //       });
+  //   return maxPrice;
+  // }
 
-  getMinPrice(){
-    return Math.min.apply(Math, this.wycieczki.map(function(o) { return o.price; }))
-  }
-
-  getMinStartDate(){
-    var earliestDate = this.wycieczki[0].startDate;
-    this.wycieczki.forEach(obj => {
-      if(obj.startDate.getTime() < earliestDate.getTime()){
-        earliestDate = obj.startDate;
+  getMaxPriceObject(wycieczki: WycieczkaData[]){
+    var maxPrice = 0;
+    wycieczki.forEach(x=>{
+      if(x.price > maxPrice){
+        maxPrice = x.price;
       }
     })
-    return earliestDate;
+    this.updateMaxPrice(maxPrice);
+    this.updateMaxPriceFilter(maxPrice);
+    return maxPrice;
+  }
+
+  // getMinPrice(){    
+  //   var minPrice: number;
+  //   console.log(minPrice);
+  //   this.getProducts()
+  //     .subscribe(wycieczki =>{
+  //       wycieczki.forEach(x=>{
+  //         console.log("minPrice")
+  //         if(x.price == undefined || x.price < minPrice){ 
+  //           minPrice = x.price;
+  //         }
+  //       })
+  //     });
+  //   return minPrice;
+  // }
+
+  getMinPriceObject(wycieczki: WycieczkaData[]){    
+    var minPrice = wycieczki[0].price;
+    wycieczki.forEach(x=>{
+      if(x.price < minPrice){
+        minPrice = x.price;
+      }
+    })
+    this.updateMinPrice(minPrice);
+    this.updateMinPriceFilter(minPrice);
+    return minPrice;
   }
   
-  getMaxEndDate(){
-    var latestDate = this.wycieczki[0].endDate;
-    this.wycieczki.forEach(obj => {
-      if(obj.endDate.getTime() > latestDate.getTime()){
-        latestDate = obj.endDate;
+  // getMinStartDate(){
+  //   var earliestDate = new Date();
+  //   this.getProducts()
+  //   .subscribe(wycieczki =>{
+  //     wycieczki.forEach(x=>{
+  //       if(x.startDate.getTime() < earliestDate.getTime()){
+  //         earliestDate = x.startDate;
+  //       }
+  //     })
+  //   });
+  //   return earliestDate;
+  // }
+
+  getMinStartDateObject(wycieczki: WycieczkaData[]){
+    var earliestDate = wycieczki[0].startDate;
+    wycieczki.forEach(x=>{
+      if(x.startDate.getTime() < earliestDate.getTime()){
+        earliestDate = x.startDate;
+      }
+    });
+    this.updateStartDate(earliestDate);
+    this.updateStartDateFilter(earliestDate);
+    return earliestDate;
+  }
+
+  // getMaxEndDate(){
+  //   var latestDate = new Date(8640000000000000);
+  //   this.getProducts()
+  //   .subscribe(wycieczki =>{
+  //     wycieczki.forEach(x=>{
+  //       if(x.endDate.getTime() > latestDate.getTime()){
+  //         latestDate = x.endDate;
+  //       }
+  //     })
+  //   });
+  //   return latestDate;
+  // }
+  
+  getMaxEndDateObject(wycieczki: WycieczkaData[]){
+    var latestDate = wycieczki[0].endDate;
+    wycieczki.forEach(x=>{
+      if(x.endDate.getTime() > latestDate.getTime()){
+        latestDate = x.endDate;
       }
     })
+    this.updateEndDate(latestDate);
+    this.updateEndDateFilter(latestDate);
     return latestDate;
   }
-
-  getCountries(){
-    return [...new Set(this.wycieczki.map(wycieczka => wycieczka.country))];
+  
+  getAllSeats(){
+    var allSeats = 0;
+    this.getProducts()
+      .subscribe(wycieczki =>{
+        wycieczki.forEach(x=>{
+          if(x.cyclic){
+            allSeats += x.cyclic.long*x.avaible_seats;
+          } else{
+            allSeats += x.avaible_seats;
+          }
+        })
+      });
+    return allSeats;
   }
 
-  updatePriceMin(value: number){
-    this.minPriceFilter = value;
-    this.minPriceChange.next(this.minPriceFilter);
+  getAllSeatsTaken(){
+    var allSeatsTaken = 0;
+    this.getProducts()
+        .subscribe(wycieczki =>{
+          wycieczki.forEach(x=>{
+            x.seats_taken.forEach(a=> allSeatsTaken += a)
+          })
+        });
+    return allSeatsTaken;
   }
 
-  updatePriceMax(value: number){
-    this.maxPriceFilter = value;
-    this.maxPriceChange.next(this.maxPriceFilter);
+  getAllAvailableSeats(){
+    return this.getAllSeats() - this.getAllSeatsTaken();
+  }
+
+  // getCountries(){
+  //   var country_arr = [];
+  //   this.getProducts()
+  //         .subscribe(wycieczki =>{
+  //           wycieczki.forEach(x=>{
+  //             country_arr.push(x.country)
+  //           })
+  //         });
+  //   return [...new Set(country_arr)];
+  // }
+  
+  getCountriesObject(wycieczki: WycieczkaData[]){
+    var country_arr = [];
+    wycieczki.forEach(x=>{
+      country_arr.push(x.country)
+    })
+    var countrySet = [...new Set(country_arr)];
+    this.updateCountries(countrySet);
+    this.updateCountriesFilter(countrySet);
+    return countrySet;
   }
 
   updateDateRange(startDate: Moment, endDate: Moment){
     if(startDate == null){
-      this.startDateFilter = this.getMinStartDate();
+      this.updateStartDateFilter(this.startDate);
     }else{
-      this.startDateFilter = startDate.toDate();
+      this.updateStartDateFilter(startDate.toDate());
     }
-    console.log(this.startDateFilter)
-    this.startDateChange.next(this.startDateFilter);
     
     if(endDate == null){
-      this.startDateFilter = this.getMaxEndDate();
+      this.updateEndDateFilter(this.endDate);
     } else {
-      this.endDateFilter = endDate.toDate();
+      this.updateEndDateFilter(endDate.toDate());
     }
-    this.endDateChange.next(this.endDateFilter);
   }
 
-  updateCountries(countries: String[]){
-    this.countriesFilter = countries;
-    this.countriesChange.next(this.countriesFilter);
+
+  // initSeatsTaken(){
+  //   this.getProducts()
+  //         .subscribe(wycieczki =>{wycieczki.pipe(map(wyc=> wyc.map(x => {
+  //     x = this.initSeatsTakenWycieczka(x)
+  //   })));
+  // });
+  // }
+
+  initSeatsTakenWycieczka(x:WycieczkaData): WycieczkaData{
+    var long: number;
+    if(x.cyclic){
+      long = x.cyclic.long;
+    } else {
+      long = 1;
+    }
+    x.seats_taken = this.fillArray(0, long);
+    return x;
   }
 
-  initSeatsTaken(){
-    this.wycieczki.forEach(x=>{
-      var long: number;
-      if(x.cyclic){
-        long = x.cyclic.long;
-      } else {
-        long = 1;
-      }
-      x.seats_taken = this.fillArray(0, long);
+  convertDatesForArray(x: WycieczkaData[]): WycieczkaData[]{
+    x.forEach(wycieczka => {
+      wycieczka = this.convertDates(wycieczka);
     });
+    return x;
+  }
+
+  
+  convertDates(x:WycieczkaData): WycieczkaData{
+    if(!(x.startDate instanceof Date )){
+      x.startDate = new Date(x.startDate);
+    }
+    if(!(x.endDate instanceof Date )){
+      x.endDate = new Date(x.endDate);
+    }
+    return x;
   }
 
   fillArray(value: any, len: number) {
@@ -181,6 +349,56 @@ export class WycieczkiServiceService {
     while (a.length * 2 <= len) a = a.concat(a);
     if (a.length < len) a = a.concat(a.slice(0, len - a.length));
     return a;
+  }
+
+  updateMaxPrice(maxPrice: number){
+    this.maxPrice = maxPrice;
+    this.maxPriceChange.next(maxPrice);
+  }
+
+  updateMaxPriceFilter(maxPrice: number){
+    this.maxPriceFilter = maxPrice;
+    this.maxPriceFilterChange.next(maxPrice);
+  }
+
+  updateMinPrice(minPrice: number){
+    this.minPrice = minPrice;
+    this.minPriceChange.next(minPrice);
+  }
+
+  updateMinPriceFilter(minPrice: number){
+    this.minPriceFilter = minPrice;
+    this.minPriceFilterChange.next(minPrice);
+  }
+
+  updateStartDate(startDate: Date){
+    this.startDate = startDate;
+    this.startDateChange.next(startDate);
+  }
+  
+  updateStartDateFilter(startDate: Date){
+    this.startDateFilter = startDate;
+    this.startDateFilterChange.next(startDate);
+  }
+
+  updateEndDate(endDate: Date){
+    this.endDate = endDate;
+    this.endDateChange.next(endDate);
+  }
+
+  updateEndDateFilter(endDate: Date){
+    this.endDateFilter = endDate;
+    this.endDateFilterChange.next(endDate);
+  }
+
+  updateCountries(countries: String[]){
+    this.countries = countries;
+    this.countriesChange.next(countries);
+  }
+  
+  updateCountriesFilter(countries: String[]){
+    this.countriesFilter = countries;
+    this.countriesFilterChange.next(countries);
   }
 
 }
