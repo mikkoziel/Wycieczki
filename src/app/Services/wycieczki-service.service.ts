@@ -7,8 +7,8 @@ import { catchError, map, tap, min } from 'rxjs/operators';
 import { Moment } from 'moment';
 
 import { Wycieczki } from '../mock';
-import { WycieczkaData } from '../Interfaces/wycieczkaData'
-import { MaxPriceProductPipe } from '../Pipes/max-price-product.pipe';
+import { WycieczkaData } from '../interfaces/wycieczkaData'
+import { MaxPriceProductPipe } from '../pipes/max-price-product.pipe';
 
 
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/json' }) };
@@ -17,11 +17,19 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/j
   providedIn: 'root'
 })
 export class WycieczkiServiceService {
-  // wycieczki = [...Wycieczki];
-  // wycieczki: Observable<WycieczkaData[]>;
-  // wycieczkiWithSeats: WycieczkaData[];
-
   private wycieczkiApiUrl = "api/wycieczki";
+
+  minPrice: number;
+  maxPrice:number;
+  startDate: Date;
+  endDate: Date;
+  countries: String[];
+
+  minPriceChange: Subject<number> = new Subject<number>();
+  maxPriceChange: Subject<number> = new Subject<number>();
+  startDateChange: Subject<Date> = new Subject<Date>();
+  endDateChange: Subject<Date> = new Subject<Date>();
+  countriesChange: Subject<String[]> = new Subject<String[]>();
 
   minPriceFilter: number;
   maxPriceFilter:number;
@@ -29,25 +37,19 @@ export class WycieczkiServiceService {
   endDateFilter: Date;
   countriesFilter: String[];
 
-  minPriceChange: Subject<number> = new Subject<number>();
-  maxPriceChange: Subject<number> = new Subject<number>();
-  startDateChange: Subject<Date> = new Subject<Date>();
-  endDateChange: Subject<Date> = new Subject<Date>();
-  countriesChange: Subject<String[]> = new Subject<String[]>();
+  minPriceFilterChange: Subject<number> = new Subject<number>();
+  maxPriceFilterChange: Subject<number> = new Subject<number>();
+  startDateFilterChange: Subject<Date> = new Subject<Date>();
+  endDateFilterChange: Subject<Date> = new Subject<Date>();
+  countriesFilterChange: Subject<String[]> = new Subject<String[]>();
   
   constructor(private http:HttpClient) { 
-    // this.wycieczki = this.getProducts();
   }
 
   getProducts(): Observable<WycieczkaData[]>{
     return this.http.get<WycieczkaData[]>(this.wycieczkiApiUrl)
     .pipe(
-      tap(_ => {console.log('fetched wycieczki');
-      // this.minPriceFilter = this.getMinPrice();
-      // this.maxPriceFilter = this.getMaxPrice();
-      // this.startDateFilter = this.getMinStartDate();
-      // this.endDateFilter = this.getMaxEndDate()
-    }),
+      tap(_ => {console.log('fetched wycieczki');}),
       map(x => { return this.convertDatesForArray(x) }),
       catchError(this.handleError<WycieczkaData[]>('getWycieczki', []))
     );
@@ -115,6 +117,9 @@ export class WycieczkiServiceService {
   }
 
   addComment(wycieczkaCOM: WycieczkaData, author:string, comment:string){
+    if(!wycieczkaCOM.comments){
+      wycieczkaCOM.comments = [];
+    }
     wycieczkaCOM.comments.push({
       author: author,
       comment: comment
@@ -152,16 +157,19 @@ export class WycieczkiServiceService {
         maxPrice = x.price;
       }
     })
-    this.maxPriceFilter = maxPrice;
+    this.updateMaxPrice(maxPrice);
+    this.updateMaxPriceFilter(maxPrice);
     return maxPrice;
   }
 
   // getMinPrice(){    
-  //   var minPrice = Number.MAX_VALUE;
+  //   var minPrice: number;
+  //   console.log(minPrice);
   //   this.getProducts()
   //     .subscribe(wycieczki =>{
   //       wycieczki.forEach(x=>{
-  //         if(x.price < minPrice){
+  //         console.log("minPrice")
+  //         if(x.price == undefined || x.price < minPrice){ 
   //           minPrice = x.price;
   //         }
   //       })
@@ -176,10 +184,11 @@ export class WycieczkiServiceService {
         minPrice = x.price;
       }
     })
-    this.minPriceFilter = minPrice;
+    this.updateMinPrice(minPrice);
+    this.updateMinPriceFilter(minPrice);
     return minPrice;
   }
-
+  
   // getMinStartDate(){
   //   var earliestDate = new Date();
   //   this.getProducts()
@@ -200,10 +209,11 @@ export class WycieczkiServiceService {
         earliestDate = x.startDate;
       }
     });
-    this.startDateFilter = earliestDate;
+    this.updateStartDate(earliestDate);
+    this.updateStartDateFilter(earliestDate);
     return earliestDate;
   }
-  
+
   // getMaxEndDate(){
   //   var latestDate = new Date(8640000000000000);
   //   this.getProducts()
@@ -224,10 +234,10 @@ export class WycieczkiServiceService {
         latestDate = x.endDate;
       }
     })
-    this.endDateFilter = latestDate;
+    this.updateEndDate(latestDate);
+    this.updateEndDateFilter(latestDate);
     return latestDate;
   }
-
   
   getAllSeats(){
     var allSeats = 0;
@@ -259,56 +269,42 @@ export class WycieczkiServiceService {
     return this.getAllSeats() - this.getAllSeatsTaken();
   }
 
-  getCountries(){
-    var country_arr = [];
-    this.getProducts()
-          .subscribe(wycieczki =>{
-            wycieczki.forEach(x=>{
-              country_arr.push(x.country)
-            })
-          });
-    return [...new Set(country_arr)];
-  }
+  // getCountries(){
+  //   var country_arr = [];
+  //   this.getProducts()
+  //         .subscribe(wycieczki =>{
+  //           wycieczki.forEach(x=>{
+  //             country_arr.push(x.country)
+  //           })
+  //         });
+  //   return [...new Set(country_arr)];
+  // }
   
   getCountriesObject(wycieczki: WycieczkaData[]){
     var country_arr = [];
     wycieczki.forEach(x=>{
       country_arr.push(x.country)
     })
-    return [...new Set(country_arr)];
+    var countrySet = [...new Set(country_arr)];
+    this.updateCountries(countrySet);
+    this.updateCountriesFilter(countrySet);
+    return countrySet;
   }
 
-  updatePriceMin(value: number){
-    this.minPriceFilter = value;
-    this.minPriceChange.next(this.minPriceFilter);
-  }
-
-  updatePriceMax(value: number){
-    this.maxPriceFilter = value;
-    this.maxPriceChange.next(this.maxPriceFilter);
-  }
-
-  // updateDateRange(startDate: Moment, endDate: Moment){
-  //   if(startDate == null){
-  //     this.startDateFilter = this.getMinStartDate();
-  //   }else{
-  //     this.startDateFilter = startDate.toDate();
-  //   }
-  //   console.log(this.startDateFilter)
-  //   this.startDateChange.next(this.startDateFilter);
+  updateDateRange(startDate: Moment, endDate: Moment){
+    if(startDate == null){
+      this.updateStartDateFilter(this.startDate);
+    }else{
+      this.updateStartDateFilter(startDate.toDate());
+    }
     
-  //   if(endDate == null){
-  //     this.startDateFilter = this.getMaxEndDate();
-  //   } else {
-  //     this.endDateFilter = endDate.toDate();
-  //   }
-  //   this.endDateChange.next(this.endDateFilter);
-  // }
-
-  updateCountries(countries: String[]){
-    this.countriesFilter = countries;
-    this.countriesChange.next(this.countriesFilter);
+    if(endDate == null){
+      this.updateEndDateFilter(this.endDate);
+    } else {
+      this.updateEndDateFilter(endDate.toDate());
+    }
   }
+
 
   // initSeatsTaken(){
   //   this.getProducts()
@@ -353,6 +349,56 @@ export class WycieczkiServiceService {
     while (a.length * 2 <= len) a = a.concat(a);
     if (a.length < len) a = a.concat(a.slice(0, len - a.length));
     return a;
+  }
+
+  updateMaxPrice(maxPrice: number){
+    this.maxPrice = maxPrice;
+    this.maxPriceChange.next(maxPrice);
+  }
+
+  updateMaxPriceFilter(maxPrice: number){
+    this.maxPriceFilter = maxPrice;
+    this.maxPriceFilterChange.next(maxPrice);
+  }
+
+  updateMinPrice(minPrice: number){
+    this.minPrice = minPrice;
+    this.minPriceChange.next(minPrice);
+  }
+
+  updateMinPriceFilter(minPrice: number){
+    this.minPriceFilter = minPrice;
+    this.minPriceFilterChange.next(minPrice);
+  }
+
+  updateStartDate(startDate: Date){
+    this.startDate = startDate;
+    this.startDateChange.next(startDate);
+  }
+  
+  updateStartDateFilter(startDate: Date){
+    this.startDateFilter = startDate;
+    this.startDateFilterChange.next(startDate);
+  }
+
+  updateEndDate(endDate: Date){
+    this.endDate = endDate;
+    this.endDateChange.next(endDate);
+  }
+
+  updateEndDateFilter(endDate: Date){
+    this.endDateFilter = endDate;
+    this.endDateFilterChange.next(endDate);
+  }
+
+  updateCountries(countries: String[]){
+    this.countries = countries;
+    this.countriesChange.next(countries);
+  }
+  
+  updateCountriesFilter(countries: String[]){
+    this.countriesFilter = countries;
+    this.countriesFilterChange.next(countries);
   }
 
 }

@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './Services/in-memory-data.service';
+import { InMemoryDataService } from './services/in-memory-data.service';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -36,11 +36,11 @@ import { LoginComponent } from './login/login.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { ConfirmReservationComponent } from './confirm-reservation/confirm-reservation.component';
 
-import { MinPriceProductPipe } from './Pipes/min-price-product.pipe';
-import { MaxPriceProductPipe } from './Pipes/max-price-product.pipe';
-import { StartDatePipe } from './Pipes/start-date.pipe';
-import { EndDatePipe } from './Pipes/end-date.pipe';
-import { CountryFilterPipe } from './Pipes/country-filter.pipe';
+import { MinPriceProductPipe } from './pipes/min-price-product.pipe';
+import { MaxPriceProductPipe } from './pipes/max-price-product.pipe';
+import { StartDatePipe } from './pipes/start-date.pipe';
+import { EndDatePipe } from './pipes/end-date.pipe';
+import { CountryFilterPipe } from './pipes/country-filter.pipe';
 
 @NgModule({
   declarations: [

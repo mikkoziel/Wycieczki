@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { add, parseISO } from 'date-fns';
 
-import { WycieczkaData } from '../Interfaces/wycieczkaData';
-import { KoszykService } from '../Services/koszyk.service';
-import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
-import { DateRange, Order } from '../Interfaces/order';
+import { WycieczkaData } from '../interfaces/wycieczkaData';
+import { KoszykService } from '../services/koszyk.service';
+import { WycieczkiServiceService } from '../services/wycieczki-service.service';
+import { DateRange, Order } from '../interfaces/order';
 import { DatePipe } from '@angular/common';
 
 @Component({

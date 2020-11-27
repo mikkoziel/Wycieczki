@@ -1,6 +1,11 @@
 <div id="wyci">
     <app-wycieczka  
-        *ngFor="let wycieczka of ListaWycieczek"
+        *ngFor="let wycieczka of (listEmitter | async |
+                            minPriceProduct: minPrice  |
+                            maxPriceProduct: maxPrice  |
+                            endDatePipe:endDate |
+                            startDatePipe: startDate |
+                            countryFilter: countries )"
         [data]=wycieczka 
         (deleteWycieczkaEmmiter)="deleteWycieczka($event)"
         id="wycieczka-box" 
