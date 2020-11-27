@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { KoszykService } from './koszyk.service';
-import {WycieczkaData } from '../wycieczkaData';
+import { KoszykService } from '../services/koszyk.service';
+import { WycieczkaData } from '../interfaces/wycieczkaData';
 
 @Component({
-    selector: 'koszyk-root',
+    selector: 'app-koszyk',
     templateUrl: './koszyk.component.html',
     styleUrls: ['./koszyk.component.css']
   })
@@ -19,8 +19,8 @@ export class KoszykComponent implements OnInit{
         this.items = this.koszykService.getItems();
     }
 
-    addToKoszyk(wycieczka: WycieczkaData){
-        this.items = this.koszykService.addToCart(wycieczka);
-    }
+    // addToKoszyk(wycieczka: WycieczkaData){
+    //     this.items = this.koszykService.addToCart(wycieczka);
+    // }
   
 }

@@ -1,30 +1,49 @@
 import { add } from 'date-fns';
-import { WycieczkaData } from "./wycieczkaData"
+import { WycieczkaData, Comment } from "./interfaces/wycieczkaData"
 
 export const Wycieczki: WycieczkaData[] = [
     {
         id : 0,
         name: 'Podróż po Polsce',
         country: 'Polska',
-        startDate: add(new Date(), { months: 2 }),
-        endDate: add(new Date(), { months: 3 }),
+        startDate: add(new Date(), { days: 2 }),
+        endDate: add(new Date(), { days: 8 }),
         description: 'Najpekniejsze miejsca w Polsce',
         image_url: './assets/01.png',
         price: 1000,
         currency: "PLN",
-        seats: 20,
+        // seats: 20,
         avaible_seats: 20,
         plus_show: true,
         minus_show: false,
         rating: 0,
         rating_count: 0,
+        gallery:[
+            './assets/4.jpg',
+            './assets/5.jpg',
+            './assets/6.jpg'
+        ],
+        comments:[
+            {
+                author: "Uma",
+                comment: "Nice one"
+            },
+            {
+                author: "Roma",
+                comment: "Ok"
+            }
+        ],
+        cyclic:{
+            long: 5,
+            months: 1,
+        }
     },
     {
         id : 1,
         name: 'Podróż po Polsce',
         country: 'Polska',
-        startDate: add(new Date(), { months: 3 }),
-        endDate: add(new Date(), { months: 4 }),
+        startDate: add(new Date(), { days: 20 }),
+        endDate: add(new Date(), {  days: 25 }),
         description: 'Najpekniejsze miejsca w Polsce',
         image_url: './assets/01.png',
         currency: "PLN",
@@ -40,8 +59,8 @@ export const Wycieczki: WycieczkaData[] = [
         id : 2,
         name: 'Podróż po Polsce',
         country: 'Polska',
-        startDate: add(new Date(), { months: 4 }),
-        endDate: add(new Date(), { months: 5 }),
+        startDate: add(new Date(), {  days: 90 }),
+        endDate: add(new Date(), {  days: 97 }),
         description: 'Najpekniejsze miejsca w Polsce',
         image_url: './assets/01.png',
         currency: "PLN",
@@ -57,8 +76,8 @@ export const Wycieczki: WycieczkaData[] = [
         id : 3,
         name: 'Podróż po Niemczech',
         country: 'Niemcy',
-        startDate: add(new Date(), { months: 2 }),
-        endDate: add(new Date(), { months: 3 }),
+        startDate: add(new Date(), {  days: 50 }),
+        endDate: add(new Date(), {  days: 55 }),
         description: 'Najpekniejsze miejsca w Niemczech',
         image_url: './assets/02.svg',
         currency: "PLN",
@@ -74,8 +93,8 @@ export const Wycieczki: WycieczkaData[] = [
         id : 4,
         name: 'Podróż po Niemczech',
         country: 'Niemcy',
-        startDate: add(new Date(), { months: 3 }),
-        endDate: add(new Date(), { months: 4 }),
+        startDate: add(new Date(), {  days: 130 }),
+        endDate: add(new Date(), {  days: 137 }),
         description: 'Najpekniejsze miejsca w Niemczech',
         image_url: './assets/02.svg',
         currency: "PLN",
@@ -91,8 +110,8 @@ export const Wycieczki: WycieczkaData[] = [
         id : 5,
         name: 'Podróż po Wlk. Brytanii',
         country: 'Wlk. Brytania',
-        startDate: add(new Date(), { months: 2 }),
-        endDate: add(new Date(), { months: 3 }),
+        startDate: add(new Date(), {  days: 97 }),
+        endDate: add(new Date(), {  days: 102 }),
         description: 'Najpekniejsze miejsca w Wlk. Brytanii',
         image_url: './assets/03.png',
         currency: "PLN",
@@ -108,8 +127,8 @@ export const Wycieczki: WycieczkaData[] = [
         id : 6,
         name: 'Podróż po Hiszpanii',
         country: 'Hiszpania',
-        startDate: add(new Date(), { months: 2 }),
-        endDate: add(new Date(), { months: 3 }),
+        startDate: add(new Date(), {  days: 28 }),
+        endDate: add(new Date(), {  days: 38 }),
         description: 'Najpekniejsze miejsca w Hiszpanii',
         image_url: './assets/04.svg',
         currency: "PLN",
@@ -125,8 +144,8 @@ export const Wycieczki: WycieczkaData[] = [
         id : 7,
         name: 'Podróż po Hiszpanii',
         country: 'Hiszpania',
-        startDate: add(new Date(), { months: 2 }),
-        endDate: add(new Date(), { months: 3 }),
+        startDate: add(new Date(), {  days: 54 }),
+        endDate: add(new Date(), {  days: 68 }),
         description: 'Najpekniejsze miejsca w Hiszpanii',
         image_url: './assets/04.svg',
         currency: "PLN",

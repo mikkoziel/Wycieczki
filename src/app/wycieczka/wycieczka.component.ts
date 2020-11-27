@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { WycieczkaData } from '../wycieczkaData';
+
+import { ActivatedRoute } from '@angular/router';
+import { WycieczkaData } from '../interfaces/wycieczkaData';
+import { KoszykService } from '../services/koszyk.service';
+import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 
 @Component({
   selector: 'app-wycieczka',
@@ -11,47 +15,17 @@ export class WycieczkaComponent implements OnInit {
   @Input() data: WycieczkaData;
   @Output() deleteWycieczkaEmmiter = new EventEmitter<WycieczkaData>();
 
-  onDeletePress(): void {
-    this.deleteWycieczkaEmmiter.emit(this.data);
-  }
-  
-  constructor(){
+  constructor(
+    private route: ActivatedRoute,
+    private wycieczkiService: WycieczkiServiceService,
+    private koszykService: KoszykService){
   }
 
   ngOnInit(): void {
   }
 
-  reserveSeat(){
-    this.data.avaible_seats = this.data.avaible_seats - 1;
-
-    if(this.data.avaible_seats != this.data.seats){
-      this.data.minus_show = true;
-    }
-    if(this.data.avaible_seats == 0){
-      this.data.plus_show = false;
-    }
-    // alert("You were added to this wycieczka");
+  onDeletePress(): void {
+    this.deleteWycieczkaEmmiter.emit(this.data);
   }
-
-  freeSeat(){
-    this.data.avaible_seats = this.data.avaible_seats + 1;
-    if(this.data.avaible_seats == this.data.seats){
-      this.data.minus_show = false;
-    }      
-    if(this.data.avaible_seats != 0){
-      this.data.plus_show = true;
-    }
-    // alert("you freed a seat");
-  }
-
-  getColor(){
-    if(this.data.avaible_seats < 4){
-      return "red";
-    }
-    else{
-      return 'green';
-    }
-  }
-
 
 }

@@ -1,7 +1,10 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
-import { WycieczkaData } from '../wycieczkaData'
+import { ActivatedRoute } from '@angular/router';
+
+import { WycieczkaData } from '../interfaces/wycieczkaData'
 import { add } from 'date-fns';
+import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 
 @Component({
   selector: 'app-new-wycieczka',
@@ -14,7 +17,12 @@ export class NewWycieczkaComponent implements OnInit {
   @Output() addWycieczkaEmmiter = new EventEmitter<WycieczkaData>();
 
 
-  constructor(private formBuilder : FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute,
+    private formBuilder : FormBuilder,
+    private wycieczkiService: WycieczkiServiceService) { 
+
+    }
 
   ngOnInit() : void {
     this.modelForm = this.formBuilder.group({
@@ -52,7 +60,7 @@ export class NewWycieczkaComponent implements OnInit {
         rating_count: 0,
       }
       console.log(wycieczka);
-      this.addWycieczkaEmmiter.emit(wycieczka);
+      // this.wycieczkiService.addProduct(wycieczka);
     }
     else{
       this.getFormValidationErrors();

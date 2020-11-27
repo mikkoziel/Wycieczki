@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" id="header">
+    <a class="navbar-brand" [routerLink]="'.'">Wycieczki</a>
+    <span class="spacer"></span>
+  
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      &#9776;
+    </button>
+  
+    <div [ngbCollapse]="isMenuCollapsed" 
+        class="collapse navbar-collapse"
+        [ngStyle]="{'flex': isMenuCollapsed ? '0 1 auto': '0 1 100%'}"
+        >
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'./new-trip'" (click)="isMenuCollapsed = true">New trip</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'./cart'" (click)="isMenuCollapsed = true">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'./sign-in'" (click)="isMenuCollapsed = true">Sign In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'./sign-up'" (click)="isMenuCollapsed = true">Sign Up</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
