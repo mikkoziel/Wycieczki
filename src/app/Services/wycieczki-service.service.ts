@@ -94,7 +94,7 @@ export class WycieczkiServiceService {
   }
   
   reserveSeat(wycieczkaRES: WycieczkaData, id: number){
-    wycieczkaRES.seats_taken[id] = wycieczkaRES.seats_taken[id] + 1;
+    wycieczkaRES.seats_taken[id] += 1;
 
     if(wycieczkaRES.avaible_seats != wycieczkaRES.seats_taken[id]){
       wycieczkaRES.minus_show = true;
@@ -106,7 +106,7 @@ export class WycieczkiServiceService {
   }
 
   freeSeat(wycieczkaFREE: WycieczkaData, id:number){
-    wycieczkaFREE.seats_taken[id] = wycieczkaFREE.seats_taken[id] - 1;
+    wycieczkaFREE.seats_taken[id] -= 1;
     if(wycieczkaFREE.avaible_seats == wycieczkaFREE.seats_taken[id]){
       wycieczkaFREE.minus_show = false;
     }      
