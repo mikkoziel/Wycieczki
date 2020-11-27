@@ -18,9 +18,10 @@ export class WycieczkaDetailsComponent implements OnInit {
   id: number;
   data: WycieczkaData;
   sub: Subscription;
-  author: string; 
-  comment:string;
+  author: string = ""; 
+  comment:string = "";
   seats_taken: Order[];
+  seats_flag = true;
   rangeValue: DateRange;
   rangeDates: DateRange[];
 
@@ -63,6 +64,8 @@ export class WycieczkaDetailsComponent implements OnInit {
                 total_price: this.koszykService.getTotalOrderItemPrice(this.data.id, x.startDate, x.endDate)
               }) 
             })
+            
+          this.checkFlag();
           });
     });
   }
@@ -77,6 +80,7 @@ export class WycieczkaDetailsComponent implements OnInit {
     this.seats_taken.forEach(x=>{
       x.quantity = this.koszykService.getSeatsOfProduct(x.wycieczka.id, x.startDate, x.endDate);
     })
+    this.checkFlag();
   }
 
   freeSeat(){
@@ -85,10 +89,22 @@ export class WycieczkaDetailsComponent implements OnInit {
     this.seats_taken.forEach(x=>{
       x.quantity = this.koszykService.getSeatsOfProduct(x.wycieczka.id, x.startDate, x.endDate);
     })
+    this.checkFlag();
   }
 
   submitComment(){
-    this.wycieczkiService.addComment(this.data, this.author, this.comment);
+    if(this.author != "" && this.comment != ""){
+      this.wycieczkiService.addComment(this.data, this.author, this.comment);
+    }
+  }
+  
+  checkFlag(){
+    this.seats_flag = true;
+    this.seats_taken.forEach(x=>{
+      if(x.quantity > 0){
+        this.seats_flag = false;
+      }
+    })
   }
 
 }

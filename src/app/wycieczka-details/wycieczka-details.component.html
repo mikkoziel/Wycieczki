@@ -111,8 +111,7 @@
                 <input matInput placeholder="Ex. It makes me feel..." [(ngModel)]='comment'>
               </mat-form-field>
             </div>
-            <!-- [disabled]="seats_taken==0" -->
-            <button mat-raised-button (click)="submitComment()" >Submit</button>
+            <button mat-raised-button (click)="submitComment()" [disabled]="seats_flag" >Submit</button>
           </div>
         </div>
 

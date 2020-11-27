@@ -2,9 +2,9 @@ button {
     max-height: 100px;
 }
 
-.cart-item:not(:last-child) {
+/* .cart-item:not(:last-child) {
     border-bottom: 1px solid rgb(0, 0, 0);
-  }
+  } */
 
 #koszyk-body{
     margin: 1%;
