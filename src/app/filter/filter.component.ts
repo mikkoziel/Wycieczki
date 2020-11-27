@@ -181,7 +181,6 @@ export class FilterComponent implements OnInit {
 
     let country_flag = false;
     this.countryValue.forEach(obj =>{
-      console.log(obj.checked);
       if(!obj.checked){
         country_flag = true;
       }}
