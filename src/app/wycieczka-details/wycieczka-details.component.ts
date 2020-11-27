@@ -18,10 +18,10 @@ export class WycieczkaDetailsComponent implements OnInit {
   id: number;
   data: WycieczkaData;
   sub: Subscription;
-  author: string; 
-  comment:string;
+  author: string = ""; 
+  comment:string = "";
   seats_taken: Order[];
-  seats_flag=false;
+  seats_flag = true;
   rangeValue: DateRange;
   rangeDates: DateRange[];
 
@@ -93,16 +93,16 @@ export class WycieczkaDetailsComponent implements OnInit {
   }
 
   submitComment(){
-    console.log(this.author)
-    console.log(this.comment)
-    this.wycieczkiService.addComment(this.data, this.author, this.comment);
+    if(this.author != "" && this.comment != ""){
+      this.wycieczkiService.addComment(this.data, this.author, this.comment);
+    }
   }
   
   checkFlag(){
-    this.seats_flag = false;
+    this.seats_flag = true;
     this.seats_taken.forEach(x=>{
       if(x.quantity > 0){
-        this.seats_flag = true;
+        this.seats_flag = false;
       }
     })
   }
