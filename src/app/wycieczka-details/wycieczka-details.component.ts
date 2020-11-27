@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { add, parseISO } from 'date-fns';
+import { add } from 'date-fns';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData';
 import { KoszykService } from '../services/koszyk.service';
