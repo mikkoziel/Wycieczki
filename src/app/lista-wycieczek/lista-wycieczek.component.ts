@@ -66,13 +66,11 @@ export class ListaWycieczekComponent implements OnInit {
     this.startDate = this.WycieczkiService.getMinStartDateObject(wycieczki);
     this.startDate_subscription = this.WycieczkiService.startDateFilterChange.subscribe((value) => {
       this.startDate = value;
-      console.log(value);
       this.listEmitter.next(this.ListaWycieczek);
     });
     this.endDate = this.WycieczkiService.getMaxEndDateObject(wycieczki);
     this.endDate_subscription = this.WycieczkiService.endDateFilterChange.subscribe((value) => {
       this.endDate = value;
-      console.log(value);
       this.listEmitter.next(this.ListaWycieczek);
     });
     this.countries = this.WycieczkiService.getCountriesObject(wycieczki);

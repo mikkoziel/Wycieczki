@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
+import { add } from 'date-fns';
 
 @Pipe({
   name: 'startDatePipe'
@@ -16,8 +17,19 @@ export class StartDatePipe implements PipeTransform {
   }
 
   compareTime(product: WycieczkaData, startDate: Date){
-    var flag = product.startDate.getTime() >= startDate.getTime()
-    // console.log(flag);
+    var flag = false;
+    if(product.cyclic){
+      new Array(product.cyclic.long).fill(null).map((_, i) => {
+        return add(product.startDate, { days: i*product.cyclic.days, 
+                                        weeks: i*product.cyclic.weeks, 
+                                        months: i*product.cyclic.months})
+          
+      }).forEach(x=>{ 
+        flag = flag || x.getTime() >= startDate.getTime();
+      });
+    } else{
+      flag = product.startDate.getTime() >= startDate.getTime()
+    }
     return flag;
   }
 

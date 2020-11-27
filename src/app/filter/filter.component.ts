@@ -54,6 +54,11 @@ export class FilterComponent implements OnInit {
   endDate_subscription: Subscription;
   countries_subscription: Subscription;
 
+  minPriceFilter:boolean = false;
+  maxPriceFilter:boolean = false;
+  rangeFilter:boolean = false;
+  countriesFilter:boolean = false;
+
   range = new FormGroup({
     start: new FormControl(moment),
     end: new FormControl(moment)
@@ -65,12 +70,12 @@ export class FilterComponent implements OnInit {
   });
   
   countries = [];
-  countryFilter: CountryFilter[] = [];
+  countryValue: CountryFilter[] = [];
 
   minEmitter = new BehaviorSubject<number>(this.minPrice); 
   maxEmitter = new BehaviorSubject<number>(this.minPrice); 
   rangeEmitter = new BehaviorSubject<FormGroup>(this.rangeValue); 
-  countriesEmitter = new BehaviorSubject<CountryFilter[]>(this.countryFilter);   
+  countriesEmitter = new BehaviorSubject<CountryFilter[]>(this.countryValue);   
 
   enabled =true;
 
@@ -80,7 +85,6 @@ export class FilterComponent implements OnInit {
     this.minPrice_subscription = this.wycieczkiService.minPriceChange.subscribe((value) => {
       this.minPrice = value;
       this.minValuePrice = value; 
-      // console.log(this.minPrice);
       this.minEmitter.next(this.minPrice); 
     });
 
@@ -91,13 +95,12 @@ export class FilterComponent implements OnInit {
       this.maxEmitter.next(this.maxPrice);
     });
     
-    // this.startDate = this.WycieczkiService.getMinStartDateObject(wycieczki);
     this.startDate_subscription = this.wycieczkiService.startDateChange.subscribe((value) => {
       this.range.controls.start.setValue(value);
       this.rangeValue.controls.start.setValue(value);
       this.rangeEmitter.next(this.rangeValue);
     });
-    // this.endDate = this.WycieczkiService.getMaxEndDateObject(wycieczki);
+    
     this.endDate_subscription = this.wycieczkiService.endDateChange.subscribe((value) => {
       this.range.controls.end.setValue(value);
       this.rangeValue.controls.end.setValue(value);
@@ -106,13 +109,13 @@ export class FilterComponent implements OnInit {
 
     this.countries_subscription = this.wycieczkiService.countriesChange.subscribe((value) => {
       this.countries = value;
-      this.countryFilter = (value.map(country =>{
+      this.countryValue = (value.map(country =>{
         return <CountryFilter> {
           name: country,
           checked: true,
         }
       }))
-      this.countriesEmitter.next(this.countryFilter);
+      this.countriesEmitter.next(this.countryValue);
     });
   }
 
@@ -139,17 +142,16 @@ export class FilterComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.rangeValue);
     this.wycieczkiService.updateMinPriceFilter(this.minValuePrice);
     this.wycieczkiService.updateMaxPriceFilter(this.maxValuePrice);
     this.wycieczkiService.updateDateRange(this.rangeValue.controls.start.value, this.rangeValue.controls.end.value);
-    this.wycieczkiService.updateCountriesFilter(this.countryFilter.reduce(function(filtered, option) {
+    this.wycieczkiService.updateCountriesFilter(this.countryValue.reduce(function(filtered, option) {
       if(option.checked){
         filtered.push(option.name);
       }
       return filtered;      
     }, []));
-    console.log("Submit");
+    this.checkFilters();
   }
 
   clearFilters(){
@@ -157,9 +159,33 @@ export class FilterComponent implements OnInit {
     this.maxValuePrice = this.maxPrice;
     this.rangeValue.controls.start.setValue(this.range.controls.start.value);
     this.rangeValue.controls.end.setValue(this.range.controls.end.value);
-    this.countryFilter.forEach(obj =>
+    this.countryValue.forEach(obj =>
       obj.checked = true
     )
     this.onSubmit();
+    this.checkFilters();
   }
+
+  checkFilters(){
+    this.minPriceFilter = this.minValuePrice != this.minPrice ? true :  false;
+    this.maxPriceFilter = this.maxValuePrice != this.maxPrice ? true :  false;
+    
+    let rangeStartValue: Moment= this.range.controls.start.value;
+    let rangeValueStartValue: Moment= this.rangeValue.controls.start.value;
+    let rangeEndtValue: Moment= this.range.controls.end.value;
+    let rangeValueEndValue: Moment= this.rangeValue.controls.end.value;
+    this.rangeFilter = 
+      moment(rangeStartValue).diff(moment(rangeValueStartValue)) != 0  &&
+      moment(rangeEndtValue).diff(moment(rangeValueEndValue)) != 0 ?
+            true : false;
+
+    let country_flag = false;
+    this.countryValue.forEach(obj =>{
+      if(!obj.checked){
+        country_flag = true;
+      }}
+    )
+    this.countriesFilter = country_flag;
+  }
+  
 }
