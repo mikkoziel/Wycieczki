@@ -3,8 +3,11 @@
     <div class="cart-item" *ngFor="let order_item of items">
         <div class="block">
             <p>Trip name: {{ order_item.wycieczka.name }}</p>
+            <p>Start date: {{ order_item.startDate  | date:"dd/MM/yy"  }}</p>
+            <p>End date: {{ order_item.endDate  | date:"dd/MM/yy" }}</p>
             <p>Seats: {{ order_item.quantity }}</p>
             <p>Total price: {{ order_item.total_price }} {{ order_item.wycieczka.currency }}</p>
         </div>
+        <mat-divider></mat-divider>
     </div>
 </div>

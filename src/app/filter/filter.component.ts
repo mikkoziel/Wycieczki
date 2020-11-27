@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
-import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
+import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
@@ -13,7 +14,6 @@ const moment = _rollupMoment || _moment;
 export interface CountryFilter {
   name: string;
   checked: boolean;
-  countriesBoxes?: CountryFilter[];
 }
 
 export const MY_FORMATS = {
@@ -47,36 +47,81 @@ export class FilterComponent implements OnInit {
   minValuePrice = 0;
   maxPrice = 0;
   maxValuePrice = 0;
+  
+  minPrice_subscription: Subscription;
+  maxPrice_subscription: Subscription;
+  startDate_subscription: Subscription;
+  endDate_subscription: Subscription;
+  countries_subscription: Subscription;
 
   range = new FormGroup({
     start: new FormControl(moment),
     end: new FormControl(moment)
   });
 
+  rangeValue = new FormGroup({
+    start: new FormControl(moment),
+    end: new FormControl(moment)
+  });
+  
   countries = [];
-  countryFilter: CountryFilter = {
-    name: "Countries",
-    checked: true
-  };
+  countryFilter: CountryFilter[] = [];
+
+  minEmitter = new BehaviorSubject<number>(this.minPrice); 
+  maxEmitter = new BehaviorSubject<number>(this.minPrice); 
+  rangeEmitter = new BehaviorSubject<FormGroup>(this.rangeValue); 
+  countriesEmitter = new BehaviorSubject<CountryFilter[]>(this.countryFilter);   
 
   enabled =true;
 
   constructor(private wycieczkiService: WycieczkiServiceService) { }
 
   ngOnInit(): void {
-    this.minPrice = this.wycieczkiService.getMinPrice();
-    this.minValuePrice = this.minPrice;
-    this.maxPrice = this.wycieczkiService.getMaxPrice();
-    this.maxValuePrice = this.maxPrice;
-    this.range.controls.start.setValue(this.wycieczkiService.getMinStartDate());
-    this.range.controls.end.setValue(this.wycieczkiService.getMaxEndDate());
-    this.countries = this.wycieczkiService.getCountries();
-    this.countryFilter.countriesBoxes = this.wycieczkiService.getCountries().map(country => {
-      return <CountryFilter> {
-        name: country,
-        checked: true
-      };
-    })
+    this.minPrice_subscription = this.wycieczkiService.minPriceChange.subscribe((value) => {
+      this.minPrice = value;
+      this.minValuePrice = value; 
+      // console.log(this.minPrice);
+      this.minEmitter.next(this.minPrice); 
+    });
+
+    this.maxPrice_subscription = this.wycieczkiService.maxPriceChange.subscribe((value) => {
+
+      this.maxPrice = value;
+      this.maxValuePrice = value;
+      this.maxEmitter.next(this.maxPrice);
+    });
+    
+    // this.startDate = this.WycieczkiService.getMinStartDateObject(wycieczki);
+    this.startDate_subscription = this.wycieczkiService.startDateChange.subscribe((value) => {
+      this.range.controls.start.setValue(value);
+      this.rangeValue.controls.start.setValue(value);
+      this.rangeEmitter.next(this.rangeValue);
+    });
+    // this.endDate = this.WycieczkiService.getMaxEndDateObject(wycieczki);
+    this.endDate_subscription = this.wycieczkiService.endDateChange.subscribe((value) => {
+      this.range.controls.end.setValue(value);
+      this.rangeValue.controls.end.setValue(value);
+      this.rangeEmitter.next(this.rangeValue);
+    });
+
+    this.countries_subscription = this.wycieczkiService.countriesChange.subscribe((value) => {
+      this.countries = value;
+      this.countryFilter = (value.map(country =>{
+        return <CountryFilter> {
+          name: country,
+          checked: true,
+        }
+      }))
+      this.countriesEmitter.next(this.countryFilter);
+    });
+  }
+
+  ngOnDestroy() {
+    this.minPrice_subscription.unsubscribe();
+    this.maxPrice_subscription.unsubscribe();
+    this.startDate_subscription.unsubscribe();
+    this.endDate_subscription.unsubscribe();
+    this.countries_subscription.unsubscribe();
   }
 
   getMinPriceFilter(event: any) {
@@ -94,10 +139,11 @@ export class FilterComponent implements OnInit {
   }
 
   onSubmit(){
-    this.wycieczkiService.updatePriceMin(this.minValuePrice);
-    this.wycieczkiService.updatePriceMax(this.maxValuePrice);
-    this.wycieczkiService.updateDateRange(this.range.controls.start.value, this.range.controls.end.value);
-    this.wycieczkiService.updateCountries(this.countryFilter.countriesBoxes.reduce(function(filtered, option) {
+    console.log(this.rangeValue);
+    this.wycieczkiService.updateMinPriceFilter(this.minValuePrice);
+    this.wycieczkiService.updateMaxPriceFilter(this.maxValuePrice);
+    this.wycieczkiService.updateDateRange(this.rangeValue.controls.start.value, this.rangeValue.controls.end.value);
+    this.wycieczkiService.updateCountriesFilter(this.countryFilter.reduce(function(filtered, option) {
       if(option.checked){
         filtered.push(option.name);
       }
@@ -109,9 +155,9 @@ export class FilterComponent implements OnInit {
   clearFilters(){
     this.minValuePrice = this.minPrice;
     this.maxValuePrice = this.maxPrice;
-    this.range.controls.start.setValue(this.wycieczkiService.getMinStartDate());
-    this.range.controls.end.setValue(this.wycieczkiService.getMaxEndDate());
-    this.countryFilter.countriesBoxes.forEach(obj =>
+    this.rangeValue.controls.start.setValue(this.range.controls.start.value);
+    this.rangeValue.controls.end.setValue(this.range.controls.end.value);
+    this.countryFilter.forEach(obj =>
       obj.checked = true
     )
     this.onSubmit();
