@@ -27,7 +27,7 @@ export class KoszykService {
 
   addToCart(product: WycieczkaData, startDate:Date, endDate: Date) {
     if(this.findInCart(product, startDate, endDate)){
-      this.addMoreSeats(product.id);
+      this.addMoreSeats(product, startDate, endDate);
     } else{
       this.items.push({
         wycieczka: product,
@@ -79,9 +79,9 @@ export class KoszykService {
 
   getProduct(id: number, startDate: Date, endDate:Date){
     return this.items.find(orderitem => 
-      orderitem.wycieczka.id == id &&
+      (orderitem.wycieczka.id == id &&
       orderitem.startDate.getTime() == startDate.getTime() &&
-      orderitem.endDate.getTime() == endDate.getTime());
+      orderitem.endDate.getTime() == endDate.getTime()));
   }
   
   getTotalOrderItemPrice(id: number, startDate: Date, endDate:Date){
@@ -103,13 +103,12 @@ export class KoszykService {
     return order.quantity;
   }
 
-  addMoreSeats(id: number){
-    this.items.forEach(function(obj) {
-      if(obj.wycieczka.id == id){
-        obj.quantity++;
-        obj.total_price = obj.quantity * obj.wycieczka.price;
-      }
-    })
+  addMoreSeats(product: WycieczkaData, startDate: Date, endDate: Date){
+    let updateItem = this.getProduct(product.id, startDate, endDate);
+    updateItem.quantity++;
+    updateItem.total_price = updateItem.quantity * updateItem.wycieczka.price;
+    let index = this.items.indexOf(updateItem);
+    this.items[index] = updateItem;
   }
 
   updateStats(){

@@ -93,7 +93,7 @@ export class WycieczkiServiceService {
     };
   }
   
-  reserveSeat(wycieczkaRES: WycieczkaData, id: number){
+  reserveSeat(wycieczkaRES: WycieczkaData, id: number){    
     wycieczkaRES.seats_taken[id] += 1;
 
     if(wycieczkaRES.avaible_seats != wycieczkaRES.seats_taken[id]){
