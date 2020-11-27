@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { WycieczkaData } from '../Interfaces/wycieczkaData';
-import { KoszykService } from '../Services/koszyk.service';
-import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
+import { WycieczkaData } from '../interfaces/wycieczkaData';
+import { KoszykService } from '../services/koszyk.service';
+import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 
 @Component({
   selector: 'app-wycieczka',
@@ -27,20 +27,5 @@ export class WycieczkaComponent implements OnInit {
   onDeletePress(): void {
     this.deleteWycieczkaEmmiter.emit(this.data);
   }
-
-  // reserveSeat(){
-  //   this.wycieczkiService.reserveSeat(this.data);    
-  //   this.koszykService.addToCart(this.data, this.data.startDate, this.data.endDate);
-  // }
-
-  // freeSeat(){
-  //   this.wycieczkiService.freeSeat(this.data);  
-  //   this.koszykService.freeFromCart(this.data);
-  // }
-
-  // getColor(){
-  //   this.wycieczkiService.getAvailableColor(this.data);
-  // }
-
 
 }

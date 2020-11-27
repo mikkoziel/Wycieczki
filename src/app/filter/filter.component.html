@@ -2,19 +2,19 @@
     <h4>Filters:</h4>
     <div>
         <p class="min-price-filter-label">Min. price: </p>
-        <mat-slider [min]="minPrice" [max]="maxPrice" step="1" thumbLabel [value]="minValuePrice" (change)="getMinPriceFilter($event)"></mat-slider> {{ minValuePrice }}
+        <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="minValuePrice" (change)="getMinPriceFilter($event)"></mat-slider> {{ minValuePrice }}
     </div>
     
     <div>
         <p class="max-price-filter-label">Max. price: </p>
-        <mat-slider [min]="minPrice" [max]="maxPrice" step="1" thumbLabel [value]="maxValuePrice" (change)="getMaxPriceFilter($event)"></mat-slider> {{ maxValuePrice }}
+        <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="maxValuePrice" (change)="getMaxPriceFilter($event)"></mat-slider> {{ maxValuePrice }}
     </div>
 
     <div>
         <p class="date-filter-label">Enter a date range:</p>
         <mat-form-field appearance="fill">
             <!-- <mat-label>Enter a date range</mat-label> -->
-            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <mat-date-range-input [formGroup]="rangeEmitter | async" [rangePicker]="picker">
                 <input matStartDate formControlName="start" placeholder="Start date">
                 <input matEndDate formControlName="end" placeholder="End date">
             </mat-date-range-input>
@@ -29,10 +29,10 @@
     <div>
         
         <section class="example-section country-filter-label">
-            {{ countryFilter.name }}
+            <p>Countries</p>
             <span class="example-list-section">
                 <ul>
-                    <li *ngFor="let country of countryFilter.countriesBoxes">
+                    <li *ngFor="let country of countriesEmitter | async">
                         <mat-checkbox [checked]="country.checked"
                                       (change)="country.checked = !country.checked">
                             {{ country.name }}

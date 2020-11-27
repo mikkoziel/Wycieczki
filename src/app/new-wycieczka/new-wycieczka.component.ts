@@ -2,9 +2,9 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { WycieczkaData } from '../Interfaces/wycieczkaData'
+import { WycieczkaData } from '../interfaces/wycieczkaData'
 import { add } from 'date-fns';
-import { WycieczkiServiceService } from '../Services/wycieczki-service.service';
+import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 
 @Component({
   selector: 'app-new-wycieczka',
@@ -60,7 +60,7 @@ export class NewWycieczkaComponent implements OnInit {
         rating_count: 0,
       }
       console.log(wycieczka);
-      this.wycieczkiService.addProduct(wycieczka);
+      // this.wycieczkiService.addProduct(wycieczka);
     }
     else{
       this.getFormValidationErrors();

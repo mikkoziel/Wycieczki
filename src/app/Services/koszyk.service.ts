@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { WycieczkaData } from '../Interfaces/wycieczkaData';
-import { Order } from '../Interfaces/order';
-import { Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
+import { catchError, map, tap, min } from 'rxjs/operators';
+
+import { WycieczkaData } from '../interfaces/wycieczkaData';
+import { Order } from '../interfaces/order';
+
+const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/json' }) };
 
 @Injectable({
   providedIn: 'root'
