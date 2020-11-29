@@ -1,1 +1,22 @@
-<p>login works!</p>
+<div *ngIf="userEmitter | async; else showLogin">
+    <h1>Hello {{ user.displayName }}!</h1>
+    <button (click)="logout()">Logout</button>
+  </div>
+  <ng-template #showLogin>
+      
+    <div class="flex-column">
+        <p>Please login.</p>
+        <div mat-dialog-content>
+            <mat-form-field class="example-full-width">
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" placeholder="E-mail" [(ngModel)]='mail'>
+            </mat-form-field>
+        
+            <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Password." [(ngModel)]='password'>
+            </mat-form-field>
+        </div>
+        <button (click)="login()">Login</button>
+    </div>
+  </ng-template>

@@ -42,6 +42,11 @@ import { StartDatePipe } from './pipes/start-date.pipe';
 import { EndDatePipe } from './pipes/end-date.pipe';
 import { CountryFilterPipe } from './pipes/country-filter.pipe';
 
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [
     WycieczkiComponent,
@@ -87,6 +92,9 @@ import { CountryFilterPipe } from './pipes/country-filter.pipe';
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, 
       { dataEncapsulation: false }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule, // do obsługi autentykacji
+    AngularFireDatabaseModule,
   ],
   exports:[
     MatSliderModule,
