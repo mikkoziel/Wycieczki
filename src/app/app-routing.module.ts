@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { KoszykComponent } from './koszyk/koszyk.component';
 import { NewWycieczkaComponent } from './new-wycieczka/new-wycieczka.component';
 import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.component';
@@ -11,16 +12,14 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
     { path: '', component: ListaWycieczekComponent },
-    { path: 'cart', component: KoszykComponent },
-    { path: 'new-trip', component: NewWycieczkaComponent },
-    { path: 'trip-details/:id', component: WycieczkaDetailsComponent },
-    { path: 'sign-in', 
-    component: LoginComponent,
-    canActivate: [AuthGuard], },
+    { path: 'cart', component: KoszykComponent, canActivate: [AuthGuard] },
+    { path: 'new-trip', component: NewWycieczkaComponent, canActivate: [AuthGuard] },
+    { path: 'trip-details/:id', component: WycieczkaDetailsComponent, canActivate: [AuthGuard] },
+    { path: 'sign-in', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
-    { path: 'confirm', component: ConfirmReservationComponent },
+    { path: 'confirm', component: ConfirmReservationComponent, canActivate: [AuthGuard] },
   ];
-
+  // 
 
 @NgModule({
     imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],

@@ -44,6 +44,7 @@ import { CountryFilterPipe } from './pipes/country-filter.pipe';
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -93,6 +94,7 @@ import { environment } from '../environments/environment';
       { dataEncapsulation: false }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, // do obsługi autentykacji
+    AngularFireDatabaseModule,
   ],
   exports:[
     MatSliderModule,
