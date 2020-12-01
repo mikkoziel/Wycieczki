@@ -12,8 +12,8 @@ import { WycieczkaData } from '../interfaces/wycieczkaData';
   providedIn: 'root'
 })
 export class DbService {
-  public wycieczkiOb: Observable<WycieczkaData[]>;
-  public wycieczkaOb: Observable<any>;
+  private _wycieczkiOb: Observable<WycieczkaData[]>;
+  private _wycieczkaOb: Observable<WycieczkaData>;
 
   public wycieczkaList: AngularFireList<any[]>;
   public wycieczkaObject: AngularFireObject<any>;
@@ -22,62 +22,65 @@ export class DbService {
     private storage: AngularFireStorage) {
       
     this.getWycieczkaList('wycieczki');
-    this.wycieczkiOb =this.db.list('wycieczki').valueChanges().pipe(
-      map(coll => {//{return <WycieczkaData[]> <unknown>coll;}
+    this._wycieczkiOb = this.getWycieczkiOb();
+  }
+
+  public get wycieczkiOb(){
+    return this._wycieczkiOb;
+  }
+
+  public set wycieczkiOb(wycieczki: Observable<WycieczkaData[]>){
+    this._wycieczkiOb = wycieczki;
+  }
+
+  public get wycieczkaOb(){
+    return this._wycieczkaOb;
+  }
+
+  public set wycieczkaOb(wycieczka: Observable<any>){
+    this._wycieczkaOb = wycieczka;
+  }
+
+  public getWycieczkiOb(){
+    return this.db.list('wycieczki').valueChanges().pipe(
+      map(coll => {
         return coll.map((w: any) => {
-          return <WycieczkaData>{
-            id: w.id,    
-            name: w.name,
-            country: w.country,
-            startDate: new Date(w.startDate),
-            endDate: new Date(w.endDate),
-            price: w.price,
-            currency: w.currency,
-            // seats?: number;
-            description: w.description,
-            image_url: w.image_url,
-            avaible_seats: w.avaible_seats,
-            plus_show: w.plus_show,
-            minus_show: w.minus_show,
-            rating: w.rating,
-            // rating_count?: number;
-            gallery: w.gallery,
-            comments: w.comments,
-            cyclic: w.cyclic
-          };
+          return this.convertFireToWycieczkaData(w);
         })
       })
     );
-    console.log(this.wycieczkiOb);
   }
 
   public getWycieczkaOb(id: string){
     this.wycieczkaOb = this.db.object('wycieczki/' + id).valueChanges().pipe(
       map((w: any) => {
-          return <WycieczkaData>{
-            id: w.id,    
-            name: w.name,
-            country: w.country,
-            startDate: new Date(w.startDate),
-            endDate: new Date(w.endDate),
-            price: w.price,
-            currency: w.currency,
-            // seats?: number;
-            description: w.description,
-            image_url: w.image_url,
-            avaible_seats: w.avaible_seats,
-            plus_show: w.plus_show,
-            minus_show: w.minus_show,
-            rating: w.rating,
-            // rating_count?: number;
-            gallery: w.gallery,
-            comments: w.comments,
-            cyclic: w.cyclic
-          };
+          return this.convertFireToWycieczkaData(w);
         })
     );
-    console.log(this.wycieczkaOb);
     return this.wycieczkaOb;
+  }
+
+  convertFireToWycieczkaData(w){
+    return <WycieczkaData>{
+      id: w.id,    
+      name: w.name,
+      country: w.country,
+      startDate: new Date(w.startDate),
+      endDate: new Date(w.endDate),
+      price: w.price,
+      currency: w.currency,
+      // seats?: number;
+      description: w.description,
+      image_url: w.image_url,
+      avaible_seats: w.avaible_seats,
+      plus_show: w.plus_show,
+      minus_show: w.minus_show,
+      rating: w.rating,
+      // rating_count?: number;
+      gallery: w.gallery,
+      comments: w.comments,
+      cyclic: w.cyclic
+    };
   }
 
   // addWycieczkaOb(value: WycieczkaData): void {

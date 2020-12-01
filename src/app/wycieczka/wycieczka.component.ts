@@ -32,7 +32,7 @@ export class WycieczkaComponent implements OnInit {
   }
 
   getImage(path: string){//: Observable<string | null>{
-    return this.dbService.getImage(path);
+    return this.wycieczkiService.getImageFromDB(path);
   }
 
 }

@@ -9,6 +9,7 @@ import { Moment } from 'moment';
 import { Wycieczki } from '../mock';
 import { WycieczkaData } from '../interfaces/wycieczkaData'
 import { MaxPriceProductPipe } from '../pipes/max-price-product.pipe';
+import { DbService } from './db.service';
 
 
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/json' }) };
@@ -43,8 +44,36 @@ export class WycieczkiServiceService {
   endDateFilterChange: Subject<Date> = new Subject<Date>();
   countriesFilterChange: Subject<String[]> = new Subject<String[]>();
   
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient,
+    private dbService: DbService) { 
   }
+
+  // From firebase ------------------------------------------------
+  getWycieczkiObDB(): Observable<WycieczkaData[]>{
+    return this.dbService.wycieczkiOb;
+  }
+
+  getWycieczkaObDB(): Observable<WycieczkaData>{
+    return this.dbService.wycieczkaOb;
+  }
+
+  getDBWycieczkiOb(){
+    return this.dbService.getWycieczkiOb();
+  }
+
+  getDBWycieczkaOb(id: string){
+    return this.dbService.getWycieczkaOb(id);
+  }
+
+  getImageFromDB(path: string){
+    return this.dbService.getImage(path);
+  }
+
+  addWycieczka(wycieczka: WycieczkaData){
+    this.dbService.addWycieczka(wycieczka);
+  }
+
+  // From in-memory-web-api ------------------------------------------------
 
   getProducts(): Observable<WycieczkaData[]>{
     return this.http.get<WycieczkaData[]>(this.wycieczkiApiUrl)
@@ -93,6 +122,7 @@ export class WycieczkiServiceService {
     };
   }
   
+  // functionality ------------------------------------------------
   reserveSeat(wycieczkaRES: WycieczkaData, id: number){    
     wycieczkaRES.seats_taken[id] += 1;
 
@@ -127,29 +157,7 @@ export class WycieczkiServiceService {
     this.updateProduct(wycieczkaCOM);
   }
 
-  // getAvailableColor(wycieczkaCOL: WycieczkaData){
-  //   if(wycieczkaCOL.avaible_seats < 4){
-  //     return "red";
-  //   }
-  //   else{
-  //     return 'green';
-  //   }
-
-  // }
-
-  // getMaxPrice(){
-  //   var maxPrice = 0;
-  //   this.getProducts()
-  //       .subscribe(wycieczki =>{
-  //         wycieczki.forEach(x=>{
-  //           if(x.price > maxPrice){
-  //             maxPrice = x.price;
-  //           }
-  //         })
-  //       });
-  //   return maxPrice;
-  // }
-
+  // Statistics ------------------------------------------------
   getMaxPriceObject(wycieczki: WycieczkaData[]){
     var maxPrice = 0;
     wycieczki.forEach(x=>{
@@ -162,21 +170,6 @@ export class WycieczkiServiceService {
     return maxPrice;
   }
 
-  // getMinPrice(){    
-  //   var minPrice: number;
-  //   console.log(minPrice);
-  //   this.getProducts()
-  //     .subscribe(wycieczki =>{
-  //       wycieczki.forEach(x=>{
-  //         console.log("minPrice")
-  //         if(x.price == undefined || x.price < minPrice){ 
-  //           minPrice = x.price;
-  //         }
-  //       })
-  //     });
-  //   return minPrice;
-  // }
-
   getMinPriceObject(wycieczki: WycieczkaData[]){    
     var minPrice = wycieczki[0].price;
     wycieczki.forEach(x=>{
@@ -188,19 +181,6 @@ export class WycieczkiServiceService {
     this.updateMinPriceFilter(minPrice);
     return minPrice;
   }
-  
-  // getMinStartDate(){
-  //   var earliestDate = new Date();
-  //   this.getProducts()
-  //   .subscribe(wycieczki =>{
-  //     wycieczki.forEach(x=>{
-  //       if(x.startDate.getTime() < earliestDate.getTime()){
-  //         earliestDate = x.startDate;
-  //       }
-  //     })
-  //   });
-  //   return earliestDate;
-  // }
 
   getMinStartDateObject(wycieczki: WycieczkaData[]){
     var earliestDate: Date;
@@ -222,19 +202,6 @@ export class WycieczkiServiceService {
     this.updateStartDateFilter(earliestDate);
     return earliestDate;
   }
-
-  // getMaxEndDate(){
-  //   var latestDate = new Date(8640000000000000);
-  //   this.getProducts()
-  //   .subscribe(wycieczki =>{
-  //     wycieczki.forEach(x=>{
-  //       if(x.endDate.getTime() > latestDate.getTime()){
-  //         latestDate = x.endDate;
-  //       }
-  //     })
-  //   });
-  //   return latestDate;
-  // }
   
   getMaxEndDateObject(wycieczki: WycieczkaData[]){
     var latestDate: Date;
@@ -286,17 +253,6 @@ export class WycieczkiServiceService {
   getAllAvailableSeats(){
     return this.getAllSeats() - this.getAllSeatsTaken();
   }
-
-  // getCountries(){
-  //   var country_arr = [];
-  //   this.getProducts()
-  //         .subscribe(wycieczki =>{
-  //           wycieczki.forEach(x=>{
-  //             country_arr.push(x.country)
-  //           })
-  //         });
-  //   return [...new Set(country_arr)];
-  // }
   
   getCountriesObject(wycieczki: WycieczkaData[]){
     var country_arr = [];
@@ -322,15 +278,6 @@ export class WycieczkiServiceService {
       this.updateEndDateFilter(endDate.toDate());
     }
   }
-
-
-  // initSeatsTaken(){
-  //   this.getProducts()
-  //         .subscribe(wycieczki =>{wycieczki.pipe(map(wyc=> wyc.map(x => {
-  //     x = this.initSeatsTakenWycieczka(x)
-  //   })));
-  // });
-  // }
 
   initSeatsTakenWycieczka(x:WycieczkaData): WycieczkaData{
     var long: number;
@@ -368,7 +315,8 @@ export class WycieczkiServiceService {
     if (a.length < len) a = a.concat(a.slice(0, len - a.length));
     return a;
   }
-
+  
+  // Update statistics ------------------------------------------------
   updateMaxPrice(maxPrice: number){
     this.maxPrice = maxPrice;
     this.maxPriceChange.next(maxPrice);

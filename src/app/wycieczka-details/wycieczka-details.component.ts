@@ -28,18 +28,18 @@ export class WycieczkaDetailsComponent implements OnInit {
 
   constructor(private _Activatedroute:ActivatedRoute,
       private wycieczkiService: WycieczkiServiceService,
-      private koszykService: KoszykService, 
-      private dbService: DbService) { 
+      private koszykService: KoszykService) { 
   }
 
   ngOnInit(): void {     
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      this.dbService.getWycieczkaOb(this.id.toString())
+      this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
+      // this.dbService.getWycieczkaOb(this.id.toString())
       // this.wycieczkiService.getProduct(this.id)
           .subscribe(product=>{
             this.data = product;
-            console.log(product)
+            // console.log(product)
             this.rangeValue = {
               id: 0,
               startDate: this.data.startDate,
@@ -112,7 +112,7 @@ export class WycieczkaDetailsComponent implements OnInit {
   }
 
   getImage(path: string){//: Observable<string | null>{
-    return this.dbService.getImage(path);
+    return this.wycieczkiService.getImageFromDB(path);
   }
 
 }

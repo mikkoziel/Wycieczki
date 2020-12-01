@@ -1,15 +1,15 @@
 <div>
     <div id="wycieczka-row">
         <div class="flex-column">
-        <div><a [routerLink]="['trip-details', data.id]"><img src="{{getImage(data.image_url)}}"  class="main-image"/></a></div>
+        <div><a [routerLink]="['trip-details', data?.id]"><img src="{{getImage(data?.image_url)}}"  class="main-image"/></a></div>
         </div>
         <div class="flex-column">
-        <div>Name: {{ data.name }} </div> 
-        <div>Country: {{ data.country }} </div>
-        <div>Price: {{ data.price }} 
-            {{ data.currency }}</div>
-        <div>Seats: {{ data.avaible_seats }} </div>
-        <div>Description: {{ data.description }} </div>
+        <div>Name: {{ data?.name }} </div> 
+        <div>Country: {{ data?.country }} </div>
+        <div>Price: {{ data?.price }} 
+            {{ data?.currency }}</div>
+        <div>Seats: {{ data?.avaible_seats }} </div>
+        <div>Description: {{ data?.description }} </div>
         </div>
 
         <div class="flex-column">
@@ -29,7 +29,7 @@
         <div id="wycieczka-row">
 
           <div class="flex-column">
-            <mat-form-field appearance="fill" *ngIf="data.cyclic">
+            <mat-form-field appearance="fill" *ngIf="data?.cyclic">
               <mat-label>Trip Date</mat-label>
               <mat-select [(value)]="rangeValue">
                 <mat-option *ngFor="let rangeDate of rangeDates" [value]="rangeDate" >
@@ -37,27 +37,27 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div *ngIf="!data.cyclic">Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
-            <div *ngIf="!data.cyclic">End date: {{ data.endDate | date:"dd/MM/yy" }}</div>
+            <div *ngIf="!data?.cyclic">Start date: {{ data?.startDate | date:"dd/MM/yy" }}</div>
+            <div *ngIf="!data?.cyclic">End date: {{ data?.endDate | date:"dd/MM/yy" }}</div>
           </div>
 
           <div class="flex-column">
             <div>
               <button type="button" (click)="reserveSeat()"
               id="plus" 
-              *ngIf="data.plus_show" >
+              *ngIf="data?.plus_show" >
               Reserve
               </button>
             </div>
-            <div *ngIf="!data.plus_show">No more seats</div>
+            <div *ngIf="!data?.plus_show">No more seats</div>
             <div>
               <button type="button" (click)="freeSeat()" 
               id="minus"
-              *ngIf="data.minus_show" >
+              *ngIf="data?.minus_show" >
               Realese
               </button>
             </div>
-            <div  *ngIf="!data.minus_show">No seats taken</div>
+            <div  *ngIf="!data?.minus_show">No seats taken</div>
           </div>
         </div>
         <div id="wycieczka-row">
@@ -74,11 +74,11 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Gallery" *ngIf="data.gallery">
+      <mat-tab label="Gallery" *ngIf="data?.gallery">
         <div id="wycieczka-row" >
           <div class="flex-column" >
             <ngb-carousel >
-              <ng-template *ngFor="let image of data.gallery; let i=index" ngbSlide>
+              <ng-template *ngFor="let image of data?.gallery; let i=index" ngbSlide>
                 <div class="picsum-img-wrapper">
                   <img [src]="image" alt="{{i}} slide">
                 </div>
@@ -90,8 +90,8 @@
 
       <mat-tab label="Comments">
         <div class="comment-div1 flex-column">
-          <div *ngIf="data.comments">
-            <div *ngFor="let com of data.comments" class="flex-column">
+          <div *ngIf="data?.comments">
+            <div *ngFor="let com of data?.comments" class="flex-column">
               <p>{{ com.comment }}</p>
               <p class="author">Author: {{ com.author }}</p>
               <mat-divider></mat-divider>

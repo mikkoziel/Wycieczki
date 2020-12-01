@@ -91,7 +91,7 @@ export class FilterComponent implements OnInit {
         ).subscribe((x: RouterEvent) => {
           this.currentRoute = x.url;     
           this.routeFlag = this.currentRoute == "/" ? true : false;   
-          console.log(this.routeFlag+ "    " +this.currentRoute); 
+          // console.log(this.routeFlag+ "    " +this.currentRoute); 
         });
   }
 

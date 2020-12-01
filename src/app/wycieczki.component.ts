@@ -15,8 +15,7 @@ import { DbService } from './services/db.service';
 export class WycieczkiComponent implements OnInit{
   title = 'Projekt';
   
-  constructor(private WycieczkiService: WycieczkiServiceService,
-    private dbService: DbService) {
+  constructor(private wycieczkiService: WycieczkiServiceService) {
     
   };
 
@@ -26,17 +25,17 @@ export class WycieczkiComponent implements OnInit{
 
   
   getWycieczkiDB():void{
-    this.dbService.wycieczkiOb
+    this.wycieczkiService.getWycieczkiObDB()
             .subscribe(wycieczki => {
               this.initSubscriptions(wycieczki);});
   }
 
   initSubscriptions(wycieczki: WycieczkaData[]){
-    this.WycieczkiService.getMinPriceObject(wycieczki);
-    this.WycieczkiService.getMaxPriceObject(wycieczki);
-    this.WycieczkiService.getMinStartDateObject(wycieczki);
-    this.WycieczkiService.getMaxEndDateObject(wycieczki);
-    this.WycieczkiService.getCountriesObject(wycieczki);
+    this.wycieczkiService.getMinPriceObject(wycieczki);
+    this.wycieczkiService.getMaxPriceObject(wycieczki);
+    this.wycieczkiService.getMinStartDateObject(wycieczki);
+    this.wycieczkiService.getMaxEndDateObject(wycieczki);
+    this.wycieczkiService.getCountriesObject(wycieczki);
   }
   
 }

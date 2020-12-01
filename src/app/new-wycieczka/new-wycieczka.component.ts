@@ -19,10 +19,8 @@ export class NewWycieczkaComponent implements OnInit {
 
 
   constructor(
-    private route: ActivatedRoute,
     private formBuilder : FormBuilder,
-    private wycieczkiService: WycieczkiServiceService,
-    private dbService: DbService) { 
+    private wycieczkiService: WycieczkiServiceService) { 
 
     }
 
@@ -106,7 +104,7 @@ export class NewWycieczkaComponent implements OnInit {
       }
       
       console.log(wycieczka);
-      this.dbService.addWycieczka(wycieczka);
+      this.wycieczkiService.addWycieczka(wycieczka);
       // this.wycieczkiService.addProduct(wycieczka);
     }
     else{

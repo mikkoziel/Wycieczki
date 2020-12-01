@@ -44,10 +44,10 @@ export class ListaWycieczekComponent implements OnInit {
   }
 
   getWycieczkiDB():void{
-    this.dbService.wycieczkiOb
+    this.WycieczkiService.getWycieczkiObDB()
             .subscribe(wycieczki => {this.ListaWycieczek = wycieczki;
               this.initSubscriptions(wycieczki);
-              console.log(this.ListaWycieczek);
+              // console.log(this.ListaWycieczek);
               this.listEmitter.next(this.ListaWycieczek);});
   }
 

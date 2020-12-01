@@ -4,6 +4,7 @@ import { Credentials } from '../interfaces/user';
 import firebase from 'firebase/app';
 import { BehaviorSubject } from 'rxjs';
 import { DbService } from '../services/db.service';
+import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private authService: AuthService,
+    private wycieczkiService: WycieczkiServiceService,
     private dbService: DbService) { }
 
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
     // console.log(wycieczki);
     // console.log(this.dbService.data);
     // var wycieczki = this.dbService.
-    this.dbService.wycieczkiOb.subscribe(x => {
+    this.wycieczkiService.getWycieczkiObDB().subscribe(x => {
       console.log(x);
     });
   }
