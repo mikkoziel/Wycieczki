@@ -4,6 +4,7 @@ import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.compo
 import { KoszykComponent } from './koszyk/koszyk.component';
 import { WycieczkaData } from './interfaces/wycieczkaData';
 import { WycieczkiServiceService } from "./services/wycieczki-service.service";
+import { DbService } from './services/db.service';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +15,28 @@ import { WycieczkiServiceService } from "./services/wycieczki-service.service";
 export class WycieczkiComponent implements OnInit{
   title = 'Projekt';
   
-  constructor(private WycieczkiService: WycieczkiServiceService) {
+  constructor(private WycieczkiService: WycieczkiServiceService,
+    private dbService: DbService) {
     
   };
 
   ngOnInit(): void {
+    this.getWycieczkiDB();
+  }
+
+  
+  getWycieczkiDB():void{
+    this.dbService.wycieczkiOb
+            .subscribe(wycieczki => {
+              this.initSubscriptions(wycieczki);});
+  }
+
+  initSubscriptions(wycieczki: WycieczkaData[]){
+    this.WycieczkiService.getMinPriceObject(wycieczki);
+    this.WycieczkiService.getMaxPriceObject(wycieczki);
+    this.WycieczkiService.getMinStartDateObject(wycieczki);
+    this.WycieczkiService.getMaxEndDateObject(wycieczki);
+    this.WycieczkiService.getCountriesObject(wycieczki);
   }
   
 }

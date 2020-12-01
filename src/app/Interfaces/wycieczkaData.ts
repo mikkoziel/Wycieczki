@@ -13,7 +13,7 @@ export interface WycieczkaData{
     plus_show: boolean;
     minus_show:boolean;
     rating: number;
-    rating_count: number;
+    rating_count?: number;
     gallery?: string[];
     comments?: Comment[]
     cyclic?: Cyclic;

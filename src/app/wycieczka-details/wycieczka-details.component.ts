@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { add } from 'date-fns';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData';
@@ -8,6 +8,7 @@ import { KoszykService } from '../services/koszyk.service';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 import { DateRange, Order } from '../interfaces/order';
 import { DatePipe } from '@angular/common';
+import { DbService } from '../services/db.service';
 
 @Component({
   selector: 'app-wycieczka-details',
@@ -27,15 +28,18 @@ export class WycieczkaDetailsComponent implements OnInit {
 
   constructor(private _Activatedroute:ActivatedRoute,
       private wycieczkiService: WycieczkiServiceService,
-      private koszykService: KoszykService) { 
+      private koszykService: KoszykService, 
+      private dbService: DbService) { 
   }
 
   ngOnInit(): void {     
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      this.wycieczkiService.getProduct(this.id)
+      this.dbService.getWycieczkaOb(this.id.toString())
+      // this.wycieczkiService.getProduct(this.id)
           .subscribe(product=>{
             this.data = product;
+            console.log(product)
             this.rangeValue = {
               id: 0,
               startDate: this.data.startDate,
@@ -105,6 +109,10 @@ export class WycieczkaDetailsComponent implements OnInit {
         this.seats_flag = false;
       }
     })
+  }
+
+  getImage(path: string){//: Observable<string | null>{
+    return this.dbService.getImage(path);
   }
 
 }

@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
@@ -45,6 +46,8 @@ import { CountryFilterPipe } from './pipes/country-filter.pipe';
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireStorageModule } from "@angular/fire/storage";
+
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -88,6 +91,7 @@ import { environment } from '../environments/environment';
     FormsModule,
     MatSelectModule,
     MatTabsModule,
+    MatButtonToggleModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, 
@@ -95,6 +99,7 @@ import { environment } from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, // do obsługi autentykacji
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
   ],
   exports:[
     MatSliderModule,

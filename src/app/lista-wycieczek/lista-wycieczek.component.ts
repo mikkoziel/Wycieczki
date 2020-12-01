@@ -1,6 +1,8 @@
 import { Component, OnInit , Input, Output, EventEmitter} from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
+import { DbService } from '../services/db.service';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service'
 
 @Component({
@@ -26,11 +28,12 @@ export class ListaWycieczekComponent implements OnInit {
   countries: String[];
   countries_subscription: Subscription;
 
-  constructor(private WycieczkiService: WycieczkiServiceService) { 
+  constructor(private WycieczkiService: WycieczkiServiceService,
+    private dbService: DbService) { 
   }
 
   ngOnInit(): void { 
-    this.getWycieczki();
+    this.getWycieczkiDB();
   }
   
   ngOnDestroy() {
@@ -38,6 +41,14 @@ export class ListaWycieczekComponent implements OnInit {
     this.maxPrice_subscription.unsubscribe();
     this.startDate_subscription.unsubscribe();
     this.endDate_subscription.unsubscribe();
+  }
+
+  getWycieczkiDB():void{
+    this.dbService.wycieczkiOb
+            .subscribe(wycieczki => {this.ListaWycieczek = wycieczki;
+              this.initSubscriptions(wycieczki);
+              console.log(this.ListaWycieczek);
+              this.listEmitter.next(this.ListaWycieczek);});
   }
 
   getWycieczki(): void {
@@ -89,16 +100,7 @@ export class ListaWycieczekComponent implements OnInit {
     // }
     // else{
       return "1px solid black";
-    // }
   }
-
-  // getMaxPrice(){
-  //   return this.WycieczkiService.getMaxPrice();
-  // }
-
-  // getMinPrice(){
-  //   return this.WycieczkiService.getMinPrice();
-  // }
    
   getReservedSeats(){
     return this.WycieczkiService.getAllSeatsTaken();

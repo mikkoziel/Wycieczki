@@ -203,9 +203,18 @@ export class WycieczkiServiceService {
   // }
 
   getMinStartDateObject(wycieczki: WycieczkaData[]){
-    var earliestDate = wycieczki[0].startDate;
+    var earliestDate: Date;
+    if(wycieczki[0].startDate instanceof Date){
+      earliestDate = wycieczki[0].startDate;
+    } else{
+      earliestDate = new Date(wycieczki[0].startDate);
+    }
     wycieczki.forEach(x=>{
-      if(x.startDate.getTime() < earliestDate.getTime()){
+      var start = x.startDate;
+      if(!(start instanceof Date)){
+        start = new Date(start);
+      }
+      if(start.getTime() < earliestDate.getTime()){
         earliestDate = x.startDate;
       }
     });
@@ -228,9 +237,18 @@ export class WycieczkiServiceService {
   // }
   
   getMaxEndDateObject(wycieczki: WycieczkaData[]){
-    var latestDate = wycieczki[0].endDate;
+    var latestDate: Date;
+    if(wycieczki[0].startDate instanceof Date){
+      latestDate = wycieczki[0].endDate;
+    }else{
+      latestDate = new Date(wycieczki[0].endDate);
+    }
     wycieczki.forEach(x=>{
-      if(x.endDate.getTime() > latestDate.getTime()){
+      var end = x.endDate;
+      if(!(end instanceof Date)){
+        end = new Date(end);
+      }
+      if(end.getTime() > latestDate.getTime()){
         latestDate = x.endDate;
       }
     })

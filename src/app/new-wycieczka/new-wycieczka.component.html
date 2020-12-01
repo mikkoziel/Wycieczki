@@ -12,7 +12,14 @@
                 <div class="label"><label>seats:</label></div>
                 <div class="label"><label>description:</label></div>
                 <div class="label"><label>image_url:</label></div>
-                <div class="label"></div>
+                <div class="label"><label>cyclic:</label></div>
+                <div class="label"><label>cyclic_long:</label></div>
+                <div class="label"><label>cyclic_label:</label></div>
+                <div class="label"><label>cyclic_label_long:</label></div>
+                <div class="label"><label>gallery:</label></div>
+                <div class="label"><label>First picture:</label></div>
+                <div class="label"><label>Second picture:</label></div>
+                <div class="label"><label>Third picture:</label></div>
             </div>
             <div class="wycieczka-column">
                 <input name="name" formControlName="name"  type="text">
@@ -23,6 +30,26 @@
                 <input name="seats" formControlName="seats" type="number">
                 <input name="description" formControlName="description" type="text">
                 <input name="image_url" formControlName="image_url" type="url">
+                <mat-button-toggle-group name="cyclic" aria-label="cyclic" formControlName="cyclic">
+                    <mat-button-toggle value=true>Yes</mat-button-toggle>
+                    <mat-button-toggle value=false>No</mat-button-toggle>
+                </mat-button-toggle-group>
+                <input name="cyclic_long" formControlName="cyclic_long" type="number">
+                <mat-button-toggle-group name="cyclic_label" aria-label="cyclic_label" formControlName="cyclic_label">
+                    <mat-button-toggle value="days">days</mat-button-toggle>
+                    <mat-button-toggle value="weeks">weeks</mat-button-toggle>
+                    <mat-button-toggle value="months">months</mat-button-toggle>
+                </mat-button-toggle-group>
+                <input name="cyclic_label_long" formControlName="cyclic_label_long" type="number">
+                <mat-button-toggle-group name="gallery" aria-label="gallery" formControlName="gallery">
+                    <mat-button-toggle value=true>Yes</mat-button-toggle>
+                    <mat-button-toggle value=false>No</mat-button-toggle>
+                </mat-button-toggle-group>
+                <input name="gallery1" formControlName="gallery1" type="url">
+                <input name="gallery2" formControlName="gallery2" type="url">
+                <input name="gallery3" formControlName="gallery3" type="url">
+
+                <!-- <input name="cyclic" formControlName="cyclic" type="url"> -->
                 
             </div>
         </div>

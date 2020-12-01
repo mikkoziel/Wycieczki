@@ -1,7 +1,7 @@
 <div>
     <div id="wycieczka-row">
         <div class="flex-column">
-        <div><a [routerLink]="['trip-details', data.id]"><img src="{{ data.image_url }}"  class="main-image"/></a></div>
+        <div><a [routerLink]="['trip-details', data.id]"><img src="{{getImage(data.image_url)}}"  class="main-image"/></a></div>
         </div>
         <div class="flex-column">
         <div>Name: {{ data.name }} </div> 
