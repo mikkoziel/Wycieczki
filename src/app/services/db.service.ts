@@ -15,14 +15,17 @@ export class DbService {
   private _wycieczkiOb: Observable<WycieczkaData[]>;
   private _wycieczkaOb: Observable<WycieczkaData>;
 
-  public wycieczkaList: AngularFireList<any[]>;
-  public wycieczkaObject: AngularFireObject<any>;
+  public wycieczkaList: AngularFireList<WycieczkaData>;
+  public wycieczkaObject: AngularFireObject<WycieczkaData>;
+
+  public maxId: number;
 
   constructor(private db: AngularFireDatabase,
     private storage: AngularFireStorage) {
       
     this.getWycieczkaList('wycieczki');
     this._wycieczkiOb = this.getWycieczkiOb();
+    this.getMaxId();
   }
 
   public get wycieczkiOb(){
@@ -41,18 +44,37 @@ export class DbService {
     this._wycieczkaOb = wycieczka;
   }
 
+  getMaxId(){
+    let id = 0;
+    this._wycieczkiOb.subscribe(wycieczki =>{
+      wycieczki.forEach(x => {
+        if(x.id > id){
+          // console.log(x.id)
+          id = x.id;
+        }
+      });
+      this.maxId = id;
+      // console.log(this.maxId)
+    })
+
+    // this.db.list('/wycieczki', ref => ref.limitToLast(2)).valueChanges()
+    // .subscribe(lastItems =>{
+    //   console.log(lastItems);  
+    // });
+  }
+
   public getWycieczkiOb(){
-    return this.db.list('wycieczki').valueChanges().pipe(
+    return this.db.list<WycieczkaData[]>('wycieczki').valueChanges().pipe(
       map(coll => {
         return coll.map((w: any) => {
           return this.convertFireToWycieczkaData(w);
         })
-      })
+      }),
     );
   }
 
   public getWycieczkaOb(id: string){
-    this.wycieczkaOb = this.db.object('wycieczki/' + id).valueChanges().pipe(
+    this.wycieczkaOb = this.db.object<WycieczkaData>('wycieczki/' + id).valueChanges().pipe(
       map((w: any) => {
           return this.convertFireToWycieczkaData(w);
         })
@@ -60,7 +82,7 @@ export class DbService {
     return this.wycieczkaOb;
   }
 
-  convertFireToWycieczkaData(w){
+  convertFireToWycieczkaData(w: any){
     return <WycieczkaData>{
       id: w.id,    
       name: w.name,
@@ -83,6 +105,29 @@ export class DbService {
     };
   }
 
+  convertToObject(w: any){
+    return {
+      id: w.id,    
+      name: w.name,
+      country: w.country,
+      startDate: new Date(w.startDate),
+      endDate: new Date(w.endDate),
+      price: w.price,
+      currency: w.currency,
+      // seats?: number;
+      description: w.description,
+      image_url: w.image_url,
+      avaible_seats: w.avaible_seats,
+      plus_show: w.plus_show,
+      minus_show: w.minus_show,
+      rating: w.rating,
+      // rating_count?: number;
+      gallery: w.gallery == null ? null : w.gallery,
+      comments: w.comments,
+      cyclic: w.cyclic
+    };
+  }
+
   // addWycieczkaOb(value: WycieczkaData): void {
   //   this.wycieczkiOb.push(value);
   //   }
@@ -93,13 +138,35 @@ export class DbService {
 
 
   // odczyt danych z bazy
-  public getWycieczkaList(listPath: PathReference): AngularFireList<any[]> {
+  public getWycieczkaList(listPath: PathReference): AngularFireList<any> {
     this.wycieczkaList = this.db.list(listPath);
     return this.wycieczkaList;
   }
 
-  addWycieczka(value: WycieczkaData): void {
-    this.wycieczkaList.push([value]);
+  addWycieczka(w: WycieczkaData): void {
+    console.log(w)
+    this.wycieczkaList.push(
+      {
+        id: w.id,    
+        name: w.name,
+        country: w.country,
+        startDate: new Date(w.startDate),
+        endDate: new Date(w.endDate),
+        price: w.price,
+        currency: w.currency,
+        // seats?: number;
+        description: w.description,
+        image_url: w.image_url,
+        avaible_seats: w.avaible_seats,
+        plus_show: w.plus_show,
+        minus_show: w.minus_show,
+        rating: w.rating,
+        // rating_count?: number;
+        gallery: w.gallery == undefined ? null : w.gallery,
+        comments: w.comments == undefined ? null : w.comments,
+        cyclic: w.cyclic == undefined ? null : w.cyclic,
+      }
+    );
   }
 
   getWycieczka(id:string){

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData'
@@ -23,8 +23,10 @@ export class NewWycieczkaComponent implements OnInit {
     private wycieczkiService: WycieczkiServiceService) { 
 
     }
-
+  
   ngOnInit() : void {
+
+
     this.modelForm = this.formBuilder.group({
       name: ['', Validators.required],
       country: ['', Validators.required],
@@ -35,14 +37,19 @@ export class NewWycieczkaComponent implements OnInit {
       description: ['', Validators.required],
       image_url: ['', Validators.required],
       cyclic: ['', Validators.required],
-      cyclic_label: ['', Validators.required],
-      cyclic_long: ['', Validators.required],
-      cyclic_label_long: ['', Validators.required],
+      cyclic_label: [''],
+      cyclic_long: [''],
+      cyclic_label_long: [''],
       gallery: ['', Validators.required],
-      gallery1: ['', Validators.required],
-      gallery2: ['', Validators.required],
-      gallery3: ['', Validators.required],
-    });
+      gallery1: [''],
+      gallery2: [''],
+      gallery3: [''],
+    }, {
+      validators: [this.galleryValidators, 
+        this.cyclicLabelValidators,
+        this.cyclicLongValidators,
+        this.cyclicLabelLongValidators]
+  });
   }
 
   onSubmit(modelForm: FormGroup){
@@ -127,5 +134,41 @@ export class NewWycieczkaComponent implements OnInit {
       });
     }
   
+  // Validators -----------------------------------------------------------------
+    
+  galleryValidators(formGroup: FormGroup) {
+    if (formGroup.value.gallery) {
+      return Validators.required(formGroup.get('gallery1')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
+  
+  cyclicLabelValidators(formGroup: FormGroup) {
+    if (formGroup.value.cyclic) {
+      return Validators.required(formGroup.get('cyclic_label')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
 
+  cyclicLongValidators(formGroup: FormGroup) {
+    if (formGroup.value.cyclic) {
+      return Validators.required(formGroup.get('cyclic_long')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
+
+  cyclicLabelLongValidators(formGroup: FormGroup) {
+    if (formGroup.value.cyclic) {
+      return Validators.required(formGroup.get('cyclic_label_long')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
 }

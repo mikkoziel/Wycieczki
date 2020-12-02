@@ -28,7 +28,7 @@ export class ListaWycieczekComponent implements OnInit {
   countries: String[];
   countries_subscription: Subscription;
 
-  constructor(private WycieczkiService: WycieczkiServiceService,
+  constructor(private wycieczkiService: WycieczkiServiceService,
     private dbService: DbService) { 
   }
 
@@ -44,7 +44,7 @@ export class ListaWycieczekComponent implements OnInit {
   }
 
   getWycieczkiDB():void{
-    this.WycieczkiService.getWycieczkiObDB()
+    this.wycieczkiService.getWycieczkiObDB()
             .subscribe(wycieczki => {this.ListaWycieczek = wycieczki;
               this.initSubscriptions(wycieczki);
               // console.log(this.ListaWycieczek);
@@ -52,7 +52,7 @@ export class ListaWycieczekComponent implements OnInit {
   }
 
   getWycieczki(): void {
-    this.WycieczkiService.getProducts()
+    this.wycieczkiService.getProducts()
           .subscribe(wycieczki =>{this.ListaWycieczek = wycieczki;
             this.initSubscriptions(wycieczki);
             this.listEmitter.next(this.ListaWycieczek);});
@@ -60,32 +60,33 @@ export class ListaWycieczekComponent implements OnInit {
   
   deleteWycieczka(wycieczkaDEL: WycieczkaData){
     this.ListaWycieczek = this.ListaWycieczek.filter(w=> w !== wycieczkaDEL);
-    this.WycieczkiService.removeProduct(wycieczkaDEL).subscribe();
+    this.wycieczkiService.removeProduct(wycieczkaDEL).subscribe();
+    this.wycieczkiService.removeWycieczkaDB(wycieczkaDEL);
   }
 
   initSubscriptions(wycieczki: WycieczkaData[]){
-    this.minPrice = this.WycieczkiService.getMinPriceObject(wycieczki);
-    this.minPrice_subscription = this.WycieczkiService.minPriceFilterChange.subscribe((value) => {
+    this.minPrice = this.wycieczkiService.getMinPriceObject(wycieczki);
+    this.minPrice_subscription = this.wycieczkiService.minPriceFilterChange.subscribe((value) => {
       this.minPrice = value;
       this.listEmitter.next(this.ListaWycieczek);
     });
-    this.maxPrice = this.WycieczkiService.getMaxPriceObject(wycieczki);
-    this.maxPrice_subscription = this.WycieczkiService.maxPriceFilterChange.subscribe((value) => {
+    this.maxPrice = this.wycieczkiService.getMaxPriceObject(wycieczki);
+    this.maxPrice_subscription = this.wycieczkiService.maxPriceFilterChange.subscribe((value) => {
       this.maxPrice = value;
       this.listEmitter.next(this.ListaWycieczek);
     });
-    this.startDate = this.WycieczkiService.getMinStartDateObject(wycieczki);
-    this.startDate_subscription = this.WycieczkiService.startDateFilterChange.subscribe((value) => {
+    this.startDate = this.wycieczkiService.getMinStartDateObject(wycieczki);
+    this.startDate_subscription = this.wycieczkiService.startDateFilterChange.subscribe((value) => {
       this.startDate = value;
       this.listEmitter.next(this.ListaWycieczek);
     });
-    this.endDate = this.WycieczkiService.getMaxEndDateObject(wycieczki);
-    this.endDate_subscription = this.WycieczkiService.endDateFilterChange.subscribe((value) => {
+    this.endDate = this.wycieczkiService.getMaxEndDateObject(wycieczki);
+    this.endDate_subscription = this.wycieczkiService.endDateFilterChange.subscribe((value) => {
       this.endDate = value;
       this.listEmitter.next(this.ListaWycieczek);
     });
-    this.countries = this.WycieczkiService.getCountriesObject(wycieczki);
-    this.countries_subscription = this.WycieczkiService.countriesFilterChange.subscribe((value) => {
+    this.countries = this.wycieczkiService.getCountriesObject(wycieczki);
+    this.countries_subscription = this.wycieczkiService.countriesFilterChange.subscribe((value) => {
       this.countries = value;
       this.listEmitter.next(this.ListaWycieczek);
     });
@@ -103,15 +104,15 @@ export class ListaWycieczekComponent implements OnInit {
   }
    
   getReservedSeats(){
-    return this.WycieczkiService.getAllSeatsTaken();
+    return this.wycieczkiService.getAllSeatsTaken();
   }
 
   getAllSeats(){
-    return this.WycieczkiService.getAllSeats();
+    return this.wycieczkiService.getAllSeats();
   }
 
   getAllAvailableSeats(){
-    return this.WycieczkiService.getAllAvailableSeats();
+    return this.wycieczkiService.getAllAvailableSeats();
   }
 
   getReservedColor(){

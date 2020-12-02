@@ -70,7 +70,21 @@ export class WycieczkiServiceService {
   }
 
   addWycieczka(wycieczka: WycieczkaData){
-    this.dbService.addWycieczka(wycieczka);
+    // var id = 0;
+    // this.getWycieczkiObDB().subscribe(wycieczki =>{
+    //   wycieczki.forEach(x => {
+    //     if(x.id > id){
+    //       id = x.id;
+    //     }
+    //   })
+      wycieczka.id = this.dbService.maxId + 1;
+      console.log(wycieczka.id);
+      this.dbService.addWycieczka(wycieczka);
+    // })
+  }
+
+  removeWycieczkaDB(wycieczka: WycieczkaData){
+    this.dbService.deleteWycieczka(wycieczka.id);
   }
 
   // From in-memory-web-api ------------------------------------------------
