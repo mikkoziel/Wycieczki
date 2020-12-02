@@ -1,10 +1,11 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData'
 import { add } from 'date-fns';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
+import { DbService } from '../services/db.service';
 
 @Component({
   selector: 'app-new-wycieczka',
@@ -18,13 +19,14 @@ export class NewWycieczkaComponent implements OnInit {
 
 
   constructor(
-    private route: ActivatedRoute,
     private formBuilder : FormBuilder,
     private wycieczkiService: WycieczkiServiceService) { 
 
     }
-
+  
   ngOnInit() : void {
+
+
     this.modelForm = this.formBuilder.group({
       name: ['', Validators.required],
       country: ['', Validators.required],
@@ -33,8 +35,21 @@ export class NewWycieczkaComponent implements OnInit {
       price: ['', [Validators.pattern('[0-9]*'), Validators.required]],
       seats: ['', [Validators.pattern('[0-9]*'), Validators.required]],
       description: ['', Validators.required],
-      image_url: ['', Validators.required]
-    });
+      image_url: ['', Validators.required],
+      cyclic: ['', Validators.required],
+      cyclic_label: [''],
+      cyclic_long: [''],
+      cyclic_label_long: [''],
+      gallery: ['', Validators.required],
+      gallery1: [''],
+      gallery2: [''],
+      gallery3: [''],
+    }, {
+      validators: [this.galleryValidators, 
+        this.cyclicLabelValidators,
+        this.cyclicLongValidators,
+        this.cyclicLabelLongValidators]
+  });
   }
 
   onSubmit(modelForm: FormGroup){
@@ -57,9 +72,46 @@ export class NewWycieczkaComponent implements OnInit {
         plus_show: true,
         minus_show: false,
         rating: 0,
-        rating_count: 0,
+        
+        // rating_count: 0,
+        // gallery: [],
+        // cyclic: 
       }
+
+      if(modelForm.value.cyclic){
+          wycieczka.cyclic = {
+            long: modelForm.value.cyclic_long,
+          }      
+          switch(modelForm.value.cyclic_label) {
+            case "days": {
+              wycieczka.cyclic.days = modelForm.value.cyclic_label_long;
+              break;
+            }
+            case "weeks": {
+              wycieczka.cyclic.weeks = modelForm.value.cyclic_label_long;
+              break;
+            }
+            case "months": {
+              wycieczka.cyclic.months = modelForm.value.cyclic_label_long;
+              break;
+            }
+          }
+      }
+      if(modelForm.value.gallery){
+        wycieczka.gallery = []
+        if(modelForm.value.gallery1){
+          wycieczka.gallery.push(modelForm.value.gallery1);
+        }
+        if(modelForm.value.gallery2){
+          wycieczka.gallery.push(modelForm.value.gallery2);
+        }
+        if(modelForm.value.gallery3){
+          wycieczka.gallery.push(modelForm.value.gallery3);
+        }
+      }
+      
       console.log(wycieczka);
+      this.wycieczkiService.addWycieczka(wycieczka);
       // this.wycieczkiService.addProduct(wycieczka);
     }
     else{
@@ -82,5 +134,41 @@ export class NewWycieczkaComponent implements OnInit {
       });
     }
   
+  // Validators -----------------------------------------------------------------
+    
+  galleryValidators(formGroup: FormGroup) {
+    if (formGroup.value.gallery) {
+      return Validators.required(formGroup.get('gallery1')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
+  
+  cyclicLabelValidators(formGroup: FormGroup) {
+    if (formGroup.value.cyclic) {
+      return Validators.required(formGroup.get('cyclic_label')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
 
+  cyclicLongValidators(formGroup: FormGroup) {
+    if (formGroup.value.cyclic) {
+      return Validators.required(formGroup.get('cyclic_long')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
+
+  cyclicLabelLongValidators(formGroup: FormGroup) {
+    if (formGroup.value.cyclic) {
+      return Validators.required(formGroup.get('cyclic_label_long')) ? {
+        ConditionallyRequired: true,
+      } : null;
+    }
+    return null;
+  }
 }

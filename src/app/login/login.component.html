@@ -1,4 +1,5 @@
-<div *ngIf="userEmitter | async; else showLogin">
+<div class="login-div">
+  <div *ngIf="userEmitter | async; else showLogin">
     <h1>Hello {{ user.displayName }}!</h1>
     <button (click)="logout()">Logout</button>
   </div>
@@ -6,7 +7,7 @@
       
     <div class="flex-column">
         <p>Please login.</p>
-        <div mat-dialog-content>
+        <div mat-dialog-content class="flex-column">
             <mat-form-field class="example-full-width">
             <mat-label>E-mail</mat-label>
             <input matInput type="email" placeholder="E-mail" [(ngModel)]='mail'>
@@ -18,5 +19,8 @@
             </mat-form-field>
         </div>
         <button (click)="login()">Login</button>
+        <p>If you don't have account:</p>
+        <button  [routerLink]="'/sign-up'">Sign Up</button>
     </div>
   </ng-template>
+</div> 

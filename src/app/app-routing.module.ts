@@ -12,9 +12,9 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
     { path: '', component: ListaWycieczekComponent },
-    { path: 'cart', component: KoszykComponent, canActivate: [AuthGuard] },
-    { path: 'new-trip', component: NewWycieczkaComponent, canActivate: [AuthGuard] },
-    { path: 'trip-details/:id', component: WycieczkaDetailsComponent, canActivate: [AuthGuard] },
+    { path: 'cart', component: KoszykComponent },
+    { path: 'new-trip', component: NewWycieczkaComponent },
+    { path: 'trip-details/:id', component: WycieczkaDetailsComponent },
     { path: 'sign-in', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
     { path: 'confirm', component: ConfirmReservationComponent, canActivate: [AuthGuard] },

@@ -7,6 +7,9 @@ import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/mater
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatDatepicker} from '@angular/material/datepicker';
 
+import { Router,NavigationEnd, RouterEvent  } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
 import * as _moment from 'moment';
 import {default as _rollupMoment, Moment} from 'moment';
 const moment = _rollupMoment || _moment;
@@ -43,6 +46,9 @@ export const MY_FORMATS = {
   ],
 })
 export class FilterComponent implements OnInit {
+  currentRoute: string;
+  routeFlag: boolean = false;
+
   minPrice = 0;
   minValuePrice = 0;
   maxPrice = 0;
@@ -79,7 +85,15 @@ export class FilterComponent implements OnInit {
 
   enabled =true;
 
-  constructor(private wycieczkiService: WycieczkiServiceService) { }
+  constructor(private wycieczkiService: WycieczkiServiceService,
+    private router: Router) {
+      this.router.events.pipe(filter(event => event instanceof NavigationEnd)
+        ).subscribe((x: RouterEvent) => {
+          this.currentRoute = x.url;     
+          this.routeFlag = this.currentRoute == "/" ? true : false;   
+          // console.log(this.routeFlag+ "    " +this.currentRoute); 
+        });
+  }
 
   ngOnInit(): void {
     this.minPrice_subscription = this.wycieczkiService.minPriceChange.subscribe((value) => {
