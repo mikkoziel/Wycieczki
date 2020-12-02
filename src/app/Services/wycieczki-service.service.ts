@@ -70,21 +70,17 @@ export class WycieczkiServiceService {
   }
 
   addWycieczka(wycieczka: WycieczkaData){
-    // var id = 0;
-    // this.getWycieczkiObDB().subscribe(wycieczki =>{
-    //   wycieczki.forEach(x => {
-    //     if(x.id > id){
-    //       id = x.id;
-    //     }
-    //   })
       wycieczka.id = this.dbService.maxId + 1;
       console.log(wycieczka.id);
       this.dbService.addWycieczka(wycieczka);
-    // })
   }
 
   removeWycieczkaDB(wycieczka: WycieczkaData){
     this.dbService.deleteWycieczka(wycieczka.id);
+  }
+
+  updateWycieczkaDB(wycieczka: WycieczkaData){
+    this.dbService.updateWycieczkaId(wycieczka);
   }
 
   // From in-memory-web-api ------------------------------------------------
@@ -137,7 +133,8 @@ export class WycieczkiServiceService {
   }
   
   // functionality ------------------------------------------------
-  reserveSeat(wycieczkaRES: WycieczkaData, id: number){    
+  reserveSeat(wycieczkaRES: WycieczkaData, id: number){   
+    console.log(wycieczkaRES.seats_taken); 
     wycieczkaRES.seats_taken[id] += 1;
 
     if(wycieczkaRES.avaible_seats != wycieczkaRES.seats_taken[id]){
@@ -169,6 +166,7 @@ export class WycieczkiServiceService {
       comment: comment
     })
     this.updateProduct(wycieczkaCOM);
+    this.updateWycieczkaDB(wycieczkaCOM);
   }
 
   // Statistics ------------------------------------------------

@@ -49,18 +49,11 @@ export class DbService {
     this._wycieczkiOb.subscribe(wycieczki =>{
       wycieczki.forEach(x => {
         if(x.id > id){
-          // console.log(x.id)
           id = x.id;
         }
       });
       this.maxId = id;
-      // console.log(this.maxId)
     })
-
-    // this.db.list('/wycieczki', ref => ref.limitToLast(2)).valueChanges()
-    // .subscribe(lastItems =>{
-    //   console.log(lastItems);  
-    // });
   }
 
   public getWycieczkiOb(){
@@ -101,32 +94,33 @@ export class DbService {
       // rating_count?: number;
       gallery: w.gallery,
       comments: w.comments,
-      cyclic: w.cyclic
+      cyclic: w.cyclic,
+      seats_taken: w.seats_taken
     };
   }
 
-  convertToObject(w: any){
-    return {
-      id: w.id,    
-      name: w.name,
-      country: w.country,
-      startDate: new Date(w.startDate),
-      endDate: new Date(w.endDate),
-      price: w.price,
-      currency: w.currency,
-      // seats?: number;
-      description: w.description,
-      image_url: w.image_url,
-      avaible_seats: w.avaible_seats,
-      plus_show: w.plus_show,
-      minus_show: w.minus_show,
-      rating: w.rating,
-      // rating_count?: number;
-      gallery: w.gallery == null ? null : w.gallery,
-      comments: w.comments,
-      cyclic: w.cyclic
-    };
-  }
+  // convertToObject(w: any){
+  //   return {
+  //     id: w.id,    
+  //     name: w.name,
+  //     country: w.country,
+  //     startDate: new Date(w.startDate),
+  //     endDate: new Date(w.endDate),
+  //     price: w.price,
+  //     currency: w.currency,
+  //     // seats?: number;
+  //     description: w.description,
+  //     image_url: w.image_url,
+  //     avaible_seats: w.avaible_seats,
+  //     plus_show: w.plus_show,
+  //     minus_show: w.minus_show,
+  //     rating: w.rating,
+  //     // rating_count?: number;
+  //     gallery: w.gallery == null ? null : w.gallery,
+  //     comments: w.comments,
+  //     cyclic: w.cyclic
+  //   };
+  // }
 
   // addWycieczkaOb(value: WycieczkaData): void {
   //   this.wycieczkiOb.push(value);
@@ -190,14 +184,14 @@ export class DbService {
       endDate: value.endDate,
       price: value.price,
       currency: value.currency,
-      seats: value.seats,
+      // seats: value.seats,
       description: value.description,
       image_url: value.image_url,
       avaible_seats: value.avaible_seats,
       plus_show: value.plus_show,
       minus_show: value.minus_show,
       rating: value.rating,
-      rating_count: value.rating_count,
+      // rating_count: value.rating_count,
       gallery: value.gallery,
       comments: value.comments,
       cyclic: value.cyclic,

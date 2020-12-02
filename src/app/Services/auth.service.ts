@@ -22,7 +22,13 @@ export class AuthService {
   }
 
   register({email, password}: Credentials) {
-    return this.fireAuth.createUserWithEmailAndPassword(email,password);
+    return this.fireAuth.createUserWithEmailAndPassword(email,password)
+    .catch(err => {
+      const errorCode = err.code;
+      const errorMessage = err.message;
+
+      console.error(`${errorCode} Could not log into Firebase: ${errorMessage}`);
+    });
   }
   
   logout() {
