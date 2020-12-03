@@ -20,7 +20,7 @@ export class DbService {
 
   public maxId: number;
 
-  constructor(private db: AngularFireDatabase,
+  constructor(private _db: AngularFireDatabase,
     private storage: AngularFireStorage) {
       
     this.getWycieczkaList('wycieczki');
@@ -42,6 +42,10 @@ export class DbService {
 
   public set wycieczkaOb(wycieczka: Observable<any>){
     this._wycieczkaOb = wycieczka;
+  }
+
+  public get db(){
+    return this._db;
   }
 
   getMaxId(){
@@ -213,5 +217,12 @@ export class DbService {
     return path;
   }
 
+  getAdminObject(uid: string){
+    return this.db.object<boolean>('/admins/' + uid).valueChanges();
+  }
+
+  getUserObject(uid: string){
+    return this.db.object<boolean>('/users/' + uid).valueChanges();
+  }
 }
 

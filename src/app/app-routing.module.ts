@@ -15,7 +15,7 @@ const routes: Routes = [
     { path: 'cart', component: KoszykComponent },
     { path: 'new-trip', component: NewWycieczkaComponent },
     { path: 'trip-details/:id', component: WycieczkaDetailsComponent },
-    { path: 'sign-in', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
     { path: 'confirm', component: ConfirmReservationComponent, canActivate: [AuthGuard] },
   ];
