@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuthModule, AngularFireAuth } from "@angular/fire/auth";
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs/index';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Credentials } from '../interfaces/user';
 import { DbService } from './db.service';
@@ -13,10 +13,9 @@ export class AuthService {
   uid = this.fireAuth.authState.pipe(
     map(authState => {
       if (!authState) {
-        console.log("BUMBUm")
         return null;
       } else {
-        console.log(authState.uid)
+        // console.log(authState.uid)
         return authState.uid;
       }
     })
@@ -28,8 +27,7 @@ export class AuthService {
         return of(false);
       } else {
         console.log(user.uid)
-        // return  this.getAdminObject(user.uid) != null ? of(true): of(false);
-        return this.checkAdmin(user.uid);
+          return this.checkAdmin(user.uid);
       }
     })
   );
@@ -39,14 +37,10 @@ export class AuthService {
   constructor(private _fireAuth: AngularFireAuth,
     private dbService: DbService) {
       this.isAdmin.subscribe(x=>console.log("isAdmin: " + x));
-    }
+     }
 
   public get fireAuth(){
     return this._fireAuth;
-  }
-
-  public getAdminObject(uid: string){
-    return this.dbService.getAdminObject(uid);
   }
 
   getUserObject(uid: string){
@@ -61,9 +55,6 @@ export class AuthService {
     )
   }
   
-  // get user(): Observable<firebase.User | null> {
-  //   return this.fireAuth.user;
-  // }
 
   // async login({email, password}: Credentials) {
   //   const session = "session";
@@ -75,6 +66,7 @@ export class AuthService {
      return this.fireAuth.signInWithEmailAndPassword(email, password
       ).then(value => {
         // console.log(value)
+        this.fireAuth.setPersistence('session');
         console.log("Logged: " + value.user.email );
         
         // console.log(this.fireAuth.authState);

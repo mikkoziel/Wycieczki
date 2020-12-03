@@ -217,10 +217,6 @@ export class DbService {
     return path;
   }
 
-  getAdminObject(uid: string){
-    return this.db.object<boolean>('/admins/' + uid).valueChanges();
-  }
-
   getUserObject(uid: string){
     return this.db.object<boolean>('/users/' + uid).valueChanges();
   }

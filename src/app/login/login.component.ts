@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     private dbService: DbService) { }
 
   ngOnInit(): void {
-    this.getData();
     this.getUser();
   }
 
@@ -32,11 +31,8 @@ export class LoginComponent implements OnInit {
     this.authService.uid.pipe(
       mergeMap(user =>{
         if(user != null){
-          let admin = this.dbService.getAdminObject(user);
-          console.log(admin);
           let userOb = this.dbService.getUserObject(user);
-          console.log(admin);
-          return admin ? admin : (userOb ? userOb : of(null));
+          return userOb ? userOb : of(null);
         }
         return of(null);
       })
@@ -44,23 +40,6 @@ export class LoginComponent implements OnInit {
       console.log(x);
       this.assignAndEmmitUser(x);
     });
-    // subscribe(user => {
-    //   console.log(user);
-    //   if(user != null){
-    //     this.authService.isAdmin.pipe(first()).subscribe(x=>{
-    //       if(x){
-    //         // console.log("admin");
-    //         this.dbService.getAdminObject(user).pipe(first()).subscribe((x :any)=> {console.log("admin");this.assignAndEmmitUser(x)});
-    //       } else{
-    //         // console.log("user");
-    //         this.dbService.getUserObject(user).pipe(first()).subscribe((x :any)=> {console.log("user");this.assignAndEmmitUser(x)});
-    //       }
-    //     })
-    //   } else {
-    //     console.log("tutaj")
-    //     this.assignAndEmmitUser(null);
-    //   }
-    // });
   }
 
   assignAndEmmitUser(x:any){
@@ -70,30 +49,14 @@ export class LoginComponent implements OnInit {
       this.user = null;
     }
     this.userEmitter.next(this.user);
-    // console.log(this.user);
   }
 
   login(){
-    this.authService.login(this.mail, this.password)//.then((x) =>{
-      // this.getUser();
-    //});
+    this.authService.login(this.mail, this.password)
   }
 
   logout(){
-    this.authService.logout().then((x) => {
-      // this.getUser(); 
-      // console.log(this.user);
-    });
-  }
-
-  getData(){
-    // var wycieczki = this.dbService.getWycieczkaList('wycieczki');//.subscribe(x =>
-    // console.log(wycieczki);
-    // console.log(this.dbService.data);
-    // var wycieczki = this.dbService.
-    // this.wycieczkiService.getWycieczkiObDB().subscribe(x => {
-    //   console.log(x);
-    // });
+    this.authService.logout()
   }
 
 }
