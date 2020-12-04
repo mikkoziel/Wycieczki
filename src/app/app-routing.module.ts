@@ -14,7 +14,8 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
-    { path: '', component: ListaWycieczekComponent },
+    { path: 'trip-list', component: ListaWycieczekComponent},
+    { path: '', redirectTo: '/trip-list', pathMatch: 'full' },
     { path: 'cart', component: KoszykComponent, canActivate:[AuthGuard, AdminGuard] },
     { path: 'new-trip', component: NewWycieczkaComponent,  canActivate:[AdminGuard] },
     { path: 'trip-details/:id', component: WycieczkaDetailsComponent },

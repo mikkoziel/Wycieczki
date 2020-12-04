@@ -17,9 +17,9 @@ export class AuthService {
       if(!user) {
         return EMPTY;
       } else {
-        console.log(user.uid)      
+        // console.log(user.uid)      
         let x = this.getUserObject(user.uid);
-        console.log(x);
+        // console.log(x);
         return x;
       }
 
@@ -42,7 +42,7 @@ export class AuthService {
       if(!user) {
         return of(false);
       } else {
-        console.log(user.uid)
+        // console.log(user.uid)
         return this.checkAdmin(user.uid);
       }
     })

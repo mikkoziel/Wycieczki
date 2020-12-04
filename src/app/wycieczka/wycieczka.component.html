@@ -1,6 +1,6 @@
 <div id="wycieczka-row">
   <div id="wycieczka-column">
-    <div><a [routerLink]="['trip-details', data.id]"><img src="{{ getImage(data.image_url) }} "  /></a></div>
+    <div><a [routerLink]="['/trip-details', data.id]"><img src="{{ getImage(data.image_url) }} "  /></a></div>
   </div>
   <div id="wycieczka-column">
     <div>Name: {{ data.name }} </div> 
@@ -35,7 +35,7 @@
       </button>
     </div>
     <div *ngIf="isAdmin">
-        <button [routerLink]="['update-trip', data.id]">
+        <button [routerLink]="['/update-trip', data.id]">
           Update
         </button>
     </div>

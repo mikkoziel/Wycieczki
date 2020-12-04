@@ -13,3 +13,7 @@
 .login-div {
     margin: 32px 20%;
 }
+
+button {
+    max-height: 100px;
+}

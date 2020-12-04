@@ -29,3 +29,7 @@ button {
 input {
     width: 70%;
 }
+
+button {
+    max-height: 100px;
+}
