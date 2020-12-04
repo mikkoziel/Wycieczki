@@ -1,72 +1,96 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-update-wycieczka',
   templateUrl: './update-wycieczka.component.html',
-  styleUrls: ['./update-wycieczka.component.css']
+  styleUrls: ['./update-wycieczka.component.css'],
+  providers: [DatePipe]
 })
 export class UpdateWycieczkaComponent implements OnInit {
   id: number;
-  modelForm: FormGroup;
+  modelForm: FormGroup = null;
   errors = [];
   data: WycieczkaData;
   sub: Subscription;
 
-  cyclic_default: boolean = false;
+  // cyclic_default: boolean;
 
   constructor(private _Activatedroute: ActivatedRoute,
     private formBuilder : FormBuilder,
-    private wycieczkiService: WycieczkiServiceService) {
+    private wycieczkiService: WycieczkiServiceService,
+    private datePipe: DatePipe) {
       
      }
 
   ngOnInit(): void {
+    this.modelForm = this.formBuilder.group({
+      name: ["", Validators.required],
+      country: ["", Validators.required],
+      startDate: ["", Validators.required],
+      endDate: ["", Validators.required],
+      price: ["", [Validators.pattern('[0-9]*'), Validators.required]],
+      seats: ["", [Validators.pattern('[0-9]*'), Validators.required]],
+      description: ["", Validators.required],
+      image_url: ["", Validators.required],
+      cyclic: ["", Validators.required],
+      cyclic_long: [""],
+      cyclic_label: [""],
+      cyclic_label_long: [""],
+      gallery: ["", Validators.required],
+      gallery1: [],
+      gallery2: [""],
+      gallery3: [""],
+    }, {
+      validators: [this.galleryValidators, 
+        this.cyclicLabelValidators,
+        this.cyclicLongValidators,
+        this.cyclicLabelLongValidators]
+    });
+
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
       this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
           .subscribe(product=>{
             this.data = product;
-                
-            this.modelForm = this.formBuilder.group({
-              name: [this.data.name, Validators.required],
-              country: [this.data.country, Validators.required],
-              startDate: [this.data.startDate, Validators.required],
-              endDate: [this.data.endDate, Validators.required],
-              price: [this.data.price, [Validators.pattern('[0-9]*'), Validators.required]],
-              seats: [this.data.seats, [Validators.pattern('[0-9]*'), Validators.required]],
-              description: [this.data.description, Validators.required],
-              image_url: [this.data.image_url, Validators.required],
-              cyclic: ["", Validators.required],
-              cyclic_long: [this.data.cyclic ? this.data.cyclic.long: ""],
-              cyclic_label: [this.data.cyclic ? true: false],
-              cyclic_label_long: [this.data.cyclic ? this.data.cyclic.long: ""],
-              gallery: [this.data.gallery ? true: false, Validators.required],
-              gallery1: [this.data.gallery ? this.data.gallery[0]: ""],
-              gallery2: [this.data.gallery ? this.data.gallery[1]: ""],
-              gallery3: [this.data.gallery ? this.data.gallery[2]: ""],
-            }, {
-              validators: [this.galleryValidators, 
-                this.cyclicLabelValidators,
-                this.cyclicLongValidators,
-                this.cyclicLabelLongValidators]
-            });
+            this.modelForm.setValue({
+              name: this.data.name,
+              country: this.data.country,
+              startDate: this.datePipe.transform(this.data.startDate,"yyyy-MM-dd"),
+              endDate: this.datePipe.transform(this.data.endDate,"yyyy-MM-dd"),
+              price: this.data.price,
+              seats: this.data.avaible_seats,
+              description: this.data.description,
+              image_url: this.data.image_url,
+              cyclic: this.data.cyclic ? true : false,
+              cyclic_long: this.data.cyclic ? this.data.cyclic.long: "",
+              cyclic_label: this.data.cyclic ? true: false,
+              cyclic_label_long: this.data.cyclic ? this.data.cyclic.long: "",
+              gallery: this.data.gallery ? true: false,
+              gallery1: this.data.gallery ? this.data.gallery[0]: "",
+              gallery2: this.data.gallery ? this.data.gallery[1]: "",
+              gallery3: this.data.gallery ? this.data.gallery[2]: ""
+            })    
+            
 
-            this.cyclic_default = this.data.cyclic ? true: false;
+            // this.cyclic_default = this.data.cyclic ? true: false;
           });
         }
       );
 
+
+
   }
 
   
-  public onValChange(val: boolean) {
-    this.cyclic_default = val;
-  }
+  // public onValChange(val: boolean) {
+  //   this.cyclic_default = val;
+  // }
 
   onSubmit(modelForm: FormGroup){
     this.errors = [];

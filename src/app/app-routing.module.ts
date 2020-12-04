@@ -10,6 +10,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 const routes: Routes = [
     { path: '', component: ListaWycieczekComponent },
@@ -19,7 +20,8 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
     { path: 'confirm', component: ConfirmReservationComponent, canActivate: [AuthGuard] },
-    { path: 'update-trip/:id', component:UpdateWycieczkaComponent }
+    { path: 'update-trip/:id', component:UpdateWycieczkaComponent },
+    { path: 'admin-panel', component:AdminPanelComponent },
   ];
   // 
 

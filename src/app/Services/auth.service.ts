@@ -10,7 +10,7 @@ import { DbService } from './db.service';
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
-  currentUser: User | null = null;
+  currentUser: User;
     
   uid = this.fireAuth.authState.pipe(
     map(authState => {
@@ -18,7 +18,9 @@ export class AuthService {
         this.currentUser = null;
         return null;
       } else {
-        this.currentUser.uid = authState.uid;
+        this.currentUser = <User>{
+          uid: authState.uid
+        }
         return authState.uid;
       }
     })
