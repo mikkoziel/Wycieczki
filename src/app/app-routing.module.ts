@@ -9,6 +9,7 @@ import { ConfirmReservationComponent } from './confirm-reservation/confirm-reser
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
 
 const routes: Routes = [
     { path: '', component: ListaWycieczekComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
     { path: 'confirm', component: ConfirmReservationComponent, canActivate: [AuthGuard] },
+    { path: 'update-trip/:id', component:UpdateWycieczkaComponent }
   ];
   // 
 

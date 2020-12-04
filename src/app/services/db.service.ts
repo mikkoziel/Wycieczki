@@ -4,6 +4,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 // import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from '../interfaces/user';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
 
 // declare var firebase: firebase.App;
@@ -27,6 +28,9 @@ export class DbService {
     this._wycieczkiOb = this.getWycieczkiOb();
     this.getMaxId();
   }
+
+  
+  // WYCIECZKI ---------------------------------------------------------------------
 
   public get wycieczkiOb(){
     return this._wycieczkiOb;
@@ -103,38 +107,6 @@ export class DbService {
     };
   }
 
-  // convertToObject(w: any){
-  //   return {
-  //     id: w.id,    
-  //     name: w.name,
-  //     country: w.country,
-  //     startDate: new Date(w.startDate),
-  //     endDate: new Date(w.endDate),
-  //     price: w.price,
-  //     currency: w.currency,
-  //     // seats?: number;
-  //     description: w.description,
-  //     image_url: w.image_url,
-  //     avaible_seats: w.avaible_seats,
-  //     plus_show: w.plus_show,
-  //     minus_show: w.minus_show,
-  //     rating: w.rating,
-  //     // rating_count?: number;
-  //     gallery: w.gallery == null ? null : w.gallery,
-  //     comments: w.comments,
-  //     cyclic: w.cyclic
-  //   };
-  // }
-
-  // addWycieczkaOb(value: WycieczkaData): void {
-  //   this.wycieczkiOb.push(value);
-  //   }
-
-
-
-
-
-
   // odczyt danych z bazy
   public getWycieczkaList(listPath: PathReference): AngularFireList<any> {
     this.wycieczkaList = this.db.list(listPath);
@@ -178,8 +150,6 @@ export class DbService {
   }
 
   updateWycieczka(value: WycieczkaData): void {
-    // this.db.object('/wycieczki/' + value.$key)
-    //   .update({});
     this.wycieczkaObject.update({
       id: value.id,
       name: value.name,
@@ -217,8 +187,23 @@ export class DbService {
     return path;
   }
 
-  getUserObject(uid: string){
+  // USERS ---------------------------------------------------------------------
+
+  getUserObject(uid:string, t){
+    return this.db.object<boolean>('/users/' + uid);
+  }
+
+  getUserObjectObsBool(uid: string){
     return this.db.object<boolean>('/users/' + uid).valueChanges();
+  }
+
+  updateUserObject(uid:string, value:User){
+    this.db.object('/users/' + uid).update({
+      admin: value.admin,
+      mail: value.mail,
+      cart: value.cart,
+      orders: value.orders
+    })
   }
 }
 

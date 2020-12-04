@@ -1,54 +1,71 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
-import { WycieczkaData } from '../interfaces/wycieczkaData'
-import { add } from 'date-fns';
+import { Subscription } from 'rxjs';
+import { WycieczkaData } from '../interfaces/wycieczkaData';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
-import { DbService } from '../services/db.service';
 
 @Component({
-  selector: 'app-new-wycieczka',
-  templateUrl: './new-wycieczka.component.html',
-  styleUrls: ['./new-wycieczka.component.css']
+  selector: 'app-update-wycieczka',
+  templateUrl: './update-wycieczka.component.html',
+  styleUrls: ['./update-wycieczka.component.css']
 })
-export class NewWycieczkaComponent implements OnInit {
+export class UpdateWycieczkaComponent implements OnInit {
+  id: number;
   modelForm: FormGroup;
   errors = [];
-  @Output() addWycieczkaEmmiter = new EventEmitter<WycieczkaData>();
+  data: WycieczkaData;
+  sub: Subscription;
 
-  constructor(
+  cyclic_default: boolean = false;
+
+  constructor(private _Activatedroute: ActivatedRoute,
     private formBuilder : FormBuilder,
-    private wycieczkiService: WycieczkiServiceService) { 
+    private wycieczkiService: WycieczkiServiceService) {
+      
+     }
 
-    }
+  ngOnInit(): void {
+    this.sub=this._Activatedroute.paramMap.subscribe(params => { 
+      this.id = Number(params.get('id')); 
+      this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
+          .subscribe(product=>{
+            this.data = product;
+                
+            this.modelForm = this.formBuilder.group({
+              name: [this.data.name, Validators.required],
+              country: [this.data.country, Validators.required],
+              startDate: [this.data.startDate, Validators.required],
+              endDate: [this.data.endDate, Validators.required],
+              price: [this.data.price, [Validators.pattern('[0-9]*'), Validators.required]],
+              seats: [this.data.seats, [Validators.pattern('[0-9]*'), Validators.required]],
+              description: [this.data.description, Validators.required],
+              image_url: [this.data.image_url, Validators.required],
+              cyclic: ["", Validators.required],
+              cyclic_long: [this.data.cyclic ? this.data.cyclic.long: ""],
+              cyclic_label: [this.data.cyclic ? true: false],
+              cyclic_label_long: [this.data.cyclic ? this.data.cyclic.long: ""],
+              gallery: [this.data.gallery ? true: false, Validators.required],
+              gallery1: [this.data.gallery ? this.data.gallery[0]: ""],
+              gallery2: [this.data.gallery ? this.data.gallery[1]: ""],
+              gallery3: [this.data.gallery ? this.data.gallery[2]: ""],
+            }, {
+              validators: [this.galleryValidators, 
+                this.cyclicLabelValidators,
+                this.cyclicLongValidators,
+                this.cyclicLabelLongValidators]
+            });
+
+            this.cyclic_default = this.data.cyclic ? true: false;
+          });
+        }
+      );
+
+  }
+
   
-  ngOnInit() : void {
-
-
-    this.modelForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      country: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      price: ['', [Validators.pattern('[0-9]*'), Validators.required]],
-      seats: ['', [Validators.pattern('[0-9]*'), Validators.required]],
-      description: ['', Validators.required],
-      image_url: ['', Validators.required],
-      cyclic: ['', Validators.required],
-      cyclic_label: [''],
-      cyclic_long: [''],
-      cyclic_label_long: [''],
-      gallery: ['', Validators.required],
-      gallery1: [''],
-      gallery2: [''],
-      gallery3: [''],
-    }, {
-      validators: [this.galleryValidators, 
-        this.cyclicLabelValidators,
-        this.cyclicLongValidators,
-        this.cyclicLabelLongValidators]
-  });
+  public onValChange(val: boolean) {
+    this.cyclic_default = val;
   }
 
   onSubmit(modelForm: FormGroup){
@@ -110,7 +127,7 @@ export class NewWycieczkaComponent implements OnInit {
       }
       
       console.log(wycieczka);
-      this.wycieczkiService.addWycieczka(wycieczka);
+      // this.wycieczkiService.addWycieczka(wycieczka);
       // this.wycieczkiService.addProduct(wycieczka);
     }
     else{
@@ -133,6 +150,9 @@ export class NewWycieczkaComponent implements OnInit {
       });
     }
   
+
+
+    
   // Validators -----------------------------------------------------------------
     
   galleryValidators(formGroup: FormGroup) {

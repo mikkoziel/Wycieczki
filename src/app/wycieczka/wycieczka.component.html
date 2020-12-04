@@ -35,6 +35,11 @@
       </button>
     </div>
     <div>
+        <button [routerLink]="['update-trip', data.id]">
+          Update
+        </button>
+    </div>
+    <div>
       <app-ocena [wycieczka]="data"></app-ocena>
     </div>
     <!-- <div>Seats: {{ data.avaible_seats }} </div> -->

@@ -6,7 +6,9 @@ export interface Credentials {
 }
 
 export interface User{
-  uid: string;
+  uid?: string;
+  mail: string;
+  admin: boolean;
   cart: Order[];
   orders: Order[];
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Credentials } from '../interfaces/user';
 import firebase from 'firebase/app';
 import { BehaviorSubject, of } from 'rxjs';
 import { DbService } from '../services/db.service';
@@ -15,7 +14,7 @@ import { mergeMap } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   mail: any;
   password: any;
-  user = null;//: firebase.User = null;
+  user = null;
 
   userEmitter = new BehaviorSubject<firebase.User>(this.user);   
 
@@ -28,15 +27,8 @@ export class LoginComponent implements OnInit {
   }
 
   getUser(): void{
-    this.authService.uid.pipe(
-      mergeMap(user =>{
-        if(user != null){
-          let userOb = this.dbService.getUserObject(user);
-          return userOb ? userOb : of(null);
-        }
-        return of(null);
-      })
-    ).subscribe(x=> {
+    this.authService.getUserObs()
+    .subscribe((x: any)=> {
       console.log(x);
       this.assignAndEmmitUser(x);
     });
@@ -44,7 +36,7 @@ export class LoginComponent implements OnInit {
 
   assignAndEmmitUser(x:any){
     if(x){
-    this.user = x.mail;
+      this.user = x.mail;
     }else{
       this.user = null;
     }

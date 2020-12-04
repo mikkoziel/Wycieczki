@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuthModule, AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from "@angular/fire/auth";
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs/index';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Credentials } from '../interfaces/user';
+import { Credentials, User } from '../interfaces/user';
 import { DbService } from './db.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
+
+  currentUser: User | null = null;
     
   uid = this.fireAuth.authState.pipe(
     map(authState => {
       if (!authState) {
+        this.currentUser = null;
         return null;
       } else {
-        // console.log(authState.uid)
+        this.currentUser.uid = authState.uid;
         return authState.uid;
       }
     })
@@ -37,6 +40,7 @@ export class AuthService {
   constructor(private _fireAuth: AngularFireAuth,
     private dbService: DbService) {
       this.isAdmin.subscribe(x=>console.log("isAdmin: " + x));
+      this.setCurrentUser();
      }
 
   public get fireAuth(){
@@ -44,7 +48,7 @@ export class AuthService {
   }
 
   getUserObject(uid: string){
-    return this.dbService.getUserObject(uid);
+    return this.dbService.getUserObjectObsBool(uid);
   }
 
   checkAdmin(uid: string){
@@ -54,29 +58,48 @@ export class AuthService {
       })
     )
   }
+
+  getUserObs(): any{
+    return this.uid.pipe(
+      mergeMap(user =>{
+        if(user != null){
+          let userOb = this.dbService.getUserObjectObsBool(user);
+          return userOb ? 
+            userOb
+            : of(null);
+        }
+        return of(null);
+      })
+    )
+  }
+
+  setCurrentUser(){
+    var a = this.getUserObs()
+    a.subscribe((x: any)=>{
+      if(x){
+        this.currentUser = <User>{
+          mail: x.mail,
+          admin: x.admin,
+          cart: [],
+          orders: []
+        }
+      } else {
+        this.currentUser = null;
+      }
+      console.log(a)
+      console.log(this.currentUser);
+    })
+  }
   
 
-  // async login({email, password}: Credentials) {
-  //   const session = "session";
-  //   await this.fireAuth.setPersistence(session);
-  //   return this.fireAuth.signInWithEmailAndPassword(email, password);
-  // }
-
-  login(email, password) {
+  login(email: string, password: string) {
      return this.fireAuth.signInWithEmailAndPassword(email, password
       ).then(value => {
-        // console.log(value)
         this.fireAuth.setPersistence('session');
-        console.log("Logged: " + value.user.email );
-        
-        // console.log(this.fireAuth.authState);
-        // this.fireAuth.authState.subscribe(x=> console.log(x));
-        // this.uid.subscribe(uid => this.koszykService.getOrCreateCart(uid))
-      })
+       })
       .catch(err => {
         console.log("Login error\n")
       });
-    // })
   }
 
   register({email, password}: Credentials) {

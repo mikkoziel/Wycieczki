@@ -49,6 +49,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from "@angular/fire/storage";
 
 import { environment } from '../environments/environment';
+import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import { environment } from '../environments/environment';
     LoginComponent,
     CreateAccountComponent,
     ConfirmReservationComponent,
+    UpdateWycieczkaComponent,
+    AdminPanelComponent,
   ],
   imports: [
     BrowserModule,

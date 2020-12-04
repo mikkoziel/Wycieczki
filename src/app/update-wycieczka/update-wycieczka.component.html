@@ -1,6 +1,6 @@
 <div class="flex-column">
     
-    <h3>Add new trip</h3>
+    <h3>Update trip {{ data.id }}</h3>
     <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
         <div class="flex-row">
             <div class="label"><label>name:</label></div>
@@ -36,7 +36,7 @@
         </div>
         <div class="flex-row">
             <div class="label"><label>cyclic:</label></div>
-            <mat-button-toggle-group name="cyclic" aria-label="cyclic" formControlName="cyclic" multiple=false>
+            <mat-button-toggle-group name="cyclic" aria-label="cyclic" formControlName="cyclic" [(value)]="cyclic_default" (change)="onValChange()">
                 <mat-button-toggle value=true>Yes</mat-button-toggle>
                 <mat-button-toggle value=false>No</mat-button-toggle>
             </mat-button-toggle-group>
