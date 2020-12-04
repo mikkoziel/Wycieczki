@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'trip-details/:id', component: WycieczkaDetailsComponent },
     { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
-    { path: 'confirm', component: ConfirmReservationComponent, canActivate: [AuthGuard] },
+    { path: 'confirm', component: ConfirmReservationComponent },
     { path: 'update-trip/:id', component:UpdateWycieczkaComponent },
     { path: 'admin-panel', component:AdminPanelComponent },
   ];

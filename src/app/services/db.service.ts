@@ -4,8 +4,10 @@ import { AngularFireStorage } from '@angular/fire/storage';
 // import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Order } from '../interfaces/order';
 import { User } from '../interfaces/user';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
+// import { AuthService } from './auth.service';
 
 // declare var firebase: firebase.App;
 
@@ -21,12 +23,16 @@ export class DbService {
 
   public maxId: number;
 
+  // public currentUser: User;
+
   constructor(private _db: AngularFireDatabase,
     private storage: AngularFireStorage) {
       
     this.getWycieczkaList('wycieczki');
     this._wycieczkiOb = this.getWycieczkiOb();
     this.getMaxId();
+
+    // this.auth.currentUser.subscribe(x=> this.currentUser = x);
   }
 
   
@@ -165,7 +171,7 @@ export class DbService {
       plus_show: value.plus_show,
       minus_show: value.minus_show,
       rating: value.rating,
-      // rating_count: value.rating_count,
+      rating_count: value.rating_count,
       gallery: value.gallery,
       comments: value.comments,
       cyclic: value.cyclic,
@@ -189,8 +195,8 @@ export class DbService {
 
   // USERS ---------------------------------------------------------------------
 
-  getUserObject(uid:string, t){
-    return this.db.object<boolean>('/users/' + uid);
+  getUserObject(uid:string){
+    return this.db.object('/users/' + uid).valueChanges();
   }
 
   getUserObjectObsBool(uid: string){
@@ -205,5 +211,15 @@ export class DbService {
       orders: value.orders
     })
   }
+
+  addUser(value:User){
+    this.db.object('/users/' + value.uid).set({
+      admin: value.admin,
+      mail: value.mail
+    })
+  }
+
+
+
 }
 

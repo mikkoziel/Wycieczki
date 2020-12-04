@@ -15,10 +15,9 @@ export class HeaderComponent implements OnInit {
 
   }
   
-  ngOnInit(): void { 
-    // this.isAdmin = 
+  ngOnInit(): void {  
     this.auth.isAdmin.subscribe(x=> this.isAdmin = x);
-    console.log(this.isAdmin)
+    // console.log(this.isAdmin)
   }
   
 }
