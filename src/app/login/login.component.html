@@ -1,6 +1,6 @@
 <div class="login-div">
   <div *ngIf="userEmitter | async; else showLogin">
-    <h1>Hello {{ user.displayName }}!</h1>
+    <h1>Hello {{ userEmitter | async }}!</h1>
     <button (click)="logout()">Logout</button>
   </div>
   <ng-template #showLogin>

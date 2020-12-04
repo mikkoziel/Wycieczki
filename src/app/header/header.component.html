@@ -14,14 +14,14 @@
         <li class="nav-item active">
           <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="'./new-trip'" (click)="isMenuCollapsed = true">New trip</a>
+        <li class="nav-item" *ngIf="isAdmin">
+          <a class="nav-link" [routerLink]="'/admin-panel'" (click)="isMenuCollapsed = true">Admin</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'./cart'" (click)="isMenuCollapsed = true">Cart</a>
+          <a class="nav-link" [routerLink]="'/cart'" (click)="isMenuCollapsed = true">Cart</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="'./sign-in'" (click)="isMenuCollapsed = true">Sign In</a>
+          <a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true">Login</a>
         </li>
       </ul>
     </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { KoszykService } from '../services/koszyk.service';
 
 @Component({
   selector: 'app-confirm-reservation',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./confirm-reservation.component.css']
 })
 export class ConfirmReservationComponent implements OnInit {
+    items = [];
 
-  constructor() { }
+    constructor( private koszykService: KoszykService) {};
+  
+    ngOnInit(): void {
+        this.items = this.koszykService.getItems();
+    }
 
-  ngOnInit(): void {
-  }
+    onSubmit():void {
+      this.koszykService.confirmCart();
+    }
 
 }

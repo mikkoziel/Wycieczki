@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   isMenuCollapsed = true;
+  isAdmin: boolean;
+
+  constructor(private auth:AuthService){
+
+  }
   
-  ngOnInit(): void { 
+  ngOnInit(): void {  
+    this.auth.isAdmin.subscribe(x=> this.isAdmin = x);
+    // console.log(this.isAdmin)
   }
   
 }

@@ -29,10 +29,15 @@
       </button>
     </div>
     <div  *ngIf="!data.minus_show">No seats taken</div> -->
-    <div>
+    <div *ngIf="isAdmin">
       <button type="button" (click)="onDeletePress()">
         Delete
       </button>
+    </div>
+    <div *ngIf="isAdmin">
+        <button [routerLink]="['update-trip', data.id]">
+          Update
+        </button>
     </div>
     <div>
       <app-ocena [wycieczka]="data"></app-ocena>

@@ -103,7 +103,6 @@ export class FilterComponent implements OnInit {
     });
 
     this.maxPrice_subscription = this.wycieczkiService.maxPriceChange.subscribe((value) => {
-
       this.maxPrice = value;
       this.maxValuePrice = value;
       this.maxEmitter.next(this.maxPrice);

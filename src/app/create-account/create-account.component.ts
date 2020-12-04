@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Credentials } from '../interfaces/user';
 
 @Component({
   selector: 'app-create-account',
@@ -9,13 +11,15 @@ export class CreateAccountComponent implements OnInit {
   mail: string;
   password: string;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
   register(){
-
+    this.authService.register(<Credentials>
+      {email: this.mail, 
+      password: this.password})
   }
 
 }

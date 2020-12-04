@@ -9,15 +9,19 @@ import { ConfirmReservationComponent } from './confirm-reservation/confirm-reser
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 const routes: Routes = [
     { path: '', component: ListaWycieczekComponent },
     { path: 'cart', component: KoszykComponent },
     { path: 'new-trip', component: NewWycieczkaComponent },
     { path: 'trip-details/:id', component: WycieczkaDetailsComponent },
-    { path: 'sign-in', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
-    { path: 'confirm', component: ConfirmReservationComponent, canActivate: [AuthGuard] },
+    { path: 'confirm', component: ConfirmReservationComponent },
+    { path: 'update-trip/:id', component:UpdateWycieczkaComponent },
+    { path: 'admin-panel', component:AdminPanelComponent },
   ];
   // 
 
