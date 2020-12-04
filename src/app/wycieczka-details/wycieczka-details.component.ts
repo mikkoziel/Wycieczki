@@ -9,6 +9,8 @@ import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 import { DateRange, Order } from '../interfaces/order';
 import { DatePipe } from '@angular/common';
 import { DbService } from '../services/db.service';
+import { AuthService } from '../services/auth.service';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-wycieczka-details',
@@ -26,9 +28,21 @@ export class WycieczkaDetailsComponent implements OnInit {
   rangeValue: DateRange;
   rangeDates: DateRange[];
 
+  currentUser: User;
+  user: boolean = true;
+
   constructor(private _Activatedroute:ActivatedRoute,
       private wycieczkiService: WycieczkiServiceService,
-      private koszykService: KoszykService) { 
+      private koszykService: KoszykService,
+      private auth: AuthService) { 
+        this.auth.currentUser.subscribe(x=>{
+          if(x != null){
+            this.user = false;
+          } else{
+            this.user = true;
+          }
+          this.currentUser = x;
+        })
   }
 
   ngOnInit(): void {     

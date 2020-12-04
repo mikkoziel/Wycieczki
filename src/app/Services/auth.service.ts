@@ -75,7 +75,7 @@ export class AuthService {
     );
   }
 
-  checkAdmin(uid: string){
+  checkAdmin(uid: string): Observable<boolean>{
     return this.dbService.getUserObjectObsBool(uid).pipe(
       map((x: any)=>{
         return x.admin;

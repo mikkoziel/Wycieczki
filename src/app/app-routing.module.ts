@@ -11,17 +11,18 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
     { path: '', component: ListaWycieczekComponent },
-    { path: 'cart', component: KoszykComponent },
-    { path: 'new-trip', component: NewWycieczkaComponent },
+    { path: 'cart', component: KoszykComponent, canActivate:[AuthGuard, AdminGuard] },
+    { path: 'new-trip', component: NewWycieczkaComponent,  canActivate:[AdminGuard] },
     { path: 'trip-details/:id', component: WycieczkaDetailsComponent },
     { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
-    { path: 'confirm', component: ConfirmReservationComponent },
-    { path: 'update-trip/:id', component:UpdateWycieczkaComponent },
-    { path: 'admin-panel', component:AdminPanelComponent },
+    { path: 'confirm', component: ConfirmReservationComponent, canActivate:[AuthGuard, AdminGuard] },
+    { path: 'update-trip/:id', component:UpdateWycieczkaComponent,  canActivate:[AdminGuard] },
+    { path: 'admin-panel', component:AdminPanelComponent,  canActivate:[AdminGuard]},
   ];
   // 
 

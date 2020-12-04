@@ -45,7 +45,8 @@
             <div>
               <button type="button" (click)="reserveSeat()"
               id="plus" 
-              *ngIf="data?.plus_show" >
+              *ngIf="data?.plus_show" 
+              [disabled]="user">
               Reserve
               </button>
             </div>
@@ -53,7 +54,8 @@
             <div>
               <button type="button" (click)="freeSeat()" 
               id="minus"
-              *ngIf="data?.minus_show" >
+              *ngIf="data?.minus_show" 
+              [disabled]="user" >
               Realese
               </button>
             </div>
