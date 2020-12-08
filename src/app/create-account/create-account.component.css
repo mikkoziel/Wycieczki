@@ -1,0 +1,16 @@
+.flex-column { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.register-div {
+    margin: 32px 20%;
+}
+
+
+button {
+    max-height: 100px;
+}

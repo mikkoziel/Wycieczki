@@ -1,0 +1,19 @@
+.flex-column { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.example-full-width {
+    width: 100%;
+}
+
+.login-div {
+    margin: 32px 20%;
+}
+
+button {
+    max-height: 100px;
+}

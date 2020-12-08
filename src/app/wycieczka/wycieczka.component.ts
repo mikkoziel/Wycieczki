@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
+import { AuthService } from '../services/auth.service';
+import { DbService } from '../services/db.service';
 import { KoszykService } from '../services/koszyk.service';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 
@@ -14,18 +17,27 @@ import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 export class WycieczkaComponent implements OnInit {
   @Input() data: WycieczkaData;
   @Output() deleteWycieczkaEmmiter = new EventEmitter<WycieczkaData>();
+  
+  isAdmin: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private wycieczkiService: WycieczkiServiceService,
-    private koszykService: KoszykService){
+    private koszykService: KoszykService,
+    private dbService: DbService,
+    private auth: AuthService ){
   }
 
   ngOnInit(): void {
+    this.auth.isAdmin.subscribe(x=> this.isAdmin = x);
   }
 
   onDeletePress(): void {
     this.deleteWycieczkaEmmiter.emit(this.data);
+  }
+
+  getImage(path: string){//: Observable<string | null>{
+    return this.wycieczkiService.getImageFromDB(path);
   }
 
 }

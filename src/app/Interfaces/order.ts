@@ -6,6 +6,7 @@ export interface Order{
     startDate: Date;
     endDate: Date;
     total_price: number;
+    rating?: number;
 }
 
 export interface DateRange{

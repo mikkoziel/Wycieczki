@@ -1,4 +1,4 @@
-<div>
+<div class="flex-column">
     <h4>Filters:</h4>
     <div>
         <p [ngStyle]="minPriceFilter && {'color': 'red'}" >Min. price: </p>
@@ -44,10 +44,10 @@
     </div>
     
     <div>
-        <button type="button" (click)="onSubmit()">
+        <button type="button" (click)="onSubmit()" [disabled]="!routeFlag">
             Submit
         </button>
-        <button type="button" (click)="clearFilters()">
+        <button type="button" (click)="clearFilters()" [disabled]="!routeFlag">
             Clear
         </button>
     </div>

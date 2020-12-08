@@ -6,6 +6,10 @@ import { catchError, map, tap, min } from 'rxjs/operators';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData';
 import { Order } from '../interfaces/order';
+import { AuthService } from './auth.service';
+import { WycieczkiServiceService } from './wycieczki-service.service';
+import { DbService } from './db.service';
+import { User } from '../interfaces/user';
 
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/json' }) };
 
@@ -14,13 +18,20 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/j
 })
 export class KoszykService {
   items: Order[] = [];
+  currentUser: User;
   seats_taken: number;
   total_price: number;
   
   seatsChange: Subject<number> = new Subject<number>();
   priceChange: Subject<number> = new Subject<number>();
   
-  constructor() {
+  constructor(private auth: AuthService,
+    private wycieczkiService: WycieczkiServiceService,
+    private db: DbService) {
+    this.auth.currentUser.subscribe(x=>{
+      this.items = x.cart;
+      this.currentUser = x;
+    })
     this.seats_taken = 0;
     this.total_price = 0;
    }
@@ -38,6 +49,7 @@ export class KoszykService {
       });
     }
     this.updateStats();
+    this.updateCart();
     return this.getItems();
   }
 
@@ -53,7 +65,19 @@ export class KoszykService {
       }
     })
     this.updateStats();
+    this.updateCart();
     return this.getItems();
+  }
+
+  updateCart(){
+    this.currentUser.cart = this.currentUser.cart.concat(this.items);
+    this.db.updateUserObject(this.currentUser.uid, this.currentUser);
+  }
+
+  confirmCart(){
+    this.currentUser.cart = [];
+    this.currentUser.orders = this.currentUser.orders.concat(this.items);
+    this.db.updateUserObject(this.currentUser.uid, this.currentUser);
   }
 
   getItems() {

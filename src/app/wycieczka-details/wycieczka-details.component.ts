@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { add } from 'date-fns';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData';
@@ -8,6 +8,9 @@ import { KoszykService } from '../services/koszyk.service';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 import { DateRange, Order } from '../interfaces/order';
 import { DatePipe } from '@angular/common';
+import { DbService } from '../services/db.service';
+import { AuthService } from '../services/auth.service';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-wycieczka-details',
@@ -25,17 +28,32 @@ export class WycieczkaDetailsComponent implements OnInit {
   rangeValue: DateRange;
   rangeDates: DateRange[];
 
+  currentUser: User;
+  user: boolean = true;
+
   constructor(private _Activatedroute:ActivatedRoute,
       private wycieczkiService: WycieczkiServiceService,
-      private koszykService: KoszykService) { 
+      private koszykService: KoszykService,
+      private auth: AuthService) { 
+        this.auth.currentUser.subscribe(x=>{
+          if(x != null){
+            this.user = false;
+          } else{
+            this.user = true;
+          }
+          this.currentUser = x;
+        })
   }
 
   ngOnInit(): void {     
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      this.wycieczkiService.getProduct(this.id)
+      this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
+      // this.dbService.getWycieczkaOb(this.id.toString())
+      // this.wycieczkiService.getProduct(this.id)
           .subscribe(product=>{
             this.data = product;
+            // console.log(product)
             this.rangeValue = {
               id: 0,
               startDate: this.data.startDate,
@@ -105,6 +123,10 @@ export class WycieczkaDetailsComponent implements OnInit {
         this.seats_flag = false;
       }
     })
+  }
+
+  getImage(path: string){//: Observable<string | null>{
+    return this.wycieczkiService.getImageFromDB(path);
   }
 
 }

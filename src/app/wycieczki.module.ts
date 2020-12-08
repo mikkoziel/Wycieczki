@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
@@ -42,6 +43,15 @@ import { StartDatePipe } from './pipes/start-date.pipe';
 import { EndDatePipe } from './pipes/end-date.pipe';
 import { CountryFilterPipe } from './pipes/country-filter.pipe';
 
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireStorageModule } from "@angular/fire/storage";
+
+import { environment } from '../environments/environment';
+import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+
 @NgModule({
   declarations: [
     WycieczkiComponent,
@@ -62,6 +72,8 @@ import { CountryFilterPipe } from './pipes/country-filter.pipe';
     LoginComponent,
     CreateAccountComponent,
     ConfirmReservationComponent,
+    UpdateWycieczkaComponent,
+    AdminPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,10 +95,15 @@ import { CountryFilterPipe } from './pipes/country-filter.pipe';
     FormsModule,
     MatSelectModule,
     MatTabsModule,
+    MatButtonToggleModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, 
       { dataEncapsulation: false }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule, // do obsługi autentykacji
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
   ],
   exports:[
     MatSliderModule,

@@ -10,7 +10,6 @@ import { WycieczkaData } from '../interfaces/wycieczkaData';
   })
 
 export class KoszykComponent implements OnInit{
-    title = "Project-koszyk";
     items = [];
 
     constructor( private koszykService: KoszykService) {};

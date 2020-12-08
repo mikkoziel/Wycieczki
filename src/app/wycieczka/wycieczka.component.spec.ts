@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WycieczkaComponent } from './wycieczka.component';
-import { WycieczkaData } from '../wycieczkaData';
+import { WycieczkaData } from '../interfaces/wycieczkaData';
 
 describe('WycieczkaComponent', () => {
   let component: WycieczkaComponent;
@@ -10,7 +10,7 @@ describe('WycieczkaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ WycieczkaComponent ],
-      providers: [WycieczkaData]
+      // providers: [WycieczkaData]
     })
     .compileComponents();
   });

@@ -1,4 +1,8 @@
-<ngb-rating [(rate)]="wycieczka.rating" [readonly]="readonly"></ngb-rating>
+<ngb-rating [(rate)]="rating" [readonly]="readonly" (rateChange)="onRateChange($event)">
+    <!-- <ng-template let-fill="fill" let-index="index">
+        <span class="star" [class.filled]="fill === 100" (click)="somethingChanged()">&#9733;</span>
+    </ng-template> -->
+</ngb-rating>
 <hr>
 <pre>
 Rating: <b>{{wycieczka.rating}}</b>
