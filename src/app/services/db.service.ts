@@ -172,10 +172,10 @@ export class DbService {
       minus_show: value.minus_show,
       rating: value.rating,
       rating_count: value.rating_count,
-      gallery: value.gallery,
-      comments: value.comments,
-      cyclic: value.cyclic,
-      seats_taken: value.seats_taken
+      gallery: value?.gallery,
+      comments: value?.comments,
+      cyclic: value?.cyclic,
+      seats_taken: value?.seats_taken
     })
   }
 

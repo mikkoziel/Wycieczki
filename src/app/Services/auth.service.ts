@@ -15,6 +15,7 @@ export class AuthService {
   currentUser: Observable<User> = this.fireAuth.authState.pipe(
     switchMap(user => {
       if(!user) {
+        // console.log(EMPTY)  
         return EMPTY;
       } else {
         // console.log(user.uid)      
@@ -90,9 +91,9 @@ export class AuthService {
           let userOb = this.dbService.getUserObjectObsBool(user);
           return userOb ? 
             userOb
-            : of(null);
+            : EMPTY;
         }
-        return of(null);
+        return EMPTY;
       })
     )
   }  

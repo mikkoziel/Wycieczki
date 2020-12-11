@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import firebase from 'firebase/app';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { DbService } from '../services/db.service';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 import { mergeMap } from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   getUser(): void{
     this.authService.getUserObs()
     .subscribe((x: any)=> {
-      console.log(x);
+      // console.log(x);
       this.assignAndEmmitUser(x);
     });
   }

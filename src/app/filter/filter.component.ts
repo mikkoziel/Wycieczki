@@ -90,7 +90,7 @@ export class FilterComponent implements OnInit {
       this.router.events.pipe(filter(event => event instanceof NavigationEnd)
         ).subscribe((x: RouterEvent) => {
           this.currentRoute = x.url;     
-          this.routeFlag = this.currentRoute == "/" ? true : false;   
+          this.routeFlag = this.currentRoute == "/" || this.currentRoute == "/trip-list" ? true : false;   
           // console.log(this.routeFlag+ "    " +this.currentRoute); 
         });
   }
