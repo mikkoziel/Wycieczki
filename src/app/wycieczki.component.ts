@@ -25,7 +25,8 @@ export class WycieczkiComponent implements OnInit{
 
   
   getWycieczkiDB():void{
-    this.wycieczkiService.getWycieczkiObDB()
+    this.wycieczkiService.getProducts()
+    // this.wycieczkiService.getWycieczkiObDB()
             .subscribe(wycieczki => {
               this.initSubscriptions(wycieczki);});
   }

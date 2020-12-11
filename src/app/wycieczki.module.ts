@@ -52,6 +52,8 @@ import { environment } from '../environments/environment';
 import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
+const ENV = 'prod'; // your global ENV variable;
+
 @NgModule({
   declarations: [
     WycieczkiComponent,
@@ -96,10 +98,10 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
     MatSelectModule,
     MatTabsModule,
     MatButtonToggleModule,
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
+    HttpClientModule,      
+    ENV !== 'prod' ? HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, 
-      { dataEncapsulation: false }),
+      { dataEncapsulation: false }) : [],
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, // do obsługi autentykacji
     AngularFireDatabaseModule,

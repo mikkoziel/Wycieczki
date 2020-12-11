@@ -1,0 +1,7 @@
+{
+    "/Wycieczki": {
+      "target":"http://localhost:5000/Wycieczki",
+      "secure": false,
+      "logLevel":"debug"
+    }
+}

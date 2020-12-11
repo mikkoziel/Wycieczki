@@ -33,7 +33,7 @@ export class ListaWycieczekComponent implements OnInit {
   }
 
   ngOnInit(): void { 
-    this.getWycieczkiDB();
+    this.getWycieczki();
   }
   
   ngOnDestroy() {

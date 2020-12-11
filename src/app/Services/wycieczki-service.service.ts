@@ -18,7 +18,8 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/j
   providedIn: 'root'
 })
 export class WycieczkiServiceService {
-  private wycieczkiApiUrl = "api/wycieczki";
+  private serverUrl = "localhost:5000/"
+  private wycieczkiApiUrl = this.serverUrl + "Wycieczki";
 
   minPrice: number;
   maxPrice:number;
@@ -95,7 +96,7 @@ export class WycieczkiServiceService {
   }
 
   getProduct(id: number): Observable<WycieczkaData>{
-    const wycieczkaApiUrl = `api/wycieczki/${id}`;
+    const wycieczkaApiUrl = this.wycieczkiApiUrl + id;//`api/wycieczki/${id}`;
     return this.http.get<WycieczkaData>(wycieczkaApiUrl).pipe(
       map(x => { return this.initSeatsTakenWycieczka(x)}),
       map(x => { return this.convertDates(x) }),
@@ -110,7 +111,7 @@ export class WycieczkiServiceService {
   }
 
   addProduct(wycieczkaPOST: WycieczkaData): Observable<WycieczkaData>{
-    return this.http.post<WycieczkaData>(this.wycieczkiApiUrl, wycieczkaPOST);
+    return this.http.post<WycieczkaData>(this.wycieczkiApiUrl + "/add", wycieczkaPOST);
   }
 
   removeProduct(product: WycieczkaData | number): Observable<WycieczkaData>{
@@ -292,13 +293,15 @@ export class WycieczkiServiceService {
   }
 
   initSeatsTakenWycieczka(x:WycieczkaData): WycieczkaData{
-    var long: number;
-    if(x.cyclic){
-      long = x.cyclic.long;
-    } else {
-      long = 1;
+    if(!x.seats_taken){
+      var long: number;
+      if(x.cyclic){
+        long = x.cyclic.long;
+      } else {
+        long = 1;
+      }
+      x.seats_taken = this.fillArray(0, long);
     }
-    x.seats_taken = this.fillArray(0, long);
     return x;
   }
 
