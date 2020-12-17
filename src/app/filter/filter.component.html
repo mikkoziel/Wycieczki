@@ -1,5 +1,5 @@
 <div class="flex-column">
-    <h4>Filters:</h4>
+    <h2>Filters</h2>
     <div>
         <p [ngStyle]="minPriceFilter && {'color': 'red'}" >Min. price: </p>
         <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="minValuePrice" (change)="getMinPriceFilter($event)"></mat-slider> {{ minValuePrice }}

@@ -49,41 +49,18 @@ export class WycieczkaDetailsComponent implements OnInit {
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
       this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
-      // this.dbService.getWycieczkaOb(this.id.toString())
-      // this.wycieczkiService.getProduct(this.id)
           .subscribe(product=>{
             this.data = product;
-            // console.log(product)
             this.rangeValue = {
               id: 0,
               startDate: this.data.startDate,
               endDate: this.data.endDate
             }
             if(this.data.cyclic){
-              this.rangeDates = new Array(this.data.cyclic.long).fill(null).map((_, i) => {
-                return <DateRange>{
-                  id: i,
-                  startDate:add(this.data.startDate, { days: i*this.data.cyclic.days, 
-                                                              weeks: i*this.data.cyclic.weeks, 
-                                                              months: i*this.data.cyclic.months}),
-                  endDate: add(this.data.endDate, { days: i*this.data.cyclic.days, 
-                                                              weeks: i*this.data.cyclic.weeks, 
-                                                              months: i*this.data.cyclic.months})
-                }
-              })
+              this.generateRangeDates();
             }
-            this.seats_taken = [];
-            this.rangeDates.forEach(x=>{
-              this.seats_taken.push({
-                wycieczka: this.data,
-                quantity: this.koszykService.getSeatsOfProduct(this.data.id, x.startDate, x.endDate),
-                startDate: x.startDate,
-                endDate: x.endDate,
-                total_price: this.koszykService.getTotalOrderItemPrice(this.data.id, x.startDate, x.endDate)
-              }) 
-            })
-            
-          this.checkFlag();
+            this.generateSeatsTaken();            
+            this.checkFlag();
           });
     });
   }
@@ -91,8 +68,39 @@ export class WycieczkaDetailsComponent implements OnInit {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  generateRangeDates(){
+    this.rangeDates = new Array(this.data.cyclic.long).fill(null).map((_, i) => {
+      return <DateRange>{
+        id: i,
+        startDate:add(this.data.startDate, 
+          { days: i*this.data.cyclic.days, 
+            weeks: i*this.data.cyclic.weeks, 
+            months: i*this.data.cyclic.months
+          }),
+        endDate: add(this.data.endDate, 
+          { days: i*this.data.cyclic.days, 
+            weeks: i*this.data.cyclic.weeks, 
+            months: i*this.data.cyclic.months
+          })
+      }
+    })
+  }
+
+  generateSeatsTaken(){
+    this.seats_taken = [];
+    this.rangeDates.forEach(x=>{
+      this.seats_taken.push({
+        wycieczka: this.data,
+        quantity: this.koszykService.getSeatsOfProduct(this.data.id, x.startDate, x.endDate),
+        startDate: x.startDate,
+        endDate: x.endDate,
+        total_price: this.koszykService.getTotalOrderItemPrice(this.data.id, x.startDate, x.endDate)
+      }) 
+    })
+  }
   
-  reserveSeat(){
+  reserveSeat() {
     this.wycieczkiService.reserveSeat(this.data, this.rangeValue.id); 
     this.koszykService.addToCart(this.data, this.rangeValue.startDate, this.rangeValue.endDate);
     this.seats_taken.forEach(x=>{
@@ -101,7 +109,7 @@ export class WycieczkaDetailsComponent implements OnInit {
     this.checkFlag();
   }
 
-  freeSeat(){
+  freeSeat() {
     this.wycieczkiService.freeSeat(this.data, this.rangeValue.id);  
     this.koszykService.freeFromCart(this.data);
     this.seats_taken.forEach(x=>{
@@ -110,13 +118,13 @@ export class WycieczkaDetailsComponent implements OnInit {
     this.checkFlag();
   }
 
-  submitComment(){
-    if(this.author != "" && this.comment != ""){
+  submitComment() {
+    if(this.author!="" && this.comment!=""){
       this.wycieczkiService.addComment(this.data, this.author, this.comment);
     }
   }
   
-  checkFlag(){
+  checkFlag() {
     this.seats_flag = true;
     this.seats_taken.forEach(x=>{
       if(x.quantity > 0){
@@ -125,7 +133,7 @@ export class WycieczkaDetailsComponent implements OnInit {
     })
   }
 
-  getImage(path: string){//: Observable<string | null>{
+  getImage(path: string) {
     return this.wycieczkiService.getImageFromDB(path);
   }
 
