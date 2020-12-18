@@ -2,8 +2,8 @@ export interface WycieczkaData{
     id: number;
     name: string;
     country: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: Date|any;
+    endDate: Date|any;
     price: number;
     currency: string;
     seats?: number;

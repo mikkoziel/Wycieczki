@@ -1,4 +1,14 @@
-
 button {
     max-height: 100px;
+}
+
+.flex-column { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.admin-div {
+    margin: 32px 20%;
 }

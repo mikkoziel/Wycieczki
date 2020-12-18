@@ -5,9 +5,8 @@
     align-content: center;
 }
 
-
 .example-full-width {
-    width: 100%;
+    width: auto;
 }
 
 .login-div {
@@ -16,4 +15,5 @@
 
 button {
     max-height: 100px;
+    width: auto;
 }

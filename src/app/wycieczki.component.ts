@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { WycieczkaComponent } from './wycieczka/wycieczka.component';
-import { ListaWycieczekComponent } from './lista-wycieczek/lista-wycieczek.component';
-import { KoszykComponent } from './koszyk/koszyk.component';
 import { WycieczkaData } from './interfaces/wycieczkaData';
 import { WycieczkiServiceService } from "./services/wycieczki-service.service";
-import { DbService } from './services/db.service';
+import { AuthService } from './services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +12,17 @@ import { DbService } from './services/db.service';
 
 export class WycieczkiComponent implements OnInit{
   title = 'Projekt';
+  isMenuCollapsed = true;
+  isAdmin: boolean;
   
-  constructor(private wycieczkiService: WycieczkiServiceService) {
+  constructor(private wycieczkiService: WycieczkiServiceService,
+    private auth:AuthService) {
     
   };
 
   ngOnInit(): void {
     this.getWycieczkiDB();
+    this.auth.isAdmin.subscribe(x=> this.isAdmin = x);
   }
 
   

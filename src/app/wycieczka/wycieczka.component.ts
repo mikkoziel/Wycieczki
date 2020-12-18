@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -31,6 +31,13 @@ export class WycieczkaComponent implements OnInit {
   ngOnInit(): void {
     this.auth.isAdmin.subscribe(x=> this.isAdmin = x);
   }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+    // if(changes.data.currentValue){
+    //   console.log(changes.data.currentValue)
+    // }
+    
+  // }
 
   onDeletePress(): void {
     this.deleteWycieczkaEmmiter.emit(this.data);

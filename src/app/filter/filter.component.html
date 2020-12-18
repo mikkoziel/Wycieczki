@@ -11,9 +11,8 @@
     </div>
 
     <div>
-        <p [ngStyle]="rangeFilter && {'color': 'red'}">Enter a date range:</p>
+        <p [ngStyle]="rangeFilter && {'color': 'red'}">When:</p>
         <mat-form-field appearance="fill">
-            <!-- <mat-label>Enter a date range</mat-label> -->
             <mat-date-range-input [formGroup]="rangeEmitter | async" [rangePicker]="picker">
                 <input matStartDate formControlName="start" placeholder="Start date">
                 <input matEndDate formControlName="end" placeholder="End date">
@@ -29,7 +28,7 @@
     <div>
         
         <section class="example-section country-filter-label">
-            <p [ngStyle]="countriesFilter && {'color': 'red'}">Countries</p>
+            <p [ngStyle]="countriesFilter && {'color': 'red'}">Where:</p>
             <span class="example-list-section">
                 <ul>
                     <li *ngFor="let country of countriesEmitter | async">
@@ -43,11 +42,11 @@
         </section>
     </div>
     
-    <div>
-        <button type="button" (click)="onSubmit()" [disabled]="!routeFlag">
+    <div class="flex-row">
+        <button mat-raised-button color="warn" type="button" (click)="onSubmit()" [disabled]="!routeFlag">
             Submit
         </button>
-        <button type="button" (click)="clearFilters()" [disabled]="!routeFlag">
+        <button mat-raised-button color="warn" type="button" (click)="clearFilters()" [disabled]="!routeFlag">
             Clear
         </button>
     </div>

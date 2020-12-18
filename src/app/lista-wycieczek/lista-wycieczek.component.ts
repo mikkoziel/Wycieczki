@@ -1,5 +1,4 @@
 import { Component, OnInit , Input, Output, EventEmitter} from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
 import { DbService } from '../services/db.service';
@@ -48,7 +47,7 @@ export class ListaWycieczekComponent implements OnInit {
             .subscribe(wycieczki => {this.ListaWycieczek = wycieczki;
               this.initSubscriptions(wycieczki);
               // console.log(this.ListaWycieczek);
-              this.listEmitter.next(this.ListaWycieczek);});
+              this.listEmitter.next(wycieczki)});
   }
 
   getWycieczki(): void {

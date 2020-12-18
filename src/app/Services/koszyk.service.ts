@@ -29,8 +29,13 @@ export class KoszykService {
     private wycieczkiService: WycieczkiServiceService,
     private db: DbService) {
     this.auth.currentUser.subscribe(x=>{
-      this.items = x.cart;
-      this.currentUser = x;
+      if(x!=null){
+        this.items = x.cart;
+        this.currentUser = x;
+      } else {
+        this.items = [];
+        this.currentUser = x;
+      }
     })
     this.seats_taken = 0;
     this.total_price = 0;

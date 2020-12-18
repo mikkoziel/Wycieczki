@@ -8,18 +8,18 @@ button {
     flex-direction: column;
     justify-content: center;
     align-content: center;
-
+    margin: 32px 20%;
 }
 
 .flex-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 30%;
+    width: 100%;
     /* border:1px red solid; */
     justify-content: space-between;
     align-content: center;
-    margin: 0 35%;
+    /* margin: 0 35%; */
 }
 
 .label {

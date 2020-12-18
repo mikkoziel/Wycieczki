@@ -76,7 +76,7 @@
             <div class="label"><label>Third picture:</label></div>
             <input name="gallery3" formControlName="gallery3" type="url">
         </div>
-        <div><button type="submit">Send</button></div>
+        <div><button mat-raised-button color="warn" type="submit">Send</button></div>
         <div *ngIf="errors.length != 0">
             <p *ngFor='let error_text of errors'>
                 {{error_text}}

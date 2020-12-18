@@ -6,7 +6,6 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { of, EMPTY } from 'rxjs';
 import { Credentials, User } from '../interfaces/user';
 import { DbService } from './db.service';
-import { Order } from '../interfaces/order';
 import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
@@ -15,12 +14,9 @@ export class AuthService {
   currentUser: Observable<User> = this.fireAuth.authState.pipe(
     switchMap(user => {
       if(!user) {
-        // console.log(EMPTY)  
-        return EMPTY;
-      } else {
-        // console.log(user.uid)      
+        return of(null);
+      } else {    
         let x = this.getUserObject(user.uid);
-        // console.log(x);
         return x;
       }
 
@@ -54,8 +50,6 @@ export class AuthService {
   constructor(private _fireAuth: AngularFireAuth,
     private dbService: DbService,
     private router: Router,) {
-      // this.isAdmin.subscribe(x=>console.log("isAdmin: " + x));
-      // this.currentUser.subscribe(x=>console.log("CurrentUSer: " + x));
      }
 
   public get fireAuth(){
