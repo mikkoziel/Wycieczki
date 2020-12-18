@@ -17,7 +17,7 @@
                     <p [ngStyle]="maxPriceFilter && {'color': 'red'}">Max. price: </p>
                     <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="maxValuePrice" (change)="getMaxPriceFilter($event)"></mat-slider> {{ maxValuePrice }}
                 </div>
-            <mat-divider></mat-divider>
+            <!-- <mat-divider></mat-divider> -->
         </mat-expansion-panel>
     </mat-accordion>
     
@@ -43,7 +43,7 @@
                         <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
                     </mat-form-field>
                 </div>
-            <mat-divider></mat-divider>
+            <!-- <mat-divider></mat-divider> -->
         </mat-expansion-panel>
     </mat-accordion>
         
@@ -70,7 +70,7 @@
                         </span>
                     </section>
                 </div>
-            <mat-divider></mat-divider>
+            <!-- <mat-divider></mat-divider> -->
         </mat-expansion-panel>
     </mat-accordion>
     
