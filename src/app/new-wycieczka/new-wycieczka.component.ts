@@ -32,19 +32,21 @@ export class NewWycieczkaComponent implements OnInit {
       seats: ['', [Validators.pattern('[0-9]*'), Validators.required]],
       description: ['', Validators.required],
       image_url: ['', Validators.required],
-      cyclic: ['', Validators.required],
+      // cyclic: ['', Validators.required],
+      cyclic_long: ['', [Validators.min(1), Validators.required]],
       cyclic_label: [''],
-      cyclic_long: ['', [Validators.min(1)]],
       cyclic_label_long: [''],
-      gallery: ['', Validators.required],
-      gallery1: [''],
+      // gallery: ['', Validators.required],
+      gallery1: ['', Validators.required],
       gallery2: [''],
       gallery3: [''],
     }, {
-      validators: [this.galleryValidators, 
-        this.cyclicLabelValidators,
-        this.cyclicLongValidators,
-        this.cyclicLabelLongValidators]
+      validators: [
+        // this.galleryValidators, 
+        // this.cyclicLabelValidators,
+        // this.cyclicLongValidators,
+        // this.cyclicLabelLongValidators
+      ]
   });
   }
 
@@ -68,6 +70,8 @@ export class NewWycieczkaComponent implements OnInit {
         plus_show: true,
         minus_show: false,
         rating: 0,
+        rating_count: 0,
+        comments: [],        
       }
 
       // if(modelForm.value.cyclic){
@@ -93,7 +97,7 @@ export class NewWycieczkaComponent implements OnInit {
           wycieczka.seats_taken.push(0);
         }
       // }
-      if(modelForm.value.gallery){
+      // if(modelForm.value.gallery){
         wycieczka.gallery = []
         if(modelForm.value.gallery1){
           wycieczka.gallery.push(modelForm.value.gallery1);
@@ -104,7 +108,7 @@ export class NewWycieczkaComponent implements OnInit {
         if(modelForm.value.gallery3){
           wycieczka.gallery.push(modelForm.value.gallery3);
         }
-      }
+      // }
       
       // console.log(wycieczka);
       this.wycieczkiService.addWycieczka(wycieczka);

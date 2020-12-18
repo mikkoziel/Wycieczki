@@ -40,7 +40,7 @@ export class UpdateWycieczkaComponent implements OnInit {
       description: ["", Validators.required],
       image_url: ["", Validators.required],
       cyclic: ["", Validators.required],
-      cyclic_long: [""],
+      cyclic_long: ["", [Validators.min(1)]],
       cyclic_label: [""],
       cyclic_label_long: [""],
       gallery: ["", Validators.required],
@@ -111,11 +111,11 @@ export class UpdateWycieczkaComponent implements OnInit {
         // cyclic: 
       }
 
-      if(modelForm.value.cyclic){
+      // if(modelForm.value.cyclic){
           wycieczka.cyclic = {
             long: modelForm.value.cyclic_long,
           }
-          wycieczka.seats_taken = [].fill(0, 0, modelForm.value.cyclic_long)      
+          // wycieczka.seats_taken = [].fill(0, 0, modelForm.value.cyclic_long)      
           switch(modelForm.value.cyclic_label) {
             case "days": {
               wycieczka.cyclic.days = modelForm.value.cyclic_label_long;
@@ -130,11 +130,15 @@ export class UpdateWycieczkaComponent implements OnInit {
               break;
             }
           }
-      } else {
-        wycieczka.cyclic = null
-        wycieczka.seats_taken = [0]
-      }
-      if(modelForm.value.gallery){
+      // } else {
+        wycieczka.seats_taken = []
+        for (var i=0; i<modelForm.value.cyclic_long; i++) {
+          wycieczka.seats_taken.push(0);
+        }
+      //   wycieczka.cyclic = null
+      //   wycieczka.seats_taken = [0]
+      // }
+      // if(modelForm.value.gallery){
         wycieczka.gallery = []
         if(modelForm.value.gallery1){
           wycieczka.gallery.push(modelForm.value.gallery1);
@@ -145,9 +149,9 @@ export class UpdateWycieczkaComponent implements OnInit {
         if(modelForm.value.gallery3){
           wycieczka.gallery.push(modelForm.value.gallery3);
         }
-      } else {
-        wycieczka.gallery = null
-      }
+      // } else {
+      //   wycieczka.gallery = []
+      // }
       
       console.log(wycieczka);
       this.router.navigateByUrl('/trip-list');

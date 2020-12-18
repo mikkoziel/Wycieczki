@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { forEachChild } from 'typescript';
 import { User } from '../interfaces/user';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
@@ -29,6 +29,13 @@ export class OcenaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.wycieczka.currentValue){
+      this.rating = this.wycieczka.rating;
+    }
+    
   }
 
   onRateChange(rate: any){

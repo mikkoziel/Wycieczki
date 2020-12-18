@@ -3,35 +3,35 @@
     <h3>Add new trip</h3>
     <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
         <div class="flex-row">
-            <div class="label"><label>name:</label></div>
+            <div class="label"><label>Name:</label></div>
             <input name="name" formControlName="name"  type="text">
         </div>
         <div class="flex-row">
-            <div class="label"><label>country:</label></div>
+            <div class="label"><label>Country:</label></div>
             <input name="country" formControlName="country" type="text">
         </div>
         <div class="flex-row">
-            <div class="label"><label>startDate:</label></div>
+            <div class="label"><label>Start Date:</label></div>
             <input name="startDate" class="datepicker" type="date" formControlName="startDate">
         </div>
         <div class="flex-row">
-            <div class="label"><label>endDate:</label></div>
+            <div class="label"><label>End Date:</label></div>
             <input name="endDate" class="datepicker" type="date" formControlName="endDate">
         </div>
         <div class="flex-row">
-            <div class="label"><label>price:</label></div>
+            <div class="label"><label>Price:</label></div>
             <input name="price" formControlName="price" type="number">
         </div>
         <div class="flex-row">
-            <div class="label"><label>seats:</label></div>
+            <div class="label"><label>Seats:</label></div>
             <input name="seats" formControlName="seats" type="number">
         </div>
         <div class="flex-row">
-            <div class="label"><label>description:</label></div>
+            <div class="label"><label>Sescription:</label></div>
             <input name="description" formControlName="description" type="text">
         </div>
         <div class="flex-row">
-            <div class="label"><label>image_url:</label></div>
+            <div class="label"><label>Main Image:</label></div>
             <input name="image_url" formControlName="image_url" type="url">
         </div>
         <!-- <div class="flex-row">
@@ -42,11 +42,11 @@
             </mat-button-toggle-group>
         </div> -->
         <div class="flex-row">
-            <div class="label"><label>cyclic_long:</label></div>
+            <div class="label"><label>How many times:</label></div>
             <input name="cyclic_long" formControlName="cyclic_long" type="number">
         </div>
         <div class="flex-row">
-            <div class="label"><label>cyclic_label:</label></div>
+            <div class="label"><label>What long:</label></div>
             <mat-button-toggle-group name="cyclic_label" aria-label="cyclic_label" formControlName="cyclic_label">
                 <mat-button-toggle value="days">days</mat-button-toggle>
                 <mat-button-toggle value="weeks">weeks</mat-button-toggle>
@@ -54,16 +54,16 @@
             </mat-button-toggle-group>
         </div>
         <div class="flex-row">
-            <div class="label"><label>cyclic_label_long:</label></div>
+            <div class="label"><label>How long:</label></div>
             <input name="cyclic_label_long" formControlName="cyclic_label_long" type="number">
         </div>
-        <div class="flex-row">
+        <!-- <div class="flex-row">
             <div class="label"><label>gallery:</label></div>
             <mat-button-toggle-group name="gallery" aria-label="gallery" formControlName="gallery">
                 <mat-button-toggle value=true>Yes</mat-button-toggle>
                 <mat-button-toggle value=false>No</mat-button-toggle>
             </mat-button-toggle-group>
-        </div>
+        </div> -->
         <div class="flex-row">
             <div class="label"><label>First picture:</label></div>
             <input name="gallery1" formControlName="gallery1" type="url">

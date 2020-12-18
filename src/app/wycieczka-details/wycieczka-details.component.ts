@@ -51,14 +51,14 @@ export class WycieczkaDetailsComponent implements OnInit {
       this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
           .subscribe(product=>{
             this.data = product;
-            this.rangeValue = {
-              id: 0,
-              startDate: this.data.startDate,
-              endDate: this.data.endDate
-            }
-            if(this.data.cyclic){
-              this.generateRangeDates();
-            }
+            
+            this.generateRangeDates();
+            this.rangeValue = this.rangeDates[0];
+            // {
+            //   id: 0,
+            //   startDate: this.data.startDate,
+            //   endDate: this.data.endDate
+            // }
             this.generateSeatsTaken();            
             this.checkFlag();
           });
