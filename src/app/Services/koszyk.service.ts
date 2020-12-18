@@ -75,7 +75,7 @@ export class KoszykService {
   }
 
   updateCart(){
-    this.currentUser.cart = this.currentUser.cart.concat(this.items);
+    this.currentUser.cart = this.items;
     this.db.updateUserObject(this.currentUser.uid, this.currentUser);
   }
 

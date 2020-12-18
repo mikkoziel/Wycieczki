@@ -23,6 +23,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
@@ -108,6 +109,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
     MatButtonToggleModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
   ],
   exports:[
     MatSliderModule,

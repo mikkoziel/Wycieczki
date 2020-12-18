@@ -138,6 +138,7 @@ export class DbService {
         gallery: w.gallery == undefined ? null : w.gallery,
         comments: w.comments == undefined ? null : w.comments,
         cyclic: w.cyclic == undefined ? null : w.cyclic,
+        seats_taken: w.seats_taken
       }
     );
   }
@@ -153,27 +154,7 @@ export class DbService {
   }
 
   updateWycieczka(value: WycieczkaData): void {
-    this.wycieczkaObject.update({
-      id: value.id,
-      name: value.name,
-      country: value.country,
-      startDate: value.startDate,
-      endDate: value.endDate,
-      price: value.price,
-      currency: value.currency,
-      // seats: value.seats,
-      description: value.description,
-      image_url: value.image_url,
-      avaible_seats: value.avaible_seats,
-      plus_show: value.plus_show,
-      minus_show: value.minus_show,
-      rating: value.rating,
-      rating_count: value.rating_count,
-      gallery: value?.gallery,
-      comments: value?.comments,
-      cyclic: value?.cyclic,
-      seats_taken: value?.seats_taken
-    })
+    this.wycieczkaObject.update(this.convertWycieczka(value));
   }
 
   deleteWycieczka(id: number): void {
@@ -199,8 +180,8 @@ export class DbService {
     this.db.object('/users/' + uid).update({
       admin: value.admin,
       mail: value.mail,
-      cart: value.cart,
-      orders: value.orders
+      cart: this.convertCart(value.cart),
+      orders: this.convertCart(value.orders)
     })
   }
 
@@ -211,7 +192,44 @@ export class DbService {
     })
   }
 
+  convertCart(cart){
+    let arr = []
+    cart.forEach(x=>{
+      console.log(x)
+      arr.push({
+        quantity: x.quantity,
+        startDate: x.startDate,
+        endDate: x.endDate,
+        total_price: x.total_price,
+        wycieczka: this.convertWycieczka(x.wycieczka),
+      })
+    })
+    return arr;
+  }
 
+  convertWycieczka(value){
+    return {
+      id: value.id,
+      name: value.name,
+      country: value.country,
+      startDate: value.startDate,
+      endDate: value.endDate,
+      price: value.price,
+      currency: value.currency,
+      // seats: value.seats,
+      description: value.description,
+      image_url: value.image_url,
+      avaible_seats: value.avaible_seats,
+      plus_show: value.plus_show,
+      minus_show: value.minus_show,
+      rating: value.rating,
+      // rating_count: value.rating_count == undefined ? null : value.rating_count,
+      gallery: value.gallery == undefined ? null : value.gallery,
+      comments: value.comments == undefined ? null : value.comments,
+      cyclic: value.cyclic == undefined ? null : value.cyclic,
+      seats_taken: value?.seats_taken
+    }
+  }
 
 }
 
