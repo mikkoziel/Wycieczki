@@ -25,7 +25,6 @@ const routes: Routes = [
     { path: 'update-trip/:id', component:UpdateWycieczkaComponent,  canActivate:[AdminGuard] },
     { path: 'admin-panel', component:AdminPanelComponent,  canActivate:[AdminGuard]},
   ];
-  // 
 
 @NgModule({
     imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],

@@ -10,5 +10,6 @@
         </div>
         <mat-divider></mat-divider>
     </div>
-    <button mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
+    <button *ngIf="items.length>0" mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
+    <button *ngIf="items.length==0" mat-raised-button color="warn" [routerLink]="'/cart'">Cart</button>
 </div>

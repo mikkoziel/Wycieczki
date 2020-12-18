@@ -10,5 +10,6 @@
         </div>
         <mat-divider></mat-divider>
     </div>
-    <button mat-raised-button color="warn" [routerLink]="'/confirm'" [(disabled)]="!items">Confirm trips</button>
+    <button *ngIf="items.length>0" mat-raised-button color="warn" [routerLink]="'/confirm'" [(disabled)]="!items">Confirm trips</button>
+    <button *ngIf="items.length==0" mat-raised-button color="warn" [routerLink]="'/trip-list'" >Reserve trips first</button>
 </div>
