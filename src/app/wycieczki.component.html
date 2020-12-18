@@ -1,48 +1,49 @@
-<div class="header" id="header">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" id="header">
-    <a class="navbar-brand" [routerLink]="'.'">Wycieczki</a>
-    <span class="spacer"></span>
-  
-    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
-      &#9776;
-    </button>
-  
-    <div [ngbCollapse]="isMenuCollapsed" 
-        class="collapse navbar-collapse"
-        [ngStyle]="{'flex': isMenuCollapsed ? '0 1 auto': '0 1 100%'}"
-        >
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Home</a>
-        </li>
-        <li class="nav-item" *ngIf="isAdmin">
-          <a class="nav-link" [routerLink]="'/admin-panel'" (click)="isMenuCollapsed = true">Admin</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="'/cart'" (click)="isMenuCollapsed = true">Cart</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true">Login</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+<div class="all">
+  <div class="header" id="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" id="header">
+      <a class="navbar-brand" [routerLink]="'.'">Wycieczki</a>
+      <span class="spacer"></span>
+    
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+        &#9776;
+      </button>
+    
+      <div [ngbCollapse]="isMenuCollapsed" 
+          class="collapse navbar-collapse"
+          [ngStyle]="{'flex': isMenuCollapsed ? '0 1 auto': '0 1 100%'}"
+          >
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Home</a>
+          </li>
+          <li class="nav-item" *ngIf="isAdmin">
+            <a class="nav-link" [routerLink]="'/admin-panel'" (click)="isMenuCollapsed = true">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'/cart'" (click)="isMenuCollapsed = true">Cart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'/login'" (click)="isMenuCollapsed = true">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <mat-sidenav-container class="container_class">  
+    <mat-sidenav #sidenav class="sidenav_class" 
+          mode="side" opened>
+      <app-koszyk-main id="koszyk"></app-koszyk-main>
+      <mat-divider></mat-divider>
+      <app-filter></app-filter>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <button mat-raised-button color="warn" (click)="sidenav.toggle()" class="open_close">
+        <mat-icon *ngIf="!sidenav.opened">chevron_right</mat-icon>
+        <mat-icon *ngIf="sidenav.opened">chevron_left</mat-icon>
+      </button>
+      <router-outlet class="body"></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>  
 </div>
-
-<mat-sidenav-container class="container_class">  
-  <mat-sidenav #sidenav class="sidenav_class" 
-        mode="side" opened>
-    <app-koszyk-main id="koszyk"></app-koszyk-main>
-    <mat-divider></mat-divider>
-    <app-filter></app-filter>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <button mat-raised-button color="warn" (click)="sidenav.toggle()" class="open_close">
-      <mat-icon *ngIf="!sidenav.opened">chevron_right</mat-icon>
-      <mat-icon *ngIf="sidenav.opened">chevron_left</mat-icon>
-    </button>
-    <router-outlet class="body"></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>  
-
 
