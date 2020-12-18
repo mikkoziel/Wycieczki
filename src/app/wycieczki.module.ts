@@ -24,6 +24,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
@@ -110,6 +111,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatExpansionModule,
   ],
   exports:[
     MatSliderModule,

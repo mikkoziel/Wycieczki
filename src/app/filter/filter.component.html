@@ -1,46 +1,79 @@
 <div class="flex-column">
     <h2>Filters</h2>
-    <div>
-        <p [ngStyle]="minPriceFilter && {'color': 'red'}" >Min. price: </p>
-        <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="minValuePrice" (change)="getMinPriceFilter($event)"></mat-slider> {{ minValuePrice }}
-    </div>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="priceOpenState"
+                             (closed)="priceOpenState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <p [ngStyle]="(minPriceFilter || maxPriceFilter) && {'color': 'red'}" >Price</p>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+                <div>
+                    <p [ngStyle]="minPriceFilter && {'color': 'red'}" >Min. price: </p>
+                    <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="minValuePrice" (change)="getMinPriceFilter($event)"></mat-slider> {{ minValuePrice }}
+                </div>
+                
+                <div>
+                    <p [ngStyle]="maxPriceFilter && {'color': 'red'}">Max. price: </p>
+                    <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="maxValuePrice" (change)="getMaxPriceFilter($event)"></mat-slider> {{ maxValuePrice }}
+                </div>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+    </mat-accordion>
     
-    <div>
-        <p [ngStyle]="maxPriceFilter && {'color': 'red'}">Max. price: </p>
-        <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="maxValuePrice" (change)="getMaxPriceFilter($event)"></mat-slider> {{ maxValuePrice }}
-    </div>
-
-    <div>
-        <p [ngStyle]="rangeFilter && {'color': 'red'}">When:</p>
-        <mat-form-field appearance="fill">
-            <mat-date-range-input [formGroup]="rangeEmitter | async" [rangePicker]="picker">
-                <input matStartDate formControlName="start" placeholder="Start date">
-                <input matEndDate formControlName="end" placeholder="End date">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
+    
+    <mat-accordion>
+        <mat-expansion-panel (opened)="priceOpenState"
+                             (closed)="priceOpenState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <p [ngStyle]="rangeFilter && {'color': 'red'}">When:</p>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-date-range-input [formGroup]="rangeEmitter | async" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" placeholder="Start date">
+                            <input matEndDate formControlName="end" placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    
+                        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                    </mat-form-field>
+                </div>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+    </mat-accordion>
         
-            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-        </mat-form-field>
-    </div>    
-
-    <div>
-        
-        <section class="example-section country-filter-label">
-            <p [ngStyle]="countriesFilter && {'color': 'red'}">Where:</p>
-            <span class="example-list-section">
-                <ul>
-                    <li *ngFor="let country of countriesEmitter | async">
-                        <mat-checkbox [checked]="country.checked"
-                                      (change)="country.checked = !country.checked">
-                            {{ country.name }}
-                        </mat-checkbox> 
-                    </li>
-                </ul>
-            </span>
-        </section>
-    </div>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="priceOpenState"
+                             (closed)="priceOpenState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <p [ngStyle]="countriesFilter && {'color': 'red'}">Where:</p>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+                <div>
+                    <section class="example-section country-filter-label">
+                        
+                        <span class="example-list-section">
+                            <ul>
+                                <li *ngFor="let country of countriesEmitter | async">
+                                    <mat-checkbox [checked]="country.checked"
+                                                (change)="country.checked = !country.checked">
+                                        {{ country.name }}
+                                    </mat-checkbox> 
+                                </li>
+                            </ul>
+                        </span>
+                    </section>
+                </div>
+            <mat-divider></mat-divider>
+        </mat-expansion-panel>
+    </mat-accordion>
+    
     
     <div class="flex-row">
         <button mat-raised-button color="warn" type="button" (click)="onSubmit()" [disabled]="!routeFlag">

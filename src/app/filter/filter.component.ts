@@ -85,6 +85,10 @@ export class FilterComponent implements OnInit {
 
   enabled =true;
 
+
+  priceOpenState: boolean = false;
+
+
   constructor(private wycieczkiService: WycieczkiServiceService,
     private router: Router) {
       this.router.events.pipe(filter(event => event instanceof NavigationEnd)
