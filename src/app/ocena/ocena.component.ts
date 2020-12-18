@@ -32,13 +32,17 @@ export class OcenaComponent implements OnInit {
   }
 
   onRateChange(rate: any){
-    console.log(rate)    
+    let flag =true;
     this.user.orders.forEach(a=>{
-      if(a.wycieczka.id == this.wycieczka.id){
+      if(a.wycieczka.id == this.wycieczka.id && !a.rating && flag==true){
         a.rating = rate;
+        flag = false;
       }
     })
-    this.wycieczka.rating = (this.wycieczka.rating * this.wycieczka.rating_count + rate)/(this.wycieczka.rating_count + 1) 
+    let a = this.wycieczka.rating * this.wycieczka.rating_count + rate
+    let b = this.wycieczka.rating_count + 1
+    let c = a/b
+    this.wycieczka.rating = Math.round(c)
     this.wycieczka.rating_count++;
 
     this.db.updateUserObject(this.user.uid, this.user)

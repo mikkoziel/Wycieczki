@@ -102,7 +102,7 @@ export class DbService {
       plus_show: w.plus_show,
       minus_show: w.minus_show,
       rating: w.rating,
-      // rating_count?: number;
+      rating_count: w.rating_count,
       gallery: w.gallery,
       comments: w.comments,
       cyclic: w.cyclic,
@@ -134,11 +134,11 @@ export class DbService {
         plus_show: w.plus_show,
         minus_show: w.minus_show,
         rating: w.rating,
-        // rating_count?: number;
+        rating_count: w.rating_count == undefined ? 0 : w.rating_count,
         gallery: w.gallery == undefined ? null : w.gallery,
         comments: w.comments == undefined ? null : w.comments,
         cyclic: w.cyclic == undefined ? null : w.cyclic,
-        seats_taken: w.seats_taken
+        seats_taken: w.seats_taken == undefined ? [0] : w.seats_taken
       }
     );
   }
@@ -195,11 +195,11 @@ export class DbService {
   convertCart(cart){
     let arr = []
     cart.forEach(x=>{
-      console.log(x)
+      // console.log(x)
       arr.push({
         quantity: x.quantity,
-        startDate: x.startDate,
-        endDate: x.endDate,
+        startDate: new Date(x.startDate).toDateString(),
+        endDate: new Date(x.endDate).toDateString(),
         total_price: x.total_price,
         wycieczka: this.convertWycieczka(x.wycieczka),
       })
@@ -212,8 +212,8 @@ export class DbService {
       id: value.id,
       name: value.name,
       country: value.country,
-      startDate: value.startDate,
-      endDate: value.endDate,
+      startDate: new Date(value.startDate).toDateString(),
+      endDate: new Date (value.endDate).toDateString(),
       price: value.price,
       currency: value.currency,
       // seats: value.seats,
@@ -223,11 +223,11 @@ export class DbService {
       plus_show: value.plus_show,
       minus_show: value.minus_show,
       rating: value.rating,
-      // rating_count: value.rating_count == undefined ? null : value.rating_count,
+      rating_count: value.rating_count == undefined ? 0 : value.rating_count,
       gallery: value.gallery == undefined ? null : value.gallery,
       comments: value.comments == undefined ? null : value.comments,
       cyclic: value.cyclic == undefined ? null : value.cyclic,
-      seats_taken: value?.seats_taken
+      seats_taken: value.seats_taken == undefined ? [0] : value.seats_taken
     }
   }
 
