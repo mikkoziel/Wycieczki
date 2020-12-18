@@ -1,11 +1,8 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData'
-import { add } from 'date-fns';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
-import { DbService } from '../services/db.service';
 import { DatePipe } from '@angular/common'
 
 @Component({
@@ -20,14 +17,11 @@ export class NewWycieczkaComponent implements OnInit {
 
   constructor(
     private formBuilder : FormBuilder,
-    private wycieczkiService: WycieczkiServiceService,
-    // private datepipe: DatePipe
-    ) { 
+    private wycieczkiService: WycieczkiServiceService,) { 
 
     }
   
   ngOnInit() : void {
-
 
     this.modelForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -40,7 +34,7 @@ export class NewWycieczkaComponent implements OnInit {
       image_url: ['', Validators.required],
       cyclic: ['', Validators.required],
       cyclic_label: [''],
-      cyclic_long: [''],
+      cyclic_long: ['', [Validators.min(1)]],
       cyclic_label_long: [''],
       gallery: ['', Validators.required],
       gallery1: [''],
@@ -76,7 +70,7 @@ export class NewWycieczkaComponent implements OnInit {
         rating: 0,
       }
 
-      if(modelForm.value.cyclic){
+      // if(modelForm.value.cyclic){
         wycieczka.cyclic = {
           long: modelForm.value.cyclic_long,
         }      
@@ -98,7 +92,7 @@ export class NewWycieczkaComponent implements OnInit {
         for (var i=0; i<modelForm.value.cyclic_long; i++) {
           wycieczka.seats_taken.push(0);
         }
-      }
+      // }
       if(modelForm.value.gallery){
         wycieczka.gallery = []
         if(modelForm.value.gallery1){
