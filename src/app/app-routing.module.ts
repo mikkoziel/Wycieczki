@@ -16,12 +16,12 @@ import { AdminGuard } from './guards/admin.guard';
 const routes: Routes = [
     { path: 'trip-list', component: ListaWycieczekComponent},
     { path: '', redirectTo: '/trip-list', pathMatch: 'full' },
-    { path: 'cart', component: KoszykComponent, canActivate:[AuthGuard, AdminGuard] },
+    { path: 'cart', component: KoszykComponent, canActivate:[AuthGuard] },
     { path: 'new-trip', component: NewWycieczkaComponent,  canActivate:[AdminGuard] },
     { path: 'trip-details/:id', component: WycieczkaDetailsComponent },
     { path: 'login', component: LoginComponent },
     { path: 'sign-up', component: CreateAccountComponent },
-    { path: 'confirm', component: ConfirmReservationComponent, canActivate:[AuthGuard, AdminGuard] },
+    { path: 'confirm', component: ConfirmReservationComponent, canActivate:[AuthGuard] },
     { path: 'update-trip/:id', component:UpdateWycieczkaComponent,  canActivate:[AdminGuard] },
     { path: 'admin-panel', component:AdminPanelComponent,  canActivate:[AdminGuard]},
   ];
