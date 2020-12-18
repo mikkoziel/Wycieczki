@@ -12,10 +12,6 @@ button {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* width: 30%; */
-  /* border:1px red solid; */
-  /* justify-content: center;
-  align-content: center; */
   padding: 8px 8px;
   margin: 0 0;
 }
@@ -26,4 +22,5 @@ button {
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-content: center;
+  margin: 16px 0;
 }

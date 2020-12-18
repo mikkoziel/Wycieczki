@@ -144,6 +144,7 @@ export class WycieczkiServiceService {
       wycieczkaRES.plus_show = false;
     }
     this.updateProduct(wycieczkaRES);
+    this.updateWycieczkaDB(wycieczkaRES);
   }
 
   freeSeat(wycieczkaFREE: WycieczkaData, id:number){
@@ -155,6 +156,7 @@ export class WycieczkiServiceService {
       wycieczkaFREE.plus_show = true;
     }
     this.updateProduct(wycieczkaFREE);
+    this.updateWycieczkaDB(wycieczkaFREE);
   }
 
   addComment(wycieczkaCOM: WycieczkaData, author:string, comment:string){

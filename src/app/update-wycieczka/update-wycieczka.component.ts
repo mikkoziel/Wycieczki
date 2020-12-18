@@ -39,11 +39,11 @@ export class UpdateWycieczkaComponent implements OnInit {
       seats: ["", [Validators.pattern('[0-9]*'), Validators.required]],
       description: ["", Validators.required],
       image_url: ["", Validators.required],
-      cyclic: ["", Validators.required],
+      // cyclic: ["", Validators.required],
       cyclic_long: ["", [Validators.min(1)]],
       cyclic_label: [""],
       cyclic_label_long: [""],
-      gallery: ["", Validators.required],
+      // gallery: ["", Validators.required],
       gallery1: [],
       gallery2: [""],
       gallery3: [""],
@@ -59,6 +59,20 @@ export class UpdateWycieczkaComponent implements OnInit {
       this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
           .subscribe(product=>{
             this.data = product;
+            console.log(this.data.cyclic)
+            let label = '';
+            let label_long =0;
+            if(this.data.cyclic?.days) {
+                label_long = this.data.cyclic.days;
+                label = "days"
+            } else if(this.data.cyclic?.weeks){
+              label_long = this.data.cyclic.weeks;
+              label = "weeks"
+            } else if(this.data.cyclic?.months){
+              label_long = this.data.cyclic.months;
+              label = "months"
+            }
+            
             this.modelForm.setValue({
               name: this.data.name,
               country: this.data.country,
@@ -68,11 +82,11 @@ export class UpdateWycieczkaComponent implements OnInit {
               seats: this.data.avaible_seats,
               description: this.data.description,
               image_url: this.data.image_url,
-              cyclic: this.data.cyclic ? true : false,
-              cyclic_long: this.data.cyclic ? this.data.cyclic.long: "",
-              cyclic_label: this.data.cyclic ? true: false,
-              cyclic_label_long: this.data.cyclic ? this.data.cyclic.long: "",
-              gallery: this.data.gallery ? true: false,
+              // cyclic: this.data.cyclic ? true : false,
+              cyclic_long: this.data.cyclic.long,
+              cyclic_label: label,
+              cyclic_label_long: label_long,
+              // gallery: this.data.gallery ? true: false,
               gallery1: this.data.gallery[0] ? this.data.gallery[0]: "",
               gallery2: this.data.gallery[1] ? this.data.gallery[1]: "",
               gallery3: this.data.gallery[2] ? this.data.gallery[2]: ""
@@ -91,7 +105,7 @@ export class UpdateWycieczkaComponent implements OnInit {
 
     if(modelForm.valid && modelForm.touched){
       let wycieczka :WycieczkaData = {
-        id: 0,
+        id: this.id,
         name: modelForm.value.name,
         country: modelForm.value.country,
         startDate: new Date(modelForm.value.startDate),

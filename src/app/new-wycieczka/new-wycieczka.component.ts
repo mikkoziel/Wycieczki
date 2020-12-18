@@ -71,7 +71,7 @@ export class NewWycieczkaComponent implements OnInit {
         minus_show: false,
         rating: 0,
         rating_count: 0,
-        comments: [],        
+        comments: []       
       }
 
       // if(modelForm.value.cyclic){

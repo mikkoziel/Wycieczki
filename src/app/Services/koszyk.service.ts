@@ -29,6 +29,8 @@ export class KoszykService {
     private wycieczkiService: WycieczkiServiceService,
     private db: DbService) {
     this.auth.currentUser.subscribe(x=>{
+      this.seats_taken = 0;
+      this.total_price = 0;
       if(x!=null){
         this.items = x.cart;
         this.currentUser = x;
@@ -36,20 +38,19 @@ export class KoszykService {
         this.items = [];
         this.currentUser = x;
       }
+      this.updateStats()
     })
-    this.seats_taken = 0;
-    this.total_price = 0;
    }
 
   addToCart(product: WycieczkaData, startDate:Date, endDate: Date) {
     if(this.findInCart(product, startDate, endDate)){
       this.addMoreSeats(product, startDate, endDate);
     } else{
-      this.items.push({
+      this.items.push(<Order>{
         wycieczka: product,
         quantity: 1,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
         total_price: product.price
       });
     }
@@ -82,7 +83,10 @@ export class KoszykService {
   confirmCart(){
     this.currentUser.cart = [];
     this.currentUser.orders = this.currentUser.orders.concat(this.items);
+    this.items = [];
     this.db.updateUserObject(this.currentUser.uid, this.currentUser);
+
+    this.updateStats();
   }
 
   getItems() {
@@ -109,8 +113,8 @@ export class KoszykService {
   getProduct(id: number, startDate: Date, endDate:Date){
     return this.items.find(orderitem => 
       (orderitem.wycieczka.id == id &&
-      orderitem.startDate.getTime() == startDate.getTime() &&
-      orderitem.endDate.getTime() == endDate.getTime()));
+      new Date(orderitem.startDate).getTime() == new Date(startDate).getTime() &&
+      new Date(orderitem.endDate).getTime() == new Date(endDate).getTime()));
   }
   
   getTotalOrderItemPrice(id: number, startDate: Date, endDate:Date){
@@ -150,4 +154,24 @@ export class KoszykService {
     this.seatsChange.next(this.seats_taken);
     this.priceChange.next(this.total_price);
   }
+
+  // getIndex(order: Order){
+  //   let ret =0;
+  //   let ranges = new Array(this.data.cyclic.long).fill(null).map((_, i) => {
+  //     return <DateRange>{
+  //       id: i,
+  //       startDate:add(this.data.startDate, 
+  //         { days: i*this.data.cyclic.days, 
+  //           weeks: i*this.data.cyclic.weeks, 
+  //           months: i*this.data.cyclic.months
+  //         }),
+  //       endDate: add(this.data.endDate, 
+  //         { days: i*this.data.cyclic.days, 
+  //           weeks: i*this.data.cyclic.weeks, 
+  //           months: i*this.data.cyclic.months
+  //         })
+  //     }
+  //   })
+  //   return 0;
+  // }
 }

@@ -42,6 +42,7 @@ export class WycieczkaDetailsComponent implements OnInit {
             this.user = true;
           }
           this.currentUser = x;
+          this.checkFlag();
         })
   }
 
@@ -51,14 +52,8 @@ export class WycieczkaDetailsComponent implements OnInit {
       this.wycieczkiService.getDBWycieczkaOb(this.id.toString())
           .subscribe(product=>{
             this.data = product;
-            
             this.generateRangeDates();
             this.rangeValue = this.rangeDates[0];
-            // {
-            //   id: 0,
-            //   startDate: this.data.startDate,
-            //   endDate: this.data.endDate
-            // }
             this.generateSeatsTaken();            
             this.checkFlag();
           });
@@ -126,11 +121,14 @@ export class WycieczkaDetailsComponent implements OnInit {
   
   checkFlag() {
     this.seats_flag = true;
-    this.seats_taken.forEach(x=>{
-      if(x.quantity > 0){
+    // console.log(this.id)
+    // console.log(this.currentUser)
+    this.currentUser?.orders.forEach(x=>{
+      if(x.wycieczka.id == this.id){
         this.seats_flag = false;
       }
     })
+    // console.log(this.seats_flag)
   }
 
   getImage(path: string) {
