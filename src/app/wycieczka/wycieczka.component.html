@@ -21,6 +21,11 @@
       </button>
     </div>
     <div>
+      <button mat-raised-button color="warn" [routerLink]="['/trip-details', data.id]">
+        More info
+      </button>
+    </div>
+    <div>
       <app-ocena [wycieczka]="data"></app-ocena>
     </div>
   </div>

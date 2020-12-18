@@ -20,3 +20,7 @@ div  {
 button {
     max-height: 100px;
 }
+
+app-wycieczka {
+    margin: 2px 0;
+}
