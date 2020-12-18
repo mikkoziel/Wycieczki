@@ -18,9 +18,9 @@ export class OcenaComponent implements OnInit {
   
   constructor(private auth:AuthService,
     private db: DbService) {
-    this.auth.currentUser.subscribe(x=> {
+    this.auth.currentUser?.subscribe(x=> {
       this.user = x;
-      x.orders.forEach(a=>{
+      x?.orders.forEach(a=>{
         if(a.wycieczka.id == this.wycieczka.id && !a.rating){
           this.readonly = false;
         }

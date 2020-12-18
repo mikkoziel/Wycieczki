@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
@@ -22,6 +22,7 @@ export class UpdateWycieczkaComponent implements OnInit {
   // cyclic_default: boolean;
 
   constructor(private _Activatedroute: ActivatedRoute,
+    private router: Router,
     private formBuilder : FormBuilder,
     private wycieczkiService: WycieczkiServiceService,
     private datePipe: DatePipe) {
@@ -72,9 +73,9 @@ export class UpdateWycieczkaComponent implements OnInit {
               cyclic_label: this.data.cyclic ? true: false,
               cyclic_label_long: this.data.cyclic ? this.data.cyclic.long: "",
               gallery: this.data.gallery ? true: false,
-              gallery1: this.data.gallery ? this.data.gallery[0]: "",
-              gallery2: this.data.gallery ? this.data.gallery[1]: "",
-              gallery3: this.data.gallery ? this.data.gallery[2]: ""
+              gallery1: this.data.gallery[0] ? this.data.gallery[0]: "",
+              gallery2: this.data.gallery[1] ? this.data.gallery[1]: "",
+              gallery3: this.data.gallery[2] ? this.data.gallery[2]: ""
             })    
             
 
@@ -82,15 +83,7 @@ export class UpdateWycieczkaComponent implements OnInit {
           });
         }
       );
-
-
-
   }
-
-  
-  // public onValChange(val: boolean) {
-  //   this.cyclic_default = val;
-  // }
 
   onSubmit(modelForm: FormGroup){
     this.errors = [];
@@ -112,8 +105,8 @@ export class UpdateWycieczkaComponent implements OnInit {
         plus_show: true,
         minus_show: false,
         rating: 0,
-        
-        // rating_count: 0,
+        rating_count: this.data.rating_count ? this.data.rating_count: 0,
+        comments: this.data.comments ? this.data.comments: [],
         // gallery: [],
         // cyclic: 
       }
@@ -121,7 +114,8 @@ export class UpdateWycieczkaComponent implements OnInit {
       if(modelForm.value.cyclic){
           wycieczka.cyclic = {
             long: modelForm.value.cyclic_long,
-          }      
+          }
+          wycieczka.seats_taken = [].fill(0, 0, modelForm.value.cyclic_long)      
           switch(modelForm.value.cyclic_label) {
             case "days": {
               wycieczka.cyclic.days = modelForm.value.cyclic_label_long;
@@ -136,6 +130,9 @@ export class UpdateWycieczkaComponent implements OnInit {
               break;
             }
           }
+      } else {
+        wycieczka.cyclic = null
+        wycieczka.seats_taken = [0]
       }
       if(modelForm.value.gallery){
         wycieczka.gallery = []
@@ -148,11 +145,14 @@ export class UpdateWycieczkaComponent implements OnInit {
         if(modelForm.value.gallery3){
           wycieczka.gallery.push(modelForm.value.gallery3);
         }
+      } else {
+        wycieczka.gallery = null
       }
       
       console.log(wycieczka);
+      this.router.navigateByUrl('/trip-list');
       // this.wycieczkiService.addWycieczka(wycieczka);
-      // this.wycieczkiService.addProduct(wycieczka);
+      this.wycieczkiService.updateWycieczkaDB(wycieczka);
     }
     else{
       this.getFormValidationErrors();

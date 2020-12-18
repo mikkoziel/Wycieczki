@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject, PathReference } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
-// import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 import { Order } from '../interfaces/order';
 import { User } from '../interfaces/user';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
-// import { AuthService } from './auth.service';
+import { DatePipe } from '@angular/common'
 
-// declare var firebase: firebase.App;
 
 @Injectable({
   providedIn: 'root'
@@ -23,16 +21,15 @@ export class DbService {
 
   public maxId: number;
 
-  // public currentUser: User;
-
   constructor(private _db: AngularFireDatabase,
-    private storage: AngularFireStorage) {
+    private storage: AngularFireStorage,
+    // private datepipe: DatePipe
+    ) {
       
     this.getWycieczkaList('wycieczki');
     this._wycieczkiOb = this.getWycieczkiOb();
     this.getMaxId();
 
-    // this.auth.currentUser.subscribe(x=> this.currentUser = x);
   }
 
   
@@ -121,13 +118,13 @@ export class DbService {
 
   addWycieczka(w: WycieczkaData): void {
     console.log(w)
-    this.wycieczkaList.push(
+    this.wycieczkaList.set(w.id.toString(),
       {
         id: w.id,    
         name: w.name,
         country: w.country,
-        startDate: new Date(w.startDate),
-        endDate: new Date(w.endDate),
+        startDate: w.startDate,
+        endDate: w.endDate,
         price: w.price,
         currency: w.currency,
         // seats?: number;
@@ -172,10 +169,10 @@ export class DbService {
       minus_show: value.minus_show,
       rating: value.rating,
       rating_count: value.rating_count,
-      gallery: value.gallery,
-      comments: value.comments,
-      cyclic: value.cyclic,
-      seats_taken: value.seats_taken
+      gallery: value?.gallery,
+      comments: value?.comments,
+      cyclic: value?.cyclic,
+      seats_taken: value?.seats_taken
     })
   }
 
@@ -184,12 +181,7 @@ export class DbService {
     this.wycieczkaObject.remove();
   }
 
-  getImage(path: string){//: Observable<string | null>{
-    // var ref = this.storage.refFromURL(path);
-    // console.log(ref);
-    // var x = ref.getDownloadURL();
-    // console.log(path + "    " +x);
-    // return x;
+  getImage(path: string){
     return path;
   }
 

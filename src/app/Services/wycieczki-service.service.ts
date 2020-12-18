@@ -71,7 +71,7 @@ export class WycieczkiServiceService {
 
   addWycieczka(wycieczka: WycieczkaData){
       wycieczka.id = this.dbService.maxId + 1;
-      console.log(wycieczka.id);
+      // console.log(wycieczka.id);
       this.dbService.addWycieczka(wycieczka);
   }
 
@@ -134,7 +134,7 @@ export class WycieczkiServiceService {
   
   // functionality ------------------------------------------------
   reserveSeat(wycieczkaRES: WycieczkaData, id: number){   
-    console.log(wycieczkaRES.seats_taken); 
+    // console.log(wycieczkaRES.seats_taken); 
     wycieczkaRES.seats_taken[id] += 1;
 
     if(wycieczkaRES.avaible_seats != wycieczkaRES.seats_taken[id]){

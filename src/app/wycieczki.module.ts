@@ -21,6 +21,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 import { WycieczkiComponent } from './wycieczki.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
@@ -81,6 +83,14 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, 
+      { dataEncapsulation: false }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule, // do obsługi autentykacji
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
     MatSliderModule,
     MatFormFieldModule,
     MatDatepickerModule,
@@ -96,14 +106,8 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
     MatSelectModule,
     MatTabsModule,
     MatButtonToggleModule,
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, 
-      { dataEncapsulation: false }),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule, // do obsługi autentykacji
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   exports:[
     MatSliderModule,

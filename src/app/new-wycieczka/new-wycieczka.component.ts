@@ -6,6 +6,7 @@ import { WycieczkaData } from '../interfaces/wycieczkaData'
 import { add } from 'date-fns';
 import { WycieczkiServiceService } from '../services/wycieczki-service.service';
 import { DbService } from '../services/db.service';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-new-wycieczka',
@@ -19,7 +20,9 @@ export class NewWycieczkaComponent implements OnInit {
 
   constructor(
     private formBuilder : FormBuilder,
-    private wycieczkiService: WycieczkiServiceService) { 
+    private wycieczkiService: WycieczkiServiceService,
+    // private datepipe: DatePipe
+    ) { 
 
     }
   
@@ -60,8 +63,8 @@ export class NewWycieczkaComponent implements OnInit {
         id: 0,
         name: modelForm.value.name,
         country: modelForm.value.country,
-        startDate: new Date(modelForm.value.startDate),
-        endDate: new Date(modelForm.value.endDate),
+        startDate: modelForm.value.startDate,
+        endDate: modelForm.value.endDate,
         price: modelForm.value.price,
         currency: "PLN",
         seats: modelForm.value.seats,
@@ -71,30 +74,30 @@ export class NewWycieczkaComponent implements OnInit {
         plus_show: true,
         minus_show: false,
         rating: 0,
-        
-        // rating_count: 0,
-        // gallery: [],
-        // cyclic: 
       }
 
       if(modelForm.value.cyclic){
-          wycieczka.cyclic = {
-            long: modelForm.value.cyclic_long,
-          }      
-          switch(modelForm.value.cyclic_label) {
-            case "days": {
-              wycieczka.cyclic.days = modelForm.value.cyclic_label_long;
-              break;
-            }
-            case "weeks": {
-              wycieczka.cyclic.weeks = modelForm.value.cyclic_label_long;
-              break;
-            }
-            case "months": {
-              wycieczka.cyclic.months = modelForm.value.cyclic_label_long;
-              break;
-            }
+        wycieczka.cyclic = {
+          long: modelForm.value.cyclic_long,
+        }      
+        switch(modelForm.value.cyclic_label) {
+          case "days": {
+            wycieczka.cyclic.days = modelForm.value.cyclic_label_long;
+            break;
           }
+          case "weeks": {
+            wycieczka.cyclic.weeks = modelForm.value.cyclic_label_long;
+            break;
+          }
+          case "months": {
+            wycieczka.cyclic.months = modelForm.value.cyclic_label_long;
+            break;
+          }
+        }
+        wycieczka.seats_taken = []
+        for (var i=0; i<modelForm.value.cyclic_long; i++) {
+          wycieczka.seats_taken.push(0);
+        }
       }
       if(modelForm.value.gallery){
         wycieczka.gallery = []
@@ -109,7 +112,7 @@ export class NewWycieczkaComponent implements OnInit {
         }
       }
       
-      console.log(wycieczka);
+      // console.log(wycieczka);
       this.wycieczkiService.addWycieczka(wycieczka);
       // this.wycieczkiService.addProduct(wycieczka);
     }
