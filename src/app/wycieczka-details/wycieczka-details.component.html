@@ -32,7 +32,7 @@
         </mat-form-field>
         <div *ngIf="!data.cyclic">Start date: {{ data.startDate | date:"dd/MM/yy" }}</div>
         <div *ngIf="!data.cyclic">End date: {{ data.endDate | date:"dd/MM/yy" }}</div>
-        
+        <!-- <p>Available seats: {{data.seats - seats_taken[rangeValue.id].quantity}}</p> -->
       </div>
       <div class="flex-column">
         <div>
@@ -93,7 +93,7 @@
         </div>
       </div>
 
-      <div class="comment-div2 flex-column">
+      <div *ngIf="!seats_flag" class="comment-div2 flex-column">
         <h3>Add your comment!</h3>
         <div mat-dialog-content>
           <mat-form-field class="example-full-width">

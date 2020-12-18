@@ -15,7 +15,7 @@ export class ConfirmReservationComponent implements OnInit {
   
     ngOnInit(): void {
         this.items = this.koszykService.getItems();
-        console.log(this.items)
+        // console.log(this.items)
     }
 
     onSubmit():void {
