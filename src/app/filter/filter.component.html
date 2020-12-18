@@ -23,8 +23,8 @@
     
     
     <mat-accordion>
-        <mat-expansion-panel (opened)="priceOpenState"
-                             (closed)="priceOpenState">
+        <mat-expansion-panel (opened)="rangeOpenState"
+                             (closed)="rangeOpenState">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <p [ngStyle]="rangeFilter && {'color': 'red'}">When:</p>
@@ -48,8 +48,8 @@
     </mat-accordion>
         
     <mat-accordion>
-        <mat-expansion-panel (opened)="priceOpenState"
-                             (closed)="priceOpenState">
+        <mat-expansion-panel (opened)="countryOpenState"
+                             (closed)="countryOpenState">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <p [ngStyle]="countriesFilter && {'color': 'red'}">Where:</p>
@@ -70,7 +70,6 @@
                         </span>
                     </section>
                 </div>
-            <!-- <mat-divider></mat-divider> -->
         </mat-expansion-panel>
     </mat-accordion>
     

@@ -1,7 +1,30 @@
 <div class="login-div">
   <div *ngIf="user; else showLogin">
-    <h1>Hello {{ user }}!</h1>
+    <h1>Hello {{ user.mail }}!</h1>
     <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState"
+                           (closed)="panelOpenState">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  Your trips
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-divider></mat-divider>
+          <div *ngFor="let order_item of user.orders">
+            <div class="block">
+              <p>Trip name: {{ order_item.wycieczka.name }}</p>
+              <p>Trip country: {{ order_item.wycieczka.country }}</p>
+              <p>Start date: {{ order_item.startDate  | date:"dd/MM/yy"  }}</p>
+              <p>End date: {{ order_item.endDate  | date:"dd/MM/yy" }}</p>
+              <p>Seats: {{ order_item.quantity }}</p>
+              <p>Total price: {{ order_item.total_price }} {{ order_item.wycieczka.currency }}</p>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+      </mat-expansion-panel>
+    </mat-accordion>    
   </div>
 
   <ng-template #showLogin>

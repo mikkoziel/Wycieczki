@@ -87,6 +87,8 @@ export class FilterComponent implements OnInit {
 
 
   priceOpenState: boolean = false;
+  rangeOpenState: boolean = false;
+  countryOpenState: boolean = false;
 
 
   constructor(private wycieczkiService: WycieczkiServiceService,

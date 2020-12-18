@@ -15,10 +15,15 @@
 
 button {
     max-height: 100px;
-    width: auto;
+    width: auto; 
+    margin: 16px 0;
 }
 
 
 p {
     margin-top: 16px;
 }
+
+/* mat-accordion {
+    margin: 16px;
+} */

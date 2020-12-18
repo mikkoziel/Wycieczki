@@ -14,7 +14,8 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent implements OnInit {
   mail: any;
   password: any;
-  user = null;   
+  user = null;  
+  panelOpenState = false; 
 
   constructor(private authService: AuthService,
     private wycieczkiService: WycieczkiServiceService,
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
     this.authService.currentUser
     .subscribe((x: any)=> {
       if(x){
-        this.user = x.mail;
+        this.user = x;
       }else{
         this.user = null;
       }
