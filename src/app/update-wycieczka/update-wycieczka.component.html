@@ -4,7 +4,7 @@
     <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
         <div class="flex-row">
             <div class="label"><label>Name:</label></div>
-            <input name="name" formControlName="name"  type="text">
+            <input id="name" name="name" formControlName="name"  type="text">
         </div>
         <div class="flex-row">
             <div class="label"><label>Country:</label></div>
@@ -76,7 +76,7 @@
             <div class="label"><label>Third picture:</label></div>
             <input name="gallery3" formControlName="gallery3" type="url">
         </div>
-        <div><button mat-raised-button color="warn" type="submit">Send</button></div>
+        <div><button mat-raised-button id="send" color="warn" type="submit">Send</button></div>
         <div *ngIf="errors.length != 0">
             <p *ngFor='let error_text of errors'>
                 {{error_text}}

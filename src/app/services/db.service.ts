@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject, PathReference } from '@angular/fire/database';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { map, filter, tap } from 'rxjs/operators';
-import { Order } from '../interfaces/order';
 import { User } from '../interfaces/user';
 import { WycieczkaData } from '../interfaces/wycieczkaData';
-import { DatePipe } from '@angular/common'
 
 
 @Injectable({
@@ -22,7 +19,7 @@ export class DbService {
   public maxId: number;
 
   constructor(private _db: AngularFireDatabase,
-    private storage: AngularFireStorage,
+    // private storage: AngularFireStorage,
     // private datepipe: DatePipe
     ) {
       

@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { User } from '../interfaces/user';
+import { AuthService } from '../services/auth.service';
+import { MockAuthService } from '../services/auth.service.mock';
 
 import { CreateAccountComponent } from './create-account.component';
 
@@ -8,7 +12,11 @@ describe('CreateAccountComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateAccountComponent ]
+      declarations: [ CreateAccountComponent ],
+      providers: [
+        CreateAccountComponent,
+      { provide: AuthService, useClass: MockAuthService },
+      ]
     })
     .compileComponents();
   });
@@ -22,4 +30,14 @@ describe('CreateAccountComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  it('contains register', () => {
+    const register = fixture.debugElement.query(By.css('#register')).nativeElement;
+    expect(register).toBeTruthy();
+    });
+    
+  it('contains dialog', () => {
+    const dialog = fixture.debugElement.query(By.css('#dialog')).nativeElement;
+    expect(dialog).toBeTruthy();
+    });
 });

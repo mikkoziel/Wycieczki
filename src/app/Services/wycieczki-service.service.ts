@@ -18,7 +18,7 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type' : 'application/j
   providedIn: 'root'
 })
 export class WycieczkiServiceService {
-  private wycieczkiApiUrl = "api/wycieczki";
+  public wycieczkiApiUrl = "api/wycieczki";
 
   minPrice: number;
   maxPrice:number;

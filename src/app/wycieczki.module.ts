@@ -55,29 +55,88 @@ import { AngularFireStorageModule } from "@angular/fire/storage";
 import { environment } from '../environments/environment';
 import { UpdateWycieczkaComponent } from './update-wycieczka/update-wycieczka.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { AuthService } from './services/auth.service';
+import { WycieczkiServiceService } from './services/wycieczki-service.service';
+import { KoszykService } from './services/koszyk.service';
+import { DbService } from './services/db.service';
+import { AdminGuard } from './guards/admin.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { RouterModule } from '@angular/router';
+
+const components =[
+  WycieczkiComponent,
+  WycieczkaComponent,
+  ListaWycieczekComponent,
+  OcenaComponent,
+  KoszykComponent,
+  NewWycieczkaComponent,
+  HeaderComponent,
+  KoszykMainComponent,
+  FilterComponent,
+  WycieczkaDetailsComponent,
+  LoginComponent,
+  CreateAccountComponent,
+  ConfirmReservationComponent,
+  UpdateWycieczkaComponent,
+  AdminPanelComponent,
+]
+
+const pipes =[
+  MinPriceProductPipe,
+  MaxPriceProductPipe,
+  StartDatePipe,
+  EndDatePipe,
+  CountryFilterPipe,
+]
+
+const services =[
+  AuthService,
+  DbService,
+  InMemoryDataService,
+  KoszykService,
+  WycieczkiServiceService
+]
+
+const guards = [
+  AdminGuard,
+  AuthGuard
+]
+
+const materials = [
+  MatSliderModule,
+  MatFormFieldModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatRippleModule,
+  MatDividerModule,
+  MatCheckboxModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatListModule,
+  MatInputModule,
+  FormsModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatButtonToggleModule,
+  MatButtonModule,
+  MatIconModule,
+  MatDialogModule,
+  MatExpansionModule,
+]
+
+const firebases = [
+  AngularFireModule.initializeApp(environment.firebaseConfig),
+  AngularFireAuthModule, // do obsługi autentykacji
+  AngularFireDatabaseModule,
+  AngularFireStorageModule,
+]
 
 @NgModule({
   declarations: [
-    WycieczkiComponent,
-    WycieczkaComponent,
-    ListaWycieczekComponent,
-    OcenaComponent,
-    KoszykComponent,
-    NewWycieczkaComponent,
-    HeaderComponent,
-    KoszykMainComponent,
-    FilterComponent,
-    MinPriceProductPipe,
-    MaxPriceProductPipe,
-    StartDatePipe,
-    EndDatePipe,
-    CountryFilterPipe,
-    WycieczkaDetailsComponent,
-    LoginComponent,
-    CreateAccountComponent,
-    ConfirmReservationComponent,
-    UpdateWycieczkaComponent,
-    AdminPanelComponent,
+    components,
+    pipes,
+    services,
+    guards
   ],
   imports: [
     BrowserModule,
@@ -89,34 +148,15 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, 
       { dataEncapsulation: false }),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule, // do obsługi autentykacji
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
-    MatSliderModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatRippleModule,
-    MatDividerModule,
-    MatCheckboxModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatInputModule,
-    FormsModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatButtonToggleModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
-    MatExpansionModule,
+    firebases,
+    materials,
+    RouterModule    
   ],
   exports:[
     MatSliderModule,
   ],
   providers: [
+    
   ],
   bootstrap: [WycieczkiComponent]
 })

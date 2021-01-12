@@ -28,7 +28,8 @@ export class ListaWycieczekComponent implements OnInit {
   countries_subscription: Subscription;
 
   constructor(private wycieczkiService: WycieczkiServiceService,
-    private dbService: DbService) { 
+    // private dbService: DbService
+    ) { 
   }
 
   ngOnInit(): void { 

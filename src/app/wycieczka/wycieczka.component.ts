@@ -21,10 +21,8 @@ export class WycieczkaComponent implements OnInit {
   isAdmin: boolean;
 
   constructor(
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
     private wycieczkiService: WycieczkiServiceService,
-    private koszykService: KoszykService,
-    private dbService: DbService,
     private auth: AuthService ){
   }
 

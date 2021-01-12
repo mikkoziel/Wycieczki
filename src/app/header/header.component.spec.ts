@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AuthService } from '../services/auth.service';
+import { MockAuthService } from '../services/auth.service.mock';
 
 import { HeaderComponent } from './header.component';
 
@@ -8,7 +10,10 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
+      declarations: [ HeaderComponent ],
+      providers:[
+        { provide: AuthService, useClass: MockAuthService }
+      ]
     })
     .compileComponents();
   });

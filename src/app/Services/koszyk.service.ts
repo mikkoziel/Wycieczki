@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import { Observable, Subject, of } from 'rxjs';
-import { catchError, map, tap, min } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { WycieczkaData } from '../interfaces/wycieczkaData';
 import { Order } from '../interfaces/order';
@@ -26,7 +25,7 @@ export class KoszykService {
   priceChange: Subject<number> = new Subject<number>();
   
   constructor(private auth: AuthService,
-    private wycieczkiService: WycieczkiServiceService,
+    // private wycieczkiService: WycieczkiServiceService,
     private db: DbService) {
     this.auth.currentUser.subscribe(x=>{
       this.seats_taken = 0;

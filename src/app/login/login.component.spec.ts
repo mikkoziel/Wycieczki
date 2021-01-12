@@ -1,4 +1,7 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AuthService } from '../services/auth.service';
+import { MockAuthService } from '../services/auth.service.mock';
 
 import { LoginComponent } from './login.component';
 
@@ -8,7 +11,11 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      declarations: [ LoginComponent ],
+      providers:[
+        HttpClientModule,
+        { provide: AuthService, useClass: MockAuthService }
+      ]
     })
     .compileComponents();
   });

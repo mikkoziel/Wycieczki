@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import firebase from 'firebase/app';
-import { BehaviorSubject, EMPTY, of } from 'rxjs';
-import { DbService } from '../services/db.service';
-import { WycieczkiServiceService } from '../services/wycieczki-service.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +13,9 @@ export class LoginComponent implements OnInit {
   panelOpenState = false; 
 
   constructor(private authService: AuthService,
-    private wycieczkiService: WycieczkiServiceService,
-    private dbService: DbService) { }
+    // private wycieczkiService: WycieczkiServiceService,
+    // private dbService: DbService
+    ) { }
 
   ngOnInit(): void {
     this.authService.currentUser
