@@ -40,4 +40,86 @@ describe('FilterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  it('should getMinPriceFilter greather than maaxValuePrice', () => {
+    expect(component).toBeTruthy();
+    component.maxValuePrice = 0;
+    component.minValuePrice = 0;
+    fixture.detectChanges();
+
+    let event = {
+      value: 15
+    }
+    
+    component.getMinPriceFilter(event)
+    fixture.detectChanges();
+    expect(component.maxValuePrice).toEqual(15)
+    expect(component.minValuePrice).toEqual(15)
+  });
+
+  
+  it('should getMinPriceFilter not greather than maaxValuePrice', () => {
+    expect(component).toBeTruthy();
+    component.maxValuePrice = 100;
+    component.minValuePrice = 0;
+    fixture.detectChanges();
+
+    let event = {
+      value: 15
+    }
+    
+    component.getMinPriceFilter(event)
+    fixture.detectChanges();
+    expect(component.maxValuePrice).toEqual(100)
+    expect(component.minValuePrice).toEqual(15)
+  });
+
+  
+  it('should getMaxPriceFilter lower than minValuePrice', () => {
+    expect(component).toBeTruthy();
+    component.maxValuePrice = 0;
+    component.minValuePrice = 100;
+    fixture.detectChanges();
+
+    let event = {
+      value: 15
+    }
+    
+    component.getMaxPriceFilter(event)
+    fixture.detectChanges();
+    expect(component.maxValuePrice).toEqual(15)
+    expect(component.minValuePrice).toEqual(15)
+  });
+
+  
+  it('should getMaxPriceFilter not lower than minValuePrice', () => {
+    expect(component).toBeTruthy();
+    component.maxValuePrice = 100;
+    component.minValuePrice = 0;
+    fixture.detectChanges();
+
+    let event = {
+      value: 15
+    }
+    
+    component.getMaxPriceFilter(event)
+    fixture.detectChanges();
+    expect(component.maxValuePrice).toEqual(15)
+    expect(component.minValuePrice).toEqual(0)
+  });
+  
+  it('should onSubmit', () => {
+    expect(component).toBeTruthy();
+    component.maxValuePrice = 100;
+    component.minPrice = 15;
+    component.minValuePrice = 100;
+    component.maxPrice = 15;
+    fixture.detectChanges();
+
+    component.onSubmit()
+    fixture.detectChanges();
+    // expect(component.maxValuePrice).toEqual(15)
+    // expect(component.minValuePrice).toEqual(15)
+    // expect(component.rangeValue.controls.start).toEqual(15)
+  });
 });

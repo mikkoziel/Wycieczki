@@ -22,7 +22,7 @@
   <mat-tab label="Reserve trip">
     <div id="wycieczka-row">
       <div class="flex-column">
-        <mat-form-field appearance="fill" *ngIf="data?.cyclic">
+        <mat-form-field id="dates" appearance="fill" *ngIf="data?.cyclic">
           <mat-label>Trip Date</mat-label>
           <mat-select [(value)]="rangeValue">
             <mat-option *ngFor="let rangeDate of rangeDates" [value]="rangeDate" >
@@ -36,7 +36,7 @@
       </div>
       <div class="flex-column">
         <div>
-          <button mat-raised-button color="warn" type="button" (click)="reserveSeat()"
+          <button id="plus-wycieczka" mat-raised-button color="warn" type="button" (click)="reserveSeat()"
           id="plus" 
           *ngIf="data.plus_show" 
           [disabled]="user">
@@ -45,7 +45,7 @@
         </div>
         <div *ngIf="!data.plus_show">No more seats</div>
         <div>
-          <button mat-raised-button color="warn" type="button" (click)="freeSeat()" 
+          <button id="minus-wycieczka" mat-raised-button color="warn" type="button" (click)="freeSeat()" 
           id="minus"
           *ngIf="data.minus_show" 
           [disabled]="user" >
@@ -59,7 +59,7 @@
       <div class="flex-column">
         <p>Already reserved:</p>
         <div *ngFor="let order of seats_taken">
-          <div *ngIf="order.quantity>0">
+          <div id="reservedTrips" *ngIf="order.quantity>0">
             <p>Dates: {{ order.startDate | date:"dd/MM/yy"  }} - {{ order.endDate | date:"dd/MM/yy"  }}</p>
             <p>Quantity: {{ order.quantity }}</p>
             <mat-divider></mat-divider>

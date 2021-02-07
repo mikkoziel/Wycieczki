@@ -1,7 +1,7 @@
-<div class="login-div">
-  <div *ngIf="user; else showLogin">
+<div class="login-div" id="login-div">
+  <div id="logged" *ngIf="user; else showLogin">
     <h1>Hello {{ user.mail }}!</h1>
-    <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+    <button id="logout" mat-raised-button color="warn" (click)="logout()">Logout</button>
 
     <mat-accordion>
       <mat-expansion-panel (opened)="panelOpenState"
@@ -28,20 +28,20 @@
   </div>
 
   <ng-template #showLogin>
-    <div class="flex-column">
+    <div id="not-logged" class="flex-column">
       <h2>Please login.</h2>
       <div mat-dialog-content class="flex-column">
-        <mat-form-field class="example-full-width">
+        <mat-form-field id='login-matfield' class="example-full-width">
         <mat-label>E-mail</mat-label>
-        <input matInput type="email" placeholder="E-mail" [(ngModel)]='mail'>
+        <input matInput type="email" id="login-field" placeholder="E-mail" [(ngModel)]='mail'>
         </mat-form-field>
     
         <mat-form-field class="example-full-width">
         <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="Password." [(ngModel)]='password'>
+        <input matInput type="password" id="password-field" placeholder="Password." [(ngModel)]='password'>
         </mat-form-field>
       </div>
-      <button mat-raised-button color="warn" (click)="login()">Login</button>
+      <button mat-raised-button color="warn" id="login-bttn" (click)="login()">Login</button>
       <p>If you don't have account:</p>
       <button mat-raised-button color="warn"  [routerLink]="'/sign-up'">Create account</button>
     </div>

@@ -219,7 +219,7 @@ export class WycieczkiServiceService {
   
   getMaxEndDateObject(wycieczki: WycieczkaData[]){
     var latestDate: Date;
-    if(wycieczki[0].startDate instanceof Date){
+    if(wycieczki[0].endDate instanceof Date){
       latestDate = wycieczki[0].endDate;
     }else{
       latestDate = new Date(wycieczki[0].endDate);

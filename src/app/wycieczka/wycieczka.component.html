@@ -16,12 +16,12 @@
       </button>
     </div>
     <div *ngIf="isAdmin">
-      <button mat-raised-button color="warn" [routerLink]="['/update-trip', data.id]">
+      <button id='update-wycieczka' mat-raised-button color="warn" [routerLink]="['/update-trip', data.id]">
         Update
       </button>
     </div>
     <div>
-      <button mat-raised-button color="warn" [routerLink]="['/trip-details', data.id]">
+      <button id="more-wycieczka" mat-raised-button color="warn" [routerLink]="['/trip-details', data.id]">
         More info
       </button>
     </div>

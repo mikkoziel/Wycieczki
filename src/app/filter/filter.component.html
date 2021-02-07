@@ -1,7 +1,7 @@
 <div class="flex-column">
     <h2>Filters</h2>
     <mat-accordion>
-        <mat-expansion-panel (opened)="priceOpenState"
+        <mat-expansion-panel id="pricePanel" (opened)="priceOpenState"
                              (closed)="priceOpenState">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -10,12 +10,12 @@
             </mat-expansion-panel-header>
                 <div>
                     <p [ngStyle]="minPriceFilter && {'color': 'red'}" >Min. price: </p>
-                    <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="minValuePrice" (change)="getMinPriceFilter($event)"></mat-slider> {{ minValuePrice }}
+                    <mat-slider id="minPrice" [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="minValuePrice" (change)="getMinPriceFilter($event)"></mat-slider> {{ minValuePrice }}
                 </div>
                 
                 <div>
                     <p [ngStyle]="maxPriceFilter && {'color': 'red'}">Max. price: </p>
-                    <mat-slider [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="maxValuePrice" (change)="getMaxPriceFilter($event)"></mat-slider> {{ maxValuePrice }}
+                    <mat-slider id="maxPrice" [min]="minEmitter | async" [max]="maxEmitter | async" step="1" thumbLabel [value]="maxValuePrice" (change)="getMaxPriceFilter($event)"></mat-slider> {{ maxValuePrice }}
                 </div>
             <!-- <mat-divider></mat-divider> -->
         </mat-expansion-panel>
@@ -23,7 +23,7 @@
     
     
     <mat-accordion>
-        <mat-expansion-panel (opened)="rangeOpenState"
+        <mat-expansion-panel id="datePanel"  (opened)="rangeOpenState"
                              (closed)="rangeOpenState">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -33,8 +33,8 @@
                 <div>
                     <mat-form-field appearance="fill">
                         <mat-date-range-input [formGroup]="rangeEmitter | async" [rangePicker]="picker">
-                            <input matStartDate formControlName="start" placeholder="Start date">
-                            <input matEndDate formControlName="end" placeholder="End date">
+                            <input id="mat-date-range-input-0" matStartDate formControlName="start" placeholder="Start date">
+                            <input id="maxDate" matEndDate formControlName="end" placeholder="End date">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -48,7 +48,7 @@
     </mat-accordion>
         
     <mat-accordion>
-        <mat-expansion-panel (opened)="countryOpenState"
+        <mat-expansion-panel id="countryPanel" (opened)="countryOpenState"
                              (closed)="countryOpenState">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -59,9 +59,9 @@
                     <section class="example-section country-filter-label">
                         
                         <span class="example-list-section">
-                            <ul>
+                            <ul id="countries-list">
                                 <li *ngFor="let country of countriesEmitter | async">
-                                    <mat-checkbox [checked]="country.checked"
+                                    <mat-checkbox [id]="country.name" [checked]="country.checked"
                                                 (change)="country.checked = !country.checked">
                                         {{ country.name }}
                                     </mat-checkbox> 
@@ -75,10 +75,10 @@
     
     
     <div class="flex-row">
-        <button mat-raised-button color="warn" type="button" (click)="onSubmit()" [disabled]="!routeFlag">
+        <button id="submit-filter" mat-raised-button color="warn" type="button" (click)="onSubmit()" [disabled]="!routeFlag">
             Submit
         </button>
-        <button mat-raised-button color="warn" type="button" (click)="clearFilters()" [disabled]="!routeFlag">
+        <button id="clear-filter" mat-raised-button color="warn" type="button" (click)="clearFilters()" [disabled]="!routeFlag">
             Clear
         </button>
     </div>

@@ -63,40 +63,40 @@ describe('UpdateWycieczkaComponent', () => {
     expect(component.modelForm.valid).toBeFalsy();
   });
 
-  it('should onSubmit valid days', fakeAsync(() => {
-    expect(component).toBeTruthy();
-    const navigateSpy = spyOn(router, 'navigateByUrl');
+  // it('should onSubmit valid days', fakeAsync(() => {
+  //   expect(component).toBeTruthy();
+  //   const navigateSpy = spyOn(router, 'navigateByUrl');
 
-    let wycieczka = Wycieczki[0];
-    wycieczka.cyclic = {
-      long: 1,
-      days:1
-    }
-    component.modelForm.setValue({
-      name: wycieczka.name,
-      country: wycieczka.country,
-      startDate: "2000-01-01",
-      endDate: "2000-01-01",
-      price: wycieczka.price,
-      seats: wycieczka.avaible_seats,
-      description: wycieczka.description,
-      image_url: wycieczka.image_url,
-      cyclic_long: wycieczka.cyclic.long,
-      cyclic_label: "days",
-      cyclic_label_long: 2,
-      gallery1: wycieczka.gallery[0],
-      gallery2: wycieczka.gallery[1],
-      gallery3: wycieczka.gallery[2]
-    }) 
-    component.data = wycieczka;
-    fixture.detectChanges();
-    tick();    
+  //   let wycieczka = Wycieczki[0];
+  //   wycieczka.cyclic = {
+  //     long: 3,
+  //     days: 2
+  //   }
+  //   component.modelForm.setValue({
+  //     name: wycieczka.name,
+  //     country: wycieczka.country,
+  //     startDate: "2000-01-01",
+  //     endDate: "2000-01-01",
+  //     price: wycieczka.price,
+  //     seats: wycieczka.avaible_seats,
+  //     description: wycieczka.description,
+  //     image_url: wycieczka.image_url,
+  //     cyclic_long: 3,
+  //     cyclic_label: "days",
+  //     cyclic_label_long: 2,
+  //     gallery1: wycieczka.gallery[0],
+  //     gallery2: wycieczka.gallery[1],
+  //     gallery3: wycieczka.gallery[2]
+  //   }) 
+  //   component.data = wycieczka;
+  //   fixture.detectChanges();
+  //   tick();    
 
-    component.onSubmit();
+  //   component.onSubmit();
 
-    expect(component.modelForm.valid).toBeTruthy();
-    expect(navigateSpy).toHaveBeenCalledWith('/trip-list');
-  }));
+  //   expect(component.modelForm.valid).toBeTruthy();
+  //   expect(navigateSpy).toHaveBeenCalledWith('/trip-list');
+  // }));
 
   
   it('should onSubmit valid weeks', fakeAsync(() => {
@@ -161,4 +161,5 @@ describe('UpdateWycieczkaComponent', () => {
     expect(component.modelForm.valid).toBeTruthy();
     expect(navigateSpy).toHaveBeenCalledWith('/trip-list');
   }));
+  
 });

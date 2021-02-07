@@ -1,4 +1,4 @@
-<div class="koszyk-body">
+<div class="confirmation-body">
     <h3 id="h3">Confirm trips</h3>
     <div class="cart-item" *ngFor="let order_item of items">
         <div class="block">
@@ -10,6 +10,6 @@
         </div>
         <mat-divider></mat-divider>
     </div>
-    <button *ngIf="items.length>0" mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
+    <button id="submit-bttn" *ngIf="items.length>0" mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
     <button *ngIf="items.length==0" mat-raised-button color="warn" [routerLink]="'/cart'">Cart</button>
 </div>

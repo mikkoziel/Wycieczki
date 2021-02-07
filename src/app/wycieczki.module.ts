@@ -135,8 +135,7 @@ const firebases = [
   declarations: [
     components,
     pipes,
-    services,
-    guards
+       
   ],
   imports: [
     BrowserModule,
@@ -150,13 +149,14 @@ const firebases = [
       { dataEncapsulation: false }),
     firebases,
     materials,
-    RouterModule    
+    RouterModule
   ],
   exports:[
     MatSliderModule,
   ],
   providers: [
-    
+    services,
+    guards
   ],
   bootstrap: [WycieczkiComponent]
 })

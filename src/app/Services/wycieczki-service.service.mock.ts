@@ -53,4 +53,8 @@ export class MockWycieczkiServiceService {
     reserveSeat(){}
     freeSeat(){}
     updateWycieczkaDB(){}
+    updateMinPriceFilter(){}
+    updateMaxPriceFilter(){}
+    updateDateRange(){}
+    updateCountriesFilter(){}
 }
